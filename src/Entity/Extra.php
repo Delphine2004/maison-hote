@@ -2,40 +2,58 @@
 
 namespace App\Entity;
 
+use App\Repository\ExtraRepository;
 use App\Utils\RegexPatterns;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
 
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: ExtraRepository::class)]
 class Extra
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    public function __construct(
-        public ?int $extraId = null,
-        public ?string $extraName = null,
-        public ?string $description = null,
-        public ?float $rate = null,
+    #[ORM\Column(length: 100)]
+    private ?string $name = null;
 
-        public ?DateTimeImmutable $createdAt = null,
-        public ?DateTimeImmutable $updatedAt = null
-    ) {
-        $this->setExtraName($extraName)
-            ->setDescription($description)
-            ->setRate($rate);
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
-        $this->createdAt = $createdAt ?? new DateTimeImmutable();
-        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
+    #[ORM\Column]
+    private ?float $rate = null;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-    // -------------Getters--------------
-    public function getExtraId(): ?int
+    public function getName(): ?string
     {
-        return $this->extraId;
+        return $this->name;
     }
 
-    public function getExtraName(): ?string
+    public function setName(string $name): static
     {
-        return $this->extraName;
+        if ($name !== null) {
+            $name = trim($name);
+
+            if (empty($name)) {
+                throw new InvalidArgumentException("Le nom est obligatoire.");
+            }
+
+            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
+                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
+            }
+            $this->name = ucfirst($name);
+        } else {
+            $this->name = null;
+        }
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -43,49 +61,7 @@ class Extra
         return $this->description;
     }
 
-    public function getRate(): ?float
-    {
-        return $this->rate;
-    }
-
-    public function getUserCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUserUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    //------------Setter--------------
-    public function setExtraId(?int $extraId): self
-    {
-        $this->extraId = $extraId;
-        return $this;
-    }
-
-    public function setExtraName(?string $extraName): self
-    {
-        if ($extraName !== null) {
-            $extraName = trim($extraName);
-
-            if (empty($extraName)) {
-                throw new InvalidArgumentException("Le nom est obligatoire.");
-            }
-
-            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $extraName)) {
-                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
-            }
-            $this->extraName = ucfirst($extraName);
-        } else {
-            $this->extraName = null;
-        }
-        return $this;
-    }
-
-
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): static
     {
         if ($description !== null) {
             $description = trim($description);
@@ -104,7 +80,12 @@ class Extra
         return $this;
     }
 
-    public function setRate(?float $rate): self
+    public function getRate(): ?float
+    {
+        return $this->rate;
+    }
+
+    public function setRate(float $rate): static
     {
         if ($rate < 0 || $rate >= 100) {
             throw new InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 100.");

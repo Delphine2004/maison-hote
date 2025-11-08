@@ -2,42 +2,85 @@
 
 namespace App\Entity;
 
+use App\Repository\RatePeriodRepository;
 use App\Utils\RegexPatterns;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
+use DateTimeImmutable;
 
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: RatePeriodRepository::class)]
 class RatePeriod
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    public function __construct(
-        public ?int $periodId = null,
-        public ?string $periodName = null,
-        public ?DateTimeImmutable $startingDate = null,
-        public ?DateTimeImmutable $endingDate = null,
+    #[ORM\Column(length: 100)]
+    private ?string $name = null;
 
-        public ?DateTimeImmutable $createdAt = null,
-        public ?DateTimeImmutable $updatedAt = null
-    ) {
-        $this->setPeriodName($periodName)
-            ->setStartingDate($startingDate)
-            ->setEndingDate($endingDate);
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $startingDate = null;
 
-        $this->createdAt = $createdAt ?? new DateTimeImmutable();
-        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $endingDate = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $updatedAt = null;
+
+    public function __construct()
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new DateTimeImmutable();
+        }
+
+        if ($this->updatedAt === null) {
+            $this->updatedAt =  new DateTimeImmutable();
+        }
     }
 
-    // -------------Getters--------------
+    // ---- Mise à jour de la date de modification
 
-
-    public function getPeriodId(): ?int
+    private function updateTimestamp(): void
     {
-        return $this->periodId;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getPeriodName(): ?string
+
+    public function getId(): ?int
     {
-        return $this->periodName;
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        if ($name !== null) {
+            $name = trim($name);
+
+            if (empty($name)) {
+                throw new InvalidArgumentException("Le nom est obligatoire.");
+            }
+
+            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
+                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
+            }
+            $this->name = strtoupper($name);
+        } else {
+            $this->name = null;
+        }
+
+        $this->updateTimestamp();
+        return $this;
     }
 
     public function getStartingDate(): ?DateTimeImmutable
@@ -45,51 +88,7 @@ class RatePeriod
         return $this->startingDate;
     }
 
-    public function getEndingDate(): ?DateTimeImmutable
-    {
-        return $this->endingDate;
-    }
-
-    public function getUserCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUserUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    //------------Setter--------------
-
-    public function setPeriodId(?int $periodId): self
-    {
-        $this->periodId = $periodId;
-        return $this;
-    }
-
-    public function setPeriodName(?string $periodName): self
-    {
-        if ($periodName !== null) {
-            $periodName = trim($periodName);
-
-            if (empty($periodName)) {
-                throw new InvalidArgumentException("Le nom est obligatoire.");
-            }
-
-            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $periodName)) {
-                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
-            }
-            $this->periodName = strtoupper($periodName);
-        } else {
-            $this->periodName = null;
-        }
-
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setStartingDate(?DateTimeImmutable $startingDate): self
+    public function setStartingDate(DateTimeImmutable $startingDate): static
     {
         if ($startingDate === null) {
             $this->startingDate = null;
@@ -109,7 +108,12 @@ class RatePeriod
         return $this;
     }
 
-    public function setEndingDate(?DateTimeImmutable $endingDate): self
+    public function getEndingDate(): ?DateTimeImmutable
+    {
+        return $this->endingDate;
+    }
+
+    public function setEndingDate(DateTimeImmutable $endingDate): static
     {
         if ($endingDate === null) {
             $this->endingDate = null;
@@ -125,10 +129,14 @@ class RatePeriod
         return $this;
     }
 
-    // ---- Mise à jour de la date de modification
-
-    private function updateTimestamp(): void
+    public function getCreatedAt(): ?DateTimeImmutable
     {
-        $this->updatedAt = new DateTimeImmutable();
+        return $this->createdAt;
+    }
+
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }

@@ -2,74 +2,65 @@
 
 namespace App\Entity;
 
-use App\Entity\Client;
-use App\Entity\Room;
 use App\Enum\BookingStatus;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
+use DateTimeImmutable;
 
+use App\Repository\BookingRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: BookingRepository::class)]
 class Booking
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    public function __construct(
-        public ?int $bookingId = null,
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $startingDate = null;
 
-        public ?int $userId = null,
-        public ?Client $client = null,
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $endingDate = null;
 
-        public ?int $roomId = null,
-        public ?Room $room = null,
+    #[ORM\Column]
+    private ?float $totalAmount = null;
 
-        public ?DateTimeImmutable $startingDate = null,
-        public ?DateTimeImmutable $endingDate = null,
-        public ?float $totalAmount = null,
-        public ?int $paxNumber = null,
+    #[ORM\Column]
+    private ?int $paxNumber = null;
 
-        public ?BookingStatus $bookingStatus = null,
+    #[ORM\Column(length: 50)]
+    private ?BookingStatus $bookingStatus = null;
 
-        public ?DateTimeImmutable $createdAt = null,
-        public ?DateTimeImmutable $updatedAt = null
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $createdAt = null;
 
-    ) {
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $updatedAt = null;
 
+    public function __construct()
+    {
+        if ($this->createdAt === null) {
+            $this->createdAt = new DateTimeImmutable();
+        }
 
-        $this->setUserId($userId)
-            ->setRoomId($roomId)
-            ->setStartingDate($startingDate)
-            ->setEndingDate($endingDate)
-            ->setTotalAmount($totalAmount)
-            ->setPaxNumber($paxNumber)
-            ->setBookingStatus($bookingStatus);
-
-        $this->createdAt = $createdAt ?? new DateTimeImmutable();
-        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
+        if ($this->updatedAt === null) {
+            $this->updatedAt =  new DateTimeImmutable();
+        }
     }
 
-    // -------------Getters--------------
-    public function getBookingId(): ?int
+    // ---- Mise à jour de la date de modification
+
+    protected function updateTimestamp(): void
     {
-        return $this->bookingId;
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
 
-    public function getClient(): ?Client
+    public function getId(): ?int
     {
-        return $this->client;
-    }
-
-    public function getRoomId(): ?int
-    {
-        return $this->roomId;
-    }
-
-    public function getRoom(): ?Room
-    {
-        return $this->room;
+        return $this->id;
     }
 
     public function getStartingDate(): ?DateTimeImmutable
@@ -77,74 +68,7 @@ class Booking
         return $this->startingDate;
     }
 
-    public function getEndingingDate(): ?DateTimeImmutable
-    {
-        return $this->endingDate;
-    }
-
-    public function getTotalAmount(): ?float
-    {
-        return $this->totalAmount;
-    }
-
-    public function getPaxNumber(): ?int
-    {
-        return $this->paxNumber;
-    }
-
-    public function getBookingStatus(): ?BookingStatus
-    {
-        return $this->bookingStatus;
-    }
-
-    public function getUserCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUserUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    //------------Setter--------------
-
-    public function setBookingId(?int $bookingId): self
-    {
-        $this->bookingId = $bookingId;
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setUserId(?int $userId): self
-    {
-        $this->userId = $userId;
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setRoomId(?int $roomId): self
-    {
-        $this->roomId = $roomId;
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setRoom(?Room $room): self
-    {
-        $this->room = $room;
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setStartingDate(?DateTimeImmutable $startingDate): self
+    public function setStartingDate(DateTimeImmutable $startingDate): static
     {
         if ($startingDate === null) {
             $this->startingDate = null;
@@ -156,7 +80,7 @@ class Booking
 
 
         if ($startingDate < $today) {
-            throw new InvalidArgumentException("La date de départ doit être dans le futur.");
+            throw new \InvalidArgumentException("La date de départ doit être dans le futur.");
         }
 
         $this->startingDate = $startingDate;
@@ -164,7 +88,12 @@ class Booking
         return $this;
     }
 
-    public function setEndingDate(?DateTimeImmutable $endingDate): self
+    public function getEndingDate(): ?DateTimeImmutable
+    {
+        return $this->endingDate;
+    }
+
+    public function setEndingDate(DateTimeImmutable $endingDate): static
     {
         if ($endingDate === null) {
             $this->endingDate = null;
@@ -172,7 +101,7 @@ class Booking
         }
 
         if ($endingDate !== null && isset($this->departureDateTime) && $endingDate <= $this->startingDate) {
-            throw new InvalidArgumentException("La date de fin de réservation doit être supérieure à la date du début.");
+            throw new \InvalidArgumentException("La date de fin de réservation doit être supérieure à la date du début.");
         }
 
         $this->endingDate = $endingDate;
@@ -180,36 +109,55 @@ class Booking
         return $this;
     }
 
-    public function setTotalAmount(?float $totalAmount): self
+    public function getTotalAmount(): ?float
     {
-        if ($totalAmount < 0 || $totalAmount >= 1000) {
-            throw new InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 1000.");
+        return $this->totalAmount;
+    }
+
+    public function setTotalAmount(float $totalAmount): static
+    {
+        if ($totalAmount < 0 || $totalAmount >= 5000) {
+            throw new \InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 5000.");
         }
         $this->totalAmount = $totalAmount;
         $this->updateTimestamp();
         return $this;
     }
 
-    public function setPaxNumber(?int $paxNumber): self
+    public function getPaxNumber(): ?int
+    {
+        return $this->paxNumber;
+    }
+
+    public function setPaxNumber(int $paxNumber): static
     {
         if ($paxNumber < 0 || $paxNumber >= 100) {
-            throw new InvalidArgumentException("Le nombre de personne doit être entre 1 et 2.");
+            throw new \InvalidArgumentException("Le nombre de personne doit être entre 1 et 2.");
         }
         $this->paxNumber = $paxNumber;
         $this->updateTimestamp();
         return $this;
     }
 
-    public function setBookingStatus(?BookingStatus $bookingStatus): self
+    public function getBookingStatus(): ?BookingStatus
+    {
+        return $this->bookingStatus;
+    }
+
+    public function setBookingStatus(BookingStatus $bookingStatus): static
     {
         $this->bookingStatus = $bookingStatus;
         $this->updateTimestamp();
         return $this;
     }
 
-    // ---- Mise à jour de la date de modification
-    private function updateTimestamp(): void
+    public function getCreatedAt(): ?DateTimeImmutable
     {
-        $this->updatedAt = new DateTimeImmutable();
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }
