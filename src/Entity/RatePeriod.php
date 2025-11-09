@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RatePeriodRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class RatePeriod
 {
     #[ORM\Id]
@@ -33,20 +34,16 @@ class RatePeriod
     #[ORM\Column(type: 'datetime_immutable')]
     private ?DateTimeImmutable $updatedAt = null;
 
-    public function __construct()
-    {
-        if ($this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable();
-        }
 
-        if ($this->updatedAt === null) {
-            $this->updatedAt =  new DateTimeImmutable();
-        }
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    // ---- Mise à jour de la date de modification
-
-    private function updateTimestamp(): void
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
     {
         $this->updatedAt = new DateTimeImmutable();
     }
@@ -64,22 +61,18 @@ class RatePeriod
 
     public function setName(string $name): static
     {
-        if ($name !== null) {
-            $name = trim($name);
 
-            if (empty($name)) {
-                throw new InvalidArgumentException("Le nom est obligatoire.");
-            }
+        $name = trim($name);
 
-            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
-                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
-            }
-            $this->name = strtoupper($name);
-        } else {
-            $this->name = null;
+        if (empty($name)) {
+            throw new InvalidArgumentException("Le nom est obligatoire.");
         }
 
-        $this->updateTimestamp();
+        if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
+            throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
+        }
+        $this->name = strtoupper($name);
+
         return $this;
     }
 
@@ -104,7 +97,7 @@ class RatePeriod
         }
 
         $this->startingDate = $startingDate;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -120,12 +113,12 @@ class RatePeriod
             return $this;
         }
 
-        if ($endingDate !== null && isset($this->departureDateTime) && $endingDate <= $this->startingDate) {
+        if ($endingDate <= $this->startingDate) {
             throw new InvalidArgumentException("La date de fin doit être supérieure à la date du début.");
         }
 
         $this->endingDate = $endingDate;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -138,5 +131,13 @@ class RatePeriod
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getDurationInDays(): ?int
+    {
+        if ($this->startingDate && $this->endingDate) {
+            return $this->endingDate->diff($this->startingDate)->days;
+        }
+        return null;
     }
 }

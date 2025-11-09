@@ -17,7 +17,7 @@ class Extra
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -39,20 +39,18 @@ class Extra
 
     public function setName(string $name): static
     {
-        if ($name !== null) {
-            $name = trim($name);
 
-            if (empty($name)) {
-                throw new InvalidArgumentException("Le nom est obligatoire.");
-            }
+        $name = trim($name);
 
-            if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
-                throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
-            }
-            $this->name = ucfirst($name);
-        } else {
-            $this->name = null;
+        if (empty($name)) {
+            throw new InvalidArgumentException("Le nom est obligatoire.");
         }
+
+        if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $name)) {
+            throw new InvalidArgumentException("Le nom doit être compris entre 1 et 60 caractères autorisés.");
+        }
+        $this->name = ucfirst($name);
+
         return $this;
     }
 
@@ -63,20 +61,18 @@ class Extra
 
     public function setDescription(string $description): static
     {
-        if ($description !== null) {
-            $description = trim($description);
 
-            if (empty($description)) {
-                throw new InvalidArgumentException("La description est obligatoire.");
-            }
+        $description = trim($description);
 
-            if (!preg_match(RegexPatterns::FREE_TEXT_REGEX, $description)) {
-                throw new InvalidArgumentException("La description doit être compris entre 1 et 255 caractères autorisés.");
-            }
-            $this->description = ucfirst($description);
-        } else {
-            $this->description = null;
+        if (empty($description)) {
+            throw new InvalidArgumentException("La description est obligatoire.");
         }
+
+        if (!preg_match(RegexPatterns::FREE_TEXT_REGEX, $description)) {
+            throw new InvalidArgumentException("La description doit être compris entre 1 et 255 caractères autorisés.");
+        }
+        $this->description = ucfirst($description);
+
         return $this;
     }
 

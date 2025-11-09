@@ -11,6 +11,7 @@ use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Booking
 {
     #[ORM\Id]
@@ -30,7 +31,7 @@ class Booking
     #[ORM\Column]
     private ?int $paxNumber = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(enumType: BookingStatus::class)]
     private ?BookingStatus $bookingStatus = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -39,20 +40,16 @@ class Booking
     #[ORM\Column(type: 'datetime_immutable')]
     private ?DateTimeImmutable $updatedAt = null;
 
-    public function __construct()
-    {
-        if ($this->createdAt === null) {
-            $this->createdAt = new DateTimeImmutable();
-        }
 
-        if ($this->updatedAt === null) {
-            $this->updatedAt =  new DateTimeImmutable();
-        }
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    // ---- Mise à jour de la date de modification
-
-    protected function updateTimestamp(): void
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
     {
         $this->updatedAt = new DateTimeImmutable();
     }
@@ -80,11 +77,11 @@ class Booking
 
 
         if ($startingDate < $today) {
-            throw new \InvalidArgumentException("La date de départ doit être dans le futur.");
+            throw new InvalidArgumentException("La date de début doit être dans le futur.");
         }
 
         $this->startingDate = $startingDate;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -100,12 +97,12 @@ class Booking
             return $this;
         }
 
-        if ($endingDate !== null && isset($this->departureDateTime) && $endingDate <= $this->startingDate) {
-            throw new \InvalidArgumentException("La date de fin de réservation doit être supérieure à la date du début.");
+        if ($endingDate <= $this->startingDate) {
+            throw new InvalidArgumentException("La date de fin doit être postérieure à la date du début.");
         }
 
         $this->endingDate = $endingDate;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -117,10 +114,10 @@ class Booking
     public function setTotalAmount(float $totalAmount): static
     {
         if ($totalAmount < 0 || $totalAmount >= 5000) {
-            throw new \InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 5000.");
+            throw new InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 5000.");
         }
         $this->totalAmount = $totalAmount;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -131,11 +128,11 @@ class Booking
 
     public function setPaxNumber(int $paxNumber): static
     {
-        if ($paxNumber < 0 || $paxNumber >= 100) {
-            throw new \InvalidArgumentException("Le nombre de personne doit être entre 1 et 2.");
+        if ($paxNumber < 1 || $paxNumber >= 2) {
+            throw new InvalidArgumentException("Le nombre de personne doit être entre 1 et 2.");
         }
         $this->paxNumber = $paxNumber;
-        $this->updateTimestamp();
+
         return $this;
     }
 
@@ -147,7 +144,7 @@ class Booking
     public function setBookingStatus(BookingStatus $bookingStatus): static
     {
         $this->bookingStatus = $bookingStatus;
-        $this->updateTimestamp();
+
         return $this;
     }
 

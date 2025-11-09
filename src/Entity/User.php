@@ -2,105 +2,127 @@
 
 namespace App\Entity;
 
-use App\Enum\Role;
+use App\Enum\UserRole;
 use App\Utils\RegexPatterns;
+use App\Repository\UserRepository;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
+use DateTimeImmutable;
 
-class User
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    public function __construct(
-        public ?int $userId = null,
-        public ?string $email = null,
-        public ?string $password = null,
-        public ?Role $role = null,
+    #[ORM\Column(length: 50, unique: true)]
+    private ?string $login = null;
 
-        public ?DateTimeImmutable $createdAt = null,
-        public ?DateTimeImmutable $updatedAt = null,
+    #[ORM\Column(length: 100, unique: true)]
+    private ?string $email = null;
 
-        public bool $isFromDatabase = false
-    ) {
-        $this
-            ->setUserEmail($email)
-            ->setUserRoles($role);
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
 
-        if ($this->isFromDatabase) {
-            $this->password = $password;
-        } else {
-            $this->setUserPassword($password);
-        }
+    #[ORM\Column(enumType: UserRole::class)]
+    private ?UserRole $role = null;
 
-        $this->createdAt = $createdAt ?? new DateTimeImmutable();
-        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
-    }
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $createdAt = null;
 
-    // -------------Getters--------------
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $updatedAt = null;
 
-    public function getUserId(): ?int
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
     {
-        return $this->userId;
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getUserEmail(): ?string
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+
+    // ----- Méthodes de vérification -----
+
+    private function validatePassword(string $password): void
+    {
+        $password = trim($password);
+
+        if (!preg_match(RegexPatterns::PASSWORD, $password)) {
+
+            throw new InvalidArgumentException('Le mot de passe doit contenir au moins 12 caractères, avec une majuscule, une minuscule, un chiffre et un symbole.');
+        };
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): static
+    {
+        $login = trim($login);
+
+        if (!preg_match(RegexPatterns::LOGIN, $login)) {
+            throw new InvalidArgumentException("Le login doit contenir entre 8 et 25 caractères autorisés.");
+        }
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getUserPassword(): ?string
+    public function setEmail(string $email): static
+    {
+        $email = trim($email);
+
+        if (empty($email)) {
+            throw new InvalidArgumentException("L'email est obligatoire. ");
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("L'email est invalide.");
+        }
+        $this->email = strtolower($email);
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function getUserRole(): ?Role
+    public function setPassword(?string $password, bool $isHashed = false): static
     {
-        return $this->role;
-    }
-
-    public function getUserCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function getUserUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    //------------Setter--------------
-
-    public function setUserId(?int $userId): self
-    {
-        $this->userId = $userId;
-        return $this;
-    }
-
-    public function setUserEmail(?string $email): self
-    {
-
-        if ($email !== null) {
-            $email = trim($email);
-
-            if (empty($email)) {
-                throw new InvalidArgumentException("L'email est obligatoire. ");
-            }
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidArgumentException("L'email est invalide.");
-            }
-            $this->email = strtolower($email);
-        } else {
-            $this->email = null;
-        }
-
-        $this->updateTimestamp();
-        return $this;
-    }
-
-    public function setUserPassword(?string $password, bool $isHashed = false): self
-    {
-
         if ($password === null) {
             $this->password = null;
             return $this;
@@ -115,41 +137,46 @@ class User
         }
 
         $this->password = $passwordToStore;
-        $this->updateTimestamp();
+
         return $this;
     }
 
-    public function setHashedPasswordFromDb(?string $hashedPassword): self
+    public function getRole(): ?UserRole
     {
-        // On assume que le mot de passe est déjà un HASH stocké.
-        $this->password = $hashedPassword;
-        return $this;
+        return $this->role;
     }
 
-    public function setUserRoles(?Role $role): self
+    public function getRoleValue(): ?string
+    {
+        return $this->role?->value;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = ($this->role) ? [$this->role->value] : [];
+
+        // Assurez-vous qu'au moins 'ROLE_USER' est toujours présent
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRole(UserRole $role): static
     {
         $this->role = $role;
-        $this->updateTimestamp();
+
         return $this;
     }
 
-
-    // ----- Méthodes de vérification -----
-
-    private function validatePassword(string $password): void
+    public function getCreatedAt(): ?DateTimeImmutable
     {
-        $password = trim($password);
-
-        if (!preg_match(RegexPatterns::PASSWORD, $password)) {
-
-            throw new InvalidArgumentException('Le mot de passe doit contenir au minimun une minuscule, une majuscule, un chiffre, un caractère spécial et contenir 12 caractéres au total.');
-        };
+        return $this->createdAt;
     }
 
-    // ---- Mise à jour de la date de modification
-
-    protected function updateTimestamp(): void
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
-        $this->updatedAt = new DateTimeImmutable();
+        return $this->updatedAt;
     }
+
+    public function eraseCredentials(): void {}
 }
