@@ -9,6 +9,7 @@ use DateTimeImmutable;
 
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -19,10 +20,10 @@ class Booking
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?DateTimeImmutable $startingDate = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?DateTimeImmutable $endingDate = null;
 
     #[ORM\Column]
@@ -31,13 +32,13 @@ class Booking
     #[ORM\Column]
     private ?int $paxNumber = null;
 
-    #[ORM\Column(enumType: BookingStatus::class)]
+    #[ORM\Column(type: Types::STRING, length: 50, enumType: BookingStatus::class)]
     private ?BookingStatus $bookingStatus = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
 

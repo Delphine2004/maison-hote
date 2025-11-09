@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use DateTimeImmutable;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -31,7 +32,7 @@ class Room
     #[ORM\Column]
     private ?float $dailyRate = null;
 
-    #[ORM\Column(enumType: RoomStatus::class)]
+    #[ORM\Column(type: Types::STRING, length: 50, enumType: RoomStatus::class)]
     private ?RoomStatus $roomStatus = null;
 
     public function getId(): ?int
