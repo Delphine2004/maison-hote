@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RatePeriodRepository;
+
 use App\Utils\RegexPatterns;
 
 use InvalidArgumentException;

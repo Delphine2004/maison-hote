@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
-use App\Enum\UserRole;
-use App\Utils\RegexPatterns;
 use App\Repository\ClientRepository;
 
+use App\Enum\UserRole;
+use App\Utils\RegexPatterns;
+
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 

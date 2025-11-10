@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use App\Enum\RoomStatus;
 use App\Repository\RoomRepository;
-use App\Utils\RegexPatterns;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
+use App\Enum\RoomStatus;
 
 use InvalidArgumentException;
-use DateTimeImmutable;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 

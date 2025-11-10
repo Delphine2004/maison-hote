@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+
 use App\Enum\UserRole;
 use App\Utils\RegexPatterns;
-use App\Repository\UserRepository;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
