@@ -3,13 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\ExtraRepository;
+
+use App\Enum\ExtraCategory;
 use App\Utils\RegexPatterns;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: ExtraRepository::class)]
 class Extra
@@ -18,6 +21,9 @@ class Extra
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(type: Types::STRING, length: 50, enumType: ExtraCategory::class)]
+    private ?ExtraCategory $category = null;
 
     #[ORM\Column(length: 100, unique: true)]
     private ?string $name = null;
@@ -43,6 +49,19 @@ class Extra
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+
+    public function getCategory(): ?ExtraCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(ExtraCategory $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     public function getName(): ?string
