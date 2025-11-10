@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Extra;
+use App\Enum\ExtraCategory;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,15 @@ class ExtraRepository extends ServiceEntityRepository
         parent::__construct($registry, Extra::class);
     }
 
-    //    /**
-    //     * @return Extra[] Returns an array of Extra objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Extra
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findSpecificationByCategory(ExtraCategory $category, int $limit = 10, string $orderBy = 'ASC'): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.category = :category')
+            ->setParameter('category', $category->value)
+            ->orderBy('e.id',  $orderBy)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

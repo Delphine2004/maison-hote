@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\RatePeriod;
+use App\Enum\RatePeriodCategory;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,15 @@ class RatePeriodRepository extends ServiceEntityRepository
         parent::__construct($registry, RatePeriod::class);
     }
 
-    //    /**
-    //     * @return RatePeriod[] Returns an array of RatePeriod objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?RatePeriod
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findSpecificationByCategory(RatePeriodCategory $category, int $limit = 10, string $orderBy = 'ASC'): array
+    {
+        return $this->createQueryBuilder('rp')
+            ->andWhere('rp.category = :category')
+            ->setParameter('category', $category->value)
+            ->orderBy('rp.id',  $orderBy)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
