@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Enum\BookingStatus;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -33,13 +35,32 @@ class Booking
     private ?int $paxNumber = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, enumType: BookingStatus::class)]
-    private ?BookingStatus $bookingStatus = null;
+    private ?BookingStatus $status = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Room $room = null;
+
+    /**
+     * @var Collection<int, Extra>
+     */
+    #[ORM\ManyToMany(targetEntity: Extra::class, inversedBy: 'bookings')]
+    private Collection $extras;
+
+    public function __construct()
+    {
+        $this->extras = new ArrayCollection();
+    }
 
 
     #[ORM\PrePersist]
@@ -137,14 +158,14 @@ class Booking
         return $this;
     }
 
-    public function getBookingStatus(): ?BookingStatus
+    public function getStatus(): ?BookingStatus
     {
-        return $this->bookingStatus;
+        return $this->status;
     }
 
-    public function setBookingStatus(BookingStatus $bookingStatus): static
+    public function setStatus(BookingStatus $status): static
     {
-        $this->bookingStatus = $bookingStatus;
+        $this->status = $status;
 
         return $this;
     }
@@ -157,5 +178,53 @@ class Booking
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Extra>
+     */
+    public function getExtras(): Collection
+    {
+        return $this->extras;
+    }
+
+    public function addExtra(Extra $extra): static
+    {
+        if (!$this->extras->contains($extra)) {
+            $this->extras->add($extra);
+        }
+
+        return $this;
+    }
+
+    public function removeExtra(Extra $extra): static
+    {
+        $this->extras->removeElement($extra);
+
+        return $this;
     }
 }

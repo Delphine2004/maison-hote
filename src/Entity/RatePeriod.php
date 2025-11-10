@@ -35,6 +35,9 @@ class RatePeriod
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ratePeriods')]
+    private ?Room $room = null;
+
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -140,5 +143,17 @@ class RatePeriod
             return $this->endingDate->diff($this->startingDate)->days;
         }
         return null;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
+
+        return $this;
     }
 }

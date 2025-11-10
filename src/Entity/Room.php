@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Enum\RoomStatus;
 use App\Repository\RoomRepository;
 use App\Utils\RegexPatterns;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -33,7 +35,25 @@ class Room
     private ?float $dailyRate = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, enumType: RoomStatus::class)]
-    private ?RoomStatus $roomStatus = null;
+    private ?RoomStatus $status = null;
+
+    /**
+     * @var Collection<int, RatePeriod>
+     */
+    #[ORM\OneToMany(targetEntity: RatePeriod::class, mappedBy: 'room')]
+    private Collection $ratePeriods;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'room')]
+    private Collection $bookings;
+
+    public function __construct()
+    {
+        $this->ratePeriods = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -98,14 +118,74 @@ class Room
         return $this;
     }
 
-    public function getRoomStatus(): ?RoomStatus
+    public function getStatus(): ?RoomStatus
     {
-        return $this->roomStatus;
+        return $this->status;
     }
 
-    public function setRoomStatus(RoomStatus $roomStatus): static
+    public function setStatus(RoomStatus $status): static
     {
-        $this->roomStatus = $roomStatus;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RatePeriod>
+     */
+    public function getRatePeriods(): Collection
+    {
+        return $this->ratePeriods;
+    }
+
+    public function addRatePeriod(RatePeriod $ratePeriod): static
+    {
+        if (!$this->ratePeriods->contains($ratePeriod)) {
+            $this->ratePeriods->add($ratePeriod);
+            $ratePeriod->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRatePeriod(RatePeriod $ratePeriod): static
+    {
+        if ($this->ratePeriods->removeElement($ratePeriod)) {
+            // set the owning side to null (unless already changed)
+            if ($ratePeriod->getRoom() === $this) {
+                $ratePeriod->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getRoom() === $this) {
+                $booking->setRoom(null);
+            }
+        }
 
         return $this;
     }

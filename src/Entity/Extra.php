@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ExtraRepository;
 use App\Utils\RegexPatterns;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 
@@ -25,6 +27,17 @@ class Extra
 
     #[ORM\Column]
     private ?float $rate = null;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\ManyToMany(targetEntity: Booking::class, mappedBy: 'extras')]
+    private Collection $bookings;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -87,6 +100,33 @@ class Extra
             throw new InvalidArgumentException("Le prix doit être supérieure à 0 et inférieure à 100.");
         }
         $this->rate = $rate;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->addExtra($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            $booking->removeExtra($this);
+        }
+
         return $this;
     }
 }
