@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RatePeriodRepository;
 
+use App\Enum\RatePeriodCategory;
 use App\Utils\RegexPatterns;
 
 use InvalidArgumentException;
@@ -20,6 +21,9 @@ class RatePeriod
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(type: Types::STRING, length: 50, enumType: RatePeriodCategory::class)]
+    private ?RatePeriodCategory $category = null;
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
@@ -57,6 +61,18 @@ class RatePeriod
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCategory(): ?RatePeriodCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(RatePeriodCategory $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     public function getName(): ?string

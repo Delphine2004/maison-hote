@@ -6,5 +6,6 @@ enum BookingStatus: string
 {
     case CONFIRMED = "Confirmée";
     case CANCELLED = "Annulé";
+    case IN = "Present";
     case FINALIZED = "Finalisé";
 }
