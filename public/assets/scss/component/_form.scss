@@ -1,0 +1,12 @@
+@use "../utils/colors";
+
+#admin-account {
+    .form-edit,
+    .form-add {
+        max-width: 700px;
+    }
+}
+
+.filter {
+    background-color: colors.$bs-lightPink;
+}

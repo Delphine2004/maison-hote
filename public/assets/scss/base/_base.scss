@@ -1,0 +1,41 @@
+@use "../utils/fonts";
+@use "../utils/colors";
+@use "../utils/variables";
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: fonts.$font-secondary;
+    font-size: fonts.$font-size-base;
+    line-height: 1.4;
+    background-color: colors.$bs-white;
+    color: colors.$bs-brown;
+}
+
+header,
+footer {
+    flex-shrink: 0; /* Empêche le header/footer de rétrécir */
+    background-color: colors.$bs-pink;
+    color: colors.$bs-brown;
+}
+
+a {
+    color: colors.$bs-brown;
+}
+
+main {
+    flex-grow: 1; /* prend tout l'espace disponible */
+}
+
+h1,
+h2,
+h3 {
+    font-family: fonts.$font-primary;
+    font-size: fonts.$font-size-lg;
+}
+
+h2,
+h3 {
+    font-size: fonts.$font-size-md;
+}

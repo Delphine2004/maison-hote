@@ -1,0 +1,21 @@
+@use "../utils/variables";
+@use "../utils/colors";
+
+footer {
+    min-height: variables.$footer-height-mobile;
+    background-color: colors.$bs-pink;
+    color: colors.$bs-brown;
+
+    a {
+        color: colors.$bs-brown;
+        text-decoration: none;
+    }
+
+    i {
+        color: colors.$bs-brown;
+    }
+
+    @media (min-width: 768px) {
+        min-height: variables.$footer-height-desktop;
+    }
+}

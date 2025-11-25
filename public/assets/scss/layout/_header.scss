@@ -1,0 +1,25 @@
+@use "../utils/fonts";
+@use "../utils/variables";
+@use "../utils/colors";
+
+.navbar {
+    min-height: variables.$header-height-mobile;
+    background-color: colors.$bs-pink;
+    color: colors.$bs-brown;
+
+    .navbar-brand .logo {
+        height: variables.$logo-max-size;
+        width: auto; // Garder le ratio
+        max-width: 100%;
+    }
+
+    @media (max-width: 992px) {
+        .navbar {
+            min-height: variables.$header-height-desktop;
+        }
+
+        .navbar-brand .logo {
+            height: variables.$logo-max-size * 0.8;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+@use "../utils/colors";
+
+thead {
+    background-color: colors.$bs-pink;
+    color: colors.$bs-brown;
+}
