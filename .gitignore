@@ -1,10 +1,57 @@
+# Secrets Symfony
+/config/secrets/prod/prod.decrypt.private.php
 
-###> symfony/framework-bundle ###
+# Symfony / PHP
+/var/
+/vendor/
+
+# Cache et logs
+/var/cache/
+/var/log/
+/var/sessions/
+
+# Environnements
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
+/.env.test
+/.env.test.local
+/.env.prod.local
+
+# Fichiers de build front (si tu utilises Webpack Encore ou autre)
+/public/build/
+/public/css/
 /public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
+ 
+# Node / npm
+/node_modules/
+/package-lock.json
+/yarn.lock
+
+ 
+# Docker
+# Logs de Docker (optionnel)
+docker-compose.override.yml
+docker/db/data/*
+
+# Fichiers temporaires, volumes ou données
+/data/
+/tmp/
+
+ 
+# IDE / Editor
+ # VSCode
+.vscode/
+/.idea/
+/*.iml
+
+# Mac OS
+.DS_Store
+
+ 
+# Autres
+# Tests, rapports, caches IDE, etc.
+.phpunit.result.cache
+.php_cs.cache
+.phpdoc.cache
+coverage/
