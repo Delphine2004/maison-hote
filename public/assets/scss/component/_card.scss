@@ -1,11 +1,11 @@
 @use "../utils/colors";
 
 .card-header {
-    background-color: colors.$bs-pink;
-    color: colors.$bs-brown;
+    background-color: colors.$bs-darkblue;
+    color: colors.$bs-gold;
 }
 
 .card-body,
 .card-footer {
-    background-color: colors.$bs-lightPink;
+    background-color: colors.$bs-beige;
 }

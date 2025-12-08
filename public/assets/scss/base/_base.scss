@@ -9,19 +9,19 @@ body {
     font-family: fonts.$font-secondary;
     font-size: fonts.$font-size-base;
     line-height: 1.4;
-    background-color: colors.$bs-white;
+    background-color: colors.$bs-beige;
     color: colors.$bs-brown;
 }
 
 header,
 footer {
     flex-shrink: 0; /* Empêche le header/footer de rétrécir */
-    background-color: colors.$bs-pink;
-    color: colors.$bs-brown;
+    background-color: colors.$bs-darkblue;
+    color: colors.$bs-gold;
 }
 
 a {
-    color: colors.$bs-brown;
+    color: colors.$bs-gold;
 }
 
 main {

@@ -1,12 +1,12 @@
 @use "../utils/colors";
 
 .btn {
-    background-color: colors.$bs-green;
-    border: colors.$bs-brown solid 0.5px;
-    color: colors.$bs-brown;
+    background-color: colors.$bs-brown;
+    border: colors.$bs-gold solid 0.5px;
+    color: colors.$bs-beige;
 }
 
 .btn:hover {
-    background-color: colors.$bs-darkgreen;
-    color: colors.$bs-green;
+    background-color: colors.$bs-gold;
+    color: colors.$bs-beige;
 }
