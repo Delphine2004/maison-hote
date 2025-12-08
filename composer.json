@@ -13,7 +13,9 @@
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.5",
         "doctrine/orm": "^3.5",
+        "mongodb/mongodb": "^2.1",
         "runtime/frankenphp-symfony": "^0.2.0",
+        "symfony/asset": "7.3.*",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2",
@@ -79,6 +81,7 @@
         }
     },
     "require-dev": {
+        "soyuka/stubs-mongodb": "^1.0",
         "symfony/maker-bundle": "^1.64"
     }
 }
