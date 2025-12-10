@@ -3,7 +3,7 @@
         class="navbar navbar-expand-lg shadow-sm position-fixed w-100 z-3 pt-2"
     >
         <div class="container-fluid">
-            <a class="navbar-brand d-lg-none" href="">
+            <a class="navbar-brand d-lg-none" href="{{ path('app_home') }}">
                 <img
                     class="logo"
                     src="{{ asset('assets/img/logo/logo.webp') }}"
@@ -26,7 +26,7 @@
             >
                 <a
                     class="navbar-brand d-none d-lg-block position-absolute start-50 translate-middle-x"
-                    href="#"
+                    href="{{ path('app_home') }}"
                 >
                     <img
                         class="logo"
@@ -41,13 +41,21 @@
                     connectés -->
                         {% if not app.user %}
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="">Galerie</a>
+                            <a class="nav-link" href="{{ path('app_gallery') }}"
+                                >Gallerie</a
+                            >
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="">Nos services</a>
+                            <a
+                                class="nav-link"
+                                href="{{ path('app_services') }}"
+                                >Nos services</a
+                            >
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="">Réserver</a>
+                            <a class="nav-link" href="{{ path('app_search') }}"
+                                >Réserver</a
+                            >
                         </li>
                         {% endif %}
 
@@ -88,14 +96,20 @@
                                 >Mon compte</a
                             >
                         </li>
-
+                        {% endif %} {% if app.user %}
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="">Déconnexion</a>
+                            <a class="nav-link" href="{{ path('app_logout') }}"
+                                >Déconnexion</a
+                            >
+                        </li>
+                        {% endif %} {% if not
+                        is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="{{ path('app_login') }}"
+                                >Connexion</a
+                            >
                         </li>
                         {% endif %}
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="">Connexion</a>
-                        </li>
                     </ul>
                 </div>
             </div>
