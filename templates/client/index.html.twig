@@ -1,55 +1,74 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Client index{% endblock %} {%
+block body %}
+<main class="pt-5">
+    <section class="container-fluid py-5">
+        <div class="container">
+            <h1>Client index</h1>
 
-{% block title %}Client index{% endblock %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Roles</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>ZipCode</th>
+                        <th>City</th>
+                        <th>CreatedAt</th>
+                        <th>UpdatedAt</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.firstName }}</td>
+                        <td>{{ client.lastName }}</td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.password }}</td>
+                        <td>
+                            {{ client.roles ? client.roles|json_encode : '' }}
+                        </td>
+                        <td>{{ client.phone }}</td>
+                        <td>{{ client.address }}</td>
+                        <td>{{ client.zipCode }}</td>
+                        <td>{{ client.city }}</td>
+                        <td>
+                            {{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}
+                        </td>
+                        <td>
+                            {{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}
+                        </td>
+                        <td>
+                            <a
+                                href="{{
+                                    path('app_client_show', { id: client.id })
+                                }}"
+                                >show</a
+                            >
+                            <a
+                                href="{{
+                                    path('app_client_edit', { id: client.id })
+                                }}"
+                                >edit</a
+                            >
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="13">no records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-{% block body %}
-    <h1>Client index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Roles</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>ZipCode</th>
-                <th>City</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.firstName }}</td>
-                <td>{{ client.lastName }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.password }}</td>
-                <td>{{ client.roles ? client.roles|json_encode : '' }}</td>
-                <td>{{ client.phone }}</td>
-                <td>{{ client.address }}</td>
-                <td>{{ client.zipCode }}</td>
-                <td>{{ client.city }}</td>
-                <td>{{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="13">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_client_new') }}">Create new</a>
+            <a class="btn" href="{{ path('app_client_new') }}">Create new</a>
+        </div>
+    </section>
+</main>
 {% endblock %}

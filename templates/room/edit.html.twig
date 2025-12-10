@@ -1,13 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Edit Room{% endblock %} {% block
+body %}
+<main class="pt-5">
+    <section id="event-page" class="container-fluid py-5">
+        <div class="container">
+            <h1>Edit Room</h1>
 
-{% block title %}Edit Room{% endblock %}
+            {{ include("room/_form.html.twig", { button_label: "Modifier" }) }}
 
-{% block body %}
-    <h1>Edit Room</h1>
+            <a class="btn" href="{{ path('app_room_index') }}">back to list</a>
 
-    {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_room_index') }}">back to list</a>
-
-    {{ include('room/_delete_form.html.twig') }}
+            {{ include("room/_delete_form.html.twig") }}
+        </div>
+    </section>
+</main>
 {% endblock %}

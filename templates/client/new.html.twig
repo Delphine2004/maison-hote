@@ -1,11 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}New Client{% endblock %} {%
+block body %}
+<main class="pt-5">
+    <section class="container-fluid py-5">
+        <div class="container">
+            <h1>Create new Client</h1>
 
-{% block title %}New Client{% endblock %}
+            {{ include("client/_form.html.twig") }}
 
-{% block body %}
-    <h1>Create new Client</h1>
-
-    {{ include('client/_form.html.twig') }}
-
-    <a href="{{ path('app_client_index') }}">back to list</a>
+            <a class="btn" href="{{ path('app_client_index') }}"
+                >back to list</a
+            >
+        </div>
+    </section>
+</main>
 {% endblock %}

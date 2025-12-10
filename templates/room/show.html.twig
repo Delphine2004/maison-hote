@@ -1,38 +1,47 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Room{% endblock %} {% block body
+%}
+<main class="pt-5">
+    <section class="container-fluid py-5">
+        <div class="container">
+            <h1>Room</h1>
 
-{% block title %}Room{% endblock %}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ room.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ room.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ room.status }}</td>
+                    </tr>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <td>
+                            {{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>UpdatedAt</th>
+                        <td>
+                            {{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-{% block body %}
-    <h1>Room</h1>
+            <a class="btn" href="{{ path('app_room_index') }}">back to list</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ room.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ room.name }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ room.status }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ room.updatedAt ? room.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <a class="btn" href="{{ path('app_room_edit', { id: room.id }) }}"
+                >edit</a
+            >
 
-    <a href="{{ path('app_room_index') }}">back to list</a>
-
-    <a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
-
-    {{ include('room/_delete_form.html.twig') }}
+            {{ include("room/_delete_form.html.twig") }}
+        </div>
+    </section>
+</main>
 {% endblock %}
