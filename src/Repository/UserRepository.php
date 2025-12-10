@@ -16,13 +16,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findUserById(int $id): ?User
-    {
-        return $this->find($id);
-    }
-
-    public function findUserByEmail(string $email): ?User
-    {
-        return $this->findOneBy(['email' => $email]);
+    public function findUsersWithoutRole(
+        string $role,
+        int $limit = 10,
+        string $orderBy = 'ASC'
+    ): array {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles NOT LIKE :role')
+            ->setParameter('role', '%"' . $role . '"%')
+            ->orderBy('u.id',  $orderBy)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

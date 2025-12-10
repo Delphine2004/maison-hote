@@ -16,29 +16,30 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
-
-    public function findClientById(int $id): ?Client
-    {
-        return $this->createQueryBuilder('c')
+    public function findClientByFilters(
+        ?array $criteria,
+        int $limit = 10,
+        string $orderBy = 'DESC'
+    ): array {
+        $qb = $this->createQueryBuilder('c')
             ->select('DISTINCT c', 'b')
-            ->leftJoin('c.bookings', 'b')->addSelect('b')
-            ->andWhere('c.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+            ->leftJoin('c.bookings', 'b')->addSelect('b');
 
-
-    public function findClientByEmail(string $email): ?Client
-    {
-        return $this->createQueryBuilder('c')
-            ->select('DISTINCT c', 'b')
-            ->leftJoin('c.bookings', 'b')->addSelect('b')
-            ->andWhere('c.email = :email')
-            ->setParameter('email', $email)
+        if (!empty($criteria['id'])) {
+            $qb->andWhere('c.id = :id')
+                ->setParameter('id', $criteria['id']);
+        }
+        if (!empty($criteria['lastName'])) {
+            $qb->andWhere('c.lastName = :lastName')
+                ->setParameter('lastName', $criteria['lastName']);
+        }
+        if (!empty($criteria['email'])) {
+            $qb->andWhere('c.email = :email')
+                ->setParameter('email', $criteria['email']);
+        }
+        return $qb->orderBy('c.id',  $orderBy)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
 }
