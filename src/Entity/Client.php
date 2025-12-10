@@ -4,21 +4,21 @@ namespace App\Entity;
 
 use App\Repository\ClientRepository;
 
-use App\Enum\UserRole;
 use App\Utils\RegexPatterns;
 
 use DateTimeImmutable;
-use InvalidArgumentException;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
 #[ORM\HasLifecycleCallbacks]
 class Client implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,30 +27,47 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Le prénom est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Length(min: 2, maxMessage: "Le prénom doit contenir au minimum 2 lettres.")]
+    #[Assert\Length(max: 100, maxMessage: "Le prénom ne doit pas dépasser 100 lettres.")]
     #[ORM\Column(length: 100)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
+    #[Assert\Length(max: 100, maxMessage: "Le nom ne doit pas dépasser 100 lettres.")]
     #[ORM\Column(length: 100)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 100, unique: true)]
+    #[Assert\NotBlank(message: "L'email est obligatoire.")]
+    #[Assert\Email(message: "Email invalide")]
+    #[Assert\Length(max: 255, maxMessage: "L'email ne doit pas dépasser 255 caractères.")]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
+    // Validation faite dans le type
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[Assert\NotNull(message: "Veuillez sélectionner un rôle.")]
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
+    #[Assert\Regex(RegexPatterns::FRENCH_MOBILE_PHONE)]
     #[ORM\Column(length: 20)]
     private ?string $phone = null;
 
-    #[ORM\Column(type: Types::STRING, length: 50, enumType: UserRole::class)]
-    private ?UserRole $role = null;
-
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Assert\Regex(RegexPatterns::ZIP_CODE)]
     #[ORM\Column(length: 10)]
     private ?string $zipCode = null;
 
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
     #[ORM\Column(length: 100)]
     private ?string $city = null;
 
@@ -60,16 +77,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    /**
-     * @var Collection<int, Booking>
-     */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'client')]
-    private Collection $bookings;
-
-    public function __construct()
-    {
-        $this->bookings = new ArrayCollection();
-    }
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -84,17 +91,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    // ----- Méthodes de vérification -----
-
-    private function validatePassword(string $password): void
-    {
-        $password = trim($password);
-
-        if (!preg_match(RegexPatterns::PASSWORD, $password)) {
-
-            throw new InvalidArgumentException('Le mot de passe doit contenir au minimun une minuscule, une majuscule, un chiffre, un caractère spécial et contenir 12 caractéres au total.');
-        };
-    }
 
     public function getId(): ?int
     {
@@ -114,15 +110,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): static
     {
 
-        $firstName = trim($firstName);
-
-        if (empty($firstName)) {
-            throw new InvalidArgumentException("Le prénom est obligatoire.");
-        }
-
-        if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $firstName)) {
-            throw new InvalidArgumentException("Le prénom doit être compris entre 1 et 100 caractères autorisés.");
-        }
         $this->firstName = ucfirst($firstName);
 
         return $this;
@@ -136,17 +123,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
 
-        $lastName = trim($lastName);
-
-        if (empty($lastName)) {
-            throw new InvalidArgumentException("Le nom est obligatoire.");
-        }
-
-        if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $lastName)) {
-            throw new InvalidArgumentException("Le nom doit être compris entre 1 et 100 caractères autorisés.");
-        }
         $this->lastName = strtoupper($lastName);
-
 
         return $this;
     }
@@ -158,16 +135,8 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        $email = trim($email);
 
-        if (empty($email)) {
-            throw new InvalidArgumentException("L'email est obligatoire. ");
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("L'email est invalide.");
-        }
-        $this->email = strtolower($email);
+        $this->email = $email;
 
         return $this;
     }
@@ -177,18 +146,10 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password, bool $isHashed = false): static
+    public function setPassword(string $password): static
     {
 
-        $passwordToStore = trim($password);
-
-        if (!$isHashed) {
-            $this->validatePassword($passwordToStore);
-            $passwordToStore = password_hash($passwordToStore, PASSWORD_DEFAULT);
-            //var_dump('INSCRIPTION - HASH stocké:', $passwordToStore);
-        }
-
-        $this->password = $passwordToStore;
+        $this->password = $password;
 
         return $this;
     }
@@ -200,40 +161,31 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPhone(string $phone): static
     {
-        $phone = trim($phone);
-
-        if (!preg_match(RegexPatterns::FRENCH_MOBILE_PHONE, $phone)) {
-            throw new InvalidArgumentException("Le numéro de téléphone doit avoir le format téléphone portable français en 06, 07 , +33.");
-        }
         $this->phone = $phone;
 
         return $this;
     }
 
-    public function getRole(): ?UserRole
-    {
-        return $this->role;
-    }
-
-    public function getRoleValue(): ?string
-    {
-        return $this->role?->value;
-    }
-
     public function getRoles(): array
     {
-        $roles = ($this->role) ? [$this->role->value] : [];
+        $roles = ($this->roles);
 
-        // Assurez-vous qu'au moins 'ROLE_USER' est toujours présent
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_USER'; // rôle requis par symfony
 
         return array_unique($roles);
     }
 
-    public function setRole(UserRole $role): static
+    public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
+        return $this;
+    }
 
+    public function addRole(string $role): self
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
         return $this;
     }
 
@@ -244,12 +196,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAddress(string $address): static
     {
-
-        $address = trim($address);
-
-        if (!preg_match(RegexPatterns::FREE_TEXT_REGEX, $address)) {
-            throw new InvalidArgumentException("L'adresse peut contenir entre 2 et 255 caractères autorisés.");
-        }
         $this->address = $address;
 
         return $this;
@@ -262,12 +208,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setZipCode(string $zipCode): static
     {
-
-        $zipCode = trim($zipCode);
-
-        if (!preg_match(RegexPatterns::ZIP_CODE, $zipCode)) {
-            throw new InvalidArgumentException("Le code postal doit contenir exactement 5 chiffres.");
-        }
         $this->zipCode = $zipCode;
 
         return $this;
@@ -280,11 +220,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setCity(string $city): static
     {
-        $city = trim($city);
-
-        if (!preg_match(RegexPatterns::ONLY_TEXTE_REGEX, $city)) {
-            throw new InvalidArgumentException("Le ville doit contenir entre 1 et 100 caractères autorisés.");
-        }
         $this->city = strtoupper($city);
 
         return $this;
@@ -302,34 +237,4 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     public function eraseCredentials(): void {}
-
-    /**
-     * @return Collection<int, Booking>
-     */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
-    public function addBooking(Booking $booking): static
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings->add($booking);
-            $booking->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): static
-    {
-        if ($this->bookings->removeElement($booking)) {
-            // set the owning side to null (unless already changed)
-            if ($booking->getClient() === $this) {
-                $booking->setClient(null);
-            }
-        }
-
-        return $this;
-    }
 }

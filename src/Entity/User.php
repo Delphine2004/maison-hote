@@ -4,19 +4,22 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 
-use App\Enum\UserRole;
 use App\Utils\RegexPatterns;
 
-use InvalidArgumentException;
 use DateTimeImmutable;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -25,23 +28,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50, unique: true)]
+    #[Assert\NotBlank(message: "Le login est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::LOGIN)]
+    #[Assert\Length(min: 8, maxMessage: "Le login doit contenir au minimum 8 lettres et/ou chiffres.")]
+    #[Assert\Length(max: 25, maxMessage: "Le login ne doit pas dépasser 25 lettres et/ou chiffres.")]
+    #[ORM\Column(length: 25, unique: true)]
     private ?string $login = null;
 
-    #[ORM\Column(length: 100, unique: true)]
+    #[Assert\NotBlank(message: "L'email est obligatoire.")]
+    #[Assert\Email(message: "Email invalide")]
+    #[Assert\Length(max: 255, maxMessage: "L'email ne doit pas dépasser 255 caractères.")]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
+    // Validation faite dans le type
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::STRING, length: 50, enumType: UserRole::class)]
-    private ?UserRole $role = null;
+    #[Assert\NotNull(message: "Veuillez sélectionner un rôle.")]
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
 
 
     #[ORM\PrePersist]
@@ -58,17 +71,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    // ----- Méthodes de vérification -----
-
-    private function validatePassword(string $password): void
-    {
-        $password = trim($password);
-
-        if (!preg_match(RegexPatterns::PASSWORD, $password)) {
-
-            throw new InvalidArgumentException('Le mot de passe doit contenir au moins 12 caractères, avec une majuscule, une minuscule, un chiffre et un symbole.');
-        };
-    }
 
     public function getId(): ?int
     {
@@ -87,11 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setLogin(string $login): static
     {
-        $login = trim($login);
 
-        if (!preg_match(RegexPatterns::LOGIN, $login)) {
-            throw new InvalidArgumentException("Le login doit contenir entre 8 et 25 caractères autorisés.");
-        }
         $this->login = $login;
 
         return $this;
@@ -104,15 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        $email = trim($email);
-
-        if (empty($email)) {
-            throw new InvalidArgumentException("L'email est obligatoire. ");
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("L'email est invalide.");
-        }
         $this->email = strtolower($email);
 
         return $this;
@@ -123,50 +112,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(?string $password, bool $isHashed = false): static
+    public function setPassword(?string $password): static
     {
-        if ($password === null) {
-            $this->password = null;
-            return $this;
-        }
 
-        $passwordToStore = trim($password);
-
-        if (!$isHashed) {
-            $this->validatePassword($passwordToStore);
-            $passwordToStore = password_hash($passwordToStore, PASSWORD_DEFAULT);
-            //var_dump('INSCRIPTION - HASH stocké:', $passwordToStore);
-        }
-
-        $this->password = $passwordToStore;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getRole(): ?UserRole
-    {
-        return $this->role;
-    }
-
-    public function getRoleValue(): ?string
-    {
-        return $this->role?->value;
-    }
-
     public function getRoles(): array
     {
-        $roles = ($this->role) ? [$this->role->value] : [];
+        $roles = ($this->roles);
 
-        // Assurez-vous qu'au moins 'ROLE_USER' est toujours présent
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_USER'; // rôle requis par symfony
 
         return array_unique($roles);
     }
 
-    public function setRole(UserRole $role): static
+    public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
+        return $this;
+    }
 
+    public function addRole(string $role): self
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
         return $this;
     }
 

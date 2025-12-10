@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BookingRepository;
+use App\Repository\PeriodRepository;
 
-use App\Enum\BookingStatus;
+use App\Utils\RegexPatterns;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -14,33 +14,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
-#[ORM\Entity(repositoryClass: BookingRepository::class)]
+#[ORM\Entity(repositoryClass: PeriodRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Booking
+class Period
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
+    #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
+    #[ORM\Column(length: 50, unique: true)]
+    #[ORM\Column(length: 50)]
+    private ?string $name = null;
+
     #[Assert\NotNull]
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $startingDate = null;
 
     #[Assert\NotNull]
     #[Assert\GreaterThan(propertyPath: 'startingDate')]
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?DateTimeImmutable $endingDate = null;
-
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?float $totalAmount = null;
-
-    #[Assert\NotNull]
-    #[ORM\Column(type: Types::STRING, length: 50, enumType: BookingStatus::class)]
-    private ?BookingStatus $status = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
@@ -63,9 +61,22 @@ class Booking
     }
 
 
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getStartingDate(): ?DateTimeImmutable
@@ -100,41 +111,7 @@ class Booking
 
     public function setEndingDate(DateTimeImmutable $endingDate): static
     {
-        if ($endingDate === null) {
-            $this->endingDate = null;
-            return $this;
-        }
-
-        if ($endingDate <= $this->startingDate) {
-            throw new InvalidArgumentException("La date de fin doit être postérieure à la date du début.");
-        }
-
         $this->endingDate = $endingDate;
-
-        return $this;
-    }
-
-    public function getTotalAmount(): ?float
-    {
-        return $this->totalAmount;
-    }
-
-    public function setTotalAmount(float $totalAmount): static
-    {
-        $this->totalAmount = $totalAmount;
-
-        return $this;
-    }
-
-
-    public function getStatus(): ?BookingStatus
-    {
-        return $this->status;
-    }
-
-    public function setStatus(BookingStatus $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

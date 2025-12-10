@@ -2,10 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\RoomRepository;
-
-use App\Enum\RoomStatus;
-use App\Utils\RegexPatterns;
+use App\Repository\RateRepository;
 
 use DateTimeImmutable;
 
@@ -14,25 +11,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RoomRepository::class)]
+#[ORM\Entity(repositoryClass: RateRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Room
+class Rate
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
-    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
-    #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
-    #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
-    #[ORM\Column(length: 50, unique: true)]
-    private ?string $name = null;
-
     #[Assert\NotNull]
-    #[ORM\Column(type: Types::STRING, length: 50, enumType: RoomStatus::class)]
-    private ?RoomStatus $status = null;
+    #[Assert\PositiveOrZero]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
@@ -59,26 +50,14 @@ class Room
         return $this->id;
     }
 
-    public function getStatus(): ?RoomStatus
+    public function getAmount(): ?string
     {
-        return $this->status;
+        return $this->amount;
     }
 
-    public function setStatus(RoomStatus $status): static
+    public function setAmount(string $amount): static
     {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
+        $this->amount = $amount;
 
         return $this;
     }
