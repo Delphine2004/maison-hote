@@ -27,11 +27,11 @@ header,
 footer {
   flex-shrink: 0; /* Empêche le header/footer de rétrécir */
   background-color: #1e3a5f;
-  color: #b8860b;
+  color: #ba912c;
 }
 
 a {
-  color: #b8860b;
+  color: #ba912c;
 }
 
 main {
@@ -53,10 +53,10 @@ h3 {
 .navbar {
   min-height: 60px;
   background-color: #1e3a5f;
-  color: #b8860b;
+  color: #ba912c;
 }
 .navbar a {
-  color: #b8860b;
+  color: #ba912c;
 }
 .navbar .navbar-brand .logo {
   height: 40px;
@@ -75,14 +75,14 @@ h3 {
 footer {
   min-height: 310px;
   background-color: #1e3a5f;
-  color: #b8860b;
+  color: #ba912c;
 }
 footer a {
-  color: #b8860b;
+  color: #ba912c;
   text-decoration: none;
 }
 footer i {
-  color: #b8860b;
+  color: #ba912c;
 }
 @media (min-width: 768px) {
   footer {
@@ -92,18 +92,18 @@ footer i {
 
 .btn {
   background-color: #8b4513;
-  border: #b8860b solid 0.5px;
+  border: #ba912c solid 0.5px;
   color: #f5f5dc;
 }
 
 .btn:hover {
-  background-color: #b8860b;
+  background-color: #ba912c;
   color: #f5f5dc;
 }
 
 .card-header {
   background-color: #1e3a5f;
-  color: #b8860b;
+  color: #ba912c;
 }
 
 .card-body,
@@ -116,11 +116,16 @@ footer i {
   background-color: #f5f5dc;
 }
 
-.imgHero {
-  width: 300px;
+.hero {
+  width: 500px;
 }
 
-.imgHero img {
+.img-home img {
+  width: 400px;
+}
+
+.hero img,
+.img-home img {
   width: 100%;
 }
 
