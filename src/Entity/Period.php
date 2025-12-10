@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PeriodRepository;
 
 use App\Utils\RegexPatterns;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -28,7 +30,7 @@ class Period
     #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
     #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
     #[ORM\Column(length: 50, unique: true)]
-    #[ORM\Column(length: 50)]
+
     private ?string $name = null;
 
     #[Assert\NotNull]
@@ -45,6 +47,23 @@ class Period
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'periodsCreated')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'periodsUpdated')]
+    private ?User $updatedBy = null;
+
+    /**
+     * @var Collection<int, Rate>
+     */
+    #[ORM\OneToMany(targetEntity: Rate::class, mappedBy: 'period')]
+    private Collection $rates;
+
+    public function __construct()
+    {
+        $this->rates = new ArrayCollection();
+    }
 
 
     #[ORM\PrePersist]
@@ -124,5 +143,59 @@ class Period
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): static
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rate>
+     */
+    public function getRate(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Rate $rate): static
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates->add($rate);
+            $rate->setPeriod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Rate $rate): static
+    {
+        if ($this->rates->removeElement($rate)) {
+            // set the owning side to null (unless already changed)
+            if ($rate->getPeriod() === $this) {
+                $rate->setPeriod(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -31,6 +31,18 @@ class Rate
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ratesCreated')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ratesUpdated')]
+    private ?User $updatedBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rates')]
+    private ?Room $room = null;
+
+    #[ORM\ManyToOne(inversedBy: 'rates')]
+    private ?Period $period = null;
+
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -70,5 +82,53 @@ class Rate
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): static
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    public function getPeriod(): ?Period
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(?Period $period): static
+    {
+        $this->period = $period;
+
+        return $this;
     }
 }

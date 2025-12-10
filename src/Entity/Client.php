@@ -7,6 +7,8 @@ use App\Repository\ClientRepository;
 use App\Utils\RegexPatterns;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -76,6 +78,31 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'client')]
+    private Collection $bookings;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'createdBy')]
+    private Collection $bookingsCreated;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'updatedByClient')]
+    private Collection $bookingsUpdatedByClient;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+        $this->bookingsCreated = new ArrayCollection();
+        $this->bookingsUpdatedByClient = new ArrayCollection();
+    }
 
 
     #[ORM\PrePersist]
@@ -237,4 +264,95 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     public function eraseCredentials(): void {}
+
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getClient() === $this) {
+                $booking->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookingsCreated(): Collection
+    {
+        return $this->bookingsCreated;
+    }
+
+    public function addBookingsCreated(Booking $bookingsCreated): static
+    {
+        if (!$this->bookingsCreated->contains($bookingsCreated)) {
+            $this->bookingsCreated->add($bookingsCreated);
+            $bookingsCreated->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingsCreated(Booking $bookingsCreated): static
+    {
+        if ($this->bookingsCreated->removeElement($bookingsCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($bookingsCreated->getCreatedBy() === $this) {
+                $bookingsCreated->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookingsUpdatedByClient(): Collection
+    {
+        return $this->bookingsUpdatedByClient;
+    }
+
+    public function addBookingsUpdatedByClient(Booking $bookingsUpdatedByClient): static
+    {
+        if (!$this->bookingsUpdatedByClient->contains($bookingsUpdatedByClient)) {
+            $this->bookingsUpdatedByClient->add($bookingsUpdatedByClient);
+            $bookingsUpdatedByClient->setBookingsUpdatedByClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingsUpdatedByClient(Booking $bookingsUpdatedByClient): static
+    {
+        if ($this->bookingsUpdatedByClient->removeElement($bookingsUpdatedByClient)) {
+            // set the owning side to null (unless already changed)
+            if ($bookingsUpdatedByClient->getBookingsUpdatedByClient() === $this) {
+                $bookingsUpdatedByClient->setBookingsUpdatedByClient(null);
+            }
+        }
+
+        return $this;
+    }
 }

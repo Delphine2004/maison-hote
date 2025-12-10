@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\BookingRepository;
 
 use App\Enum\BookingStatus;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -47,6 +49,24 @@ class Booking
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookings')]
+    private ?Client $client = null;
+
+    #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'bookings')]
+    private ?Room $room = null;
+
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreated')]
+    private ?Client $createdBy = null;
+
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsUpdatedByClient')]
+    private ?Client $updatedByClient = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsUpdatedByUser')]
+    private ?User $updatedByUser = null;
+
+
+    public function __construct() {}
 
 
     #[ORM\PrePersist]
@@ -147,5 +167,65 @@ class Booking
     public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Client
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Client $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getBookingsUpdatedByClient(): ?Client
+    {
+        return $this->updatedByClient;
+    }
+
+    public function setBookingsUpdatedByClient(?Client $updatedByClient): static
+    {
+        $this->updatedByClient = $updatedByClient;
+
+        return $this;
+    }
+
+    public function getBookingsUpdatedByUser(): ?User
+    {
+        return $this->updatedByUser;
+    }
+
+    public function setBookingsUpdatedByUser(?User $updatedByUser): static
+    {
+        $this->updatedByUser = $updatedByUser;
+
+        return $this;
     }
 }
