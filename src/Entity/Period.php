@@ -30,7 +30,6 @@ class Period
     #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
     #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
     #[ORM\Column(length: 50, unique: true)]
-
     private ?string $name = null;
 
     #[Assert\NotNull]
