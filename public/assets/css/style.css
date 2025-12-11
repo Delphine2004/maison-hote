@@ -42,12 +42,7 @@ h1,
 h2,
 h3 {
   font-family: "Cormorant Garamond", sans-serif;
-  font-size: 30px;
-}
-
-h2,
-h3 {
-  font-size: 20px;
+  font-weight: bold;
 }
 
 .bg-blue {
@@ -57,6 +52,10 @@ h3 {
 .border-gold {
   border: 2px solid #ba912c;
   border-radius: 0.5rem;
+}
+
+.text-gold {
+  color: #ba912c;
 }
 
 .navbar {
@@ -120,7 +119,7 @@ footer i {
   background-color: #f5f5dc;
 }
 
-#search-room-form label {
+label {
   color: #ba912c;
 }
 

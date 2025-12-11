@@ -32,12 +32,7 @@ h1,
 h2,
 h3 {
     font-family: fonts.$font-primary;
-    font-size: fonts.$font-size-lg;
-}
-
-h2,
-h3 {
-    font-size: fonts.$font-size-md;
+    font-weight: bold;
 }
 
 .bg-blue {
@@ -47,4 +42,8 @@ h3 {
 .border-gold {
     border: 2px solid colors.$bs-gold;
     border-radius: 0.5rem;
+}
+
+.text-gold {
+    color: colors.$bs-gold;
 }
