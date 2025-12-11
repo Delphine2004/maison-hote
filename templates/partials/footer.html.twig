@@ -8,10 +8,13 @@
             <div class="col-12 col-md-3 text-center text-md-start">
                 <h3>Autres informations</h3>
                 <ul>
-                    <li><a href="">FAQ</a></li>
-                    <li><a href="">Mentions légales</a></li>
-                    <li><a href="">CGV</a></li>
-                    <li><a href="">Plan du site</a></li>
+                    <li><a href="{{ path('app_faq') }}">FAQ</a></li>
+                    <li>
+                        <a href="{{ path('app_legal_notices') }}"
+                            >Mentions légales</a
+                        >
+                    </li>
+                    <li><a href="{{ path('app_gts') }}">CGV</a></li>
                 </ul>
             </div>
 
