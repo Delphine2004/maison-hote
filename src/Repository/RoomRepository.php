@@ -20,9 +20,10 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
-    public function findRoomByNumber(string $number): ?Room
+
+    public function findAllRoom(): array
     {
-        return $this->findOneBy(['number' => $number]);
+        return $this->findAll();
     }
 
     public function findRoomsByPeriod(
