@@ -26,6 +26,7 @@ class PeriodRepository extends ServiceEntityRepository
         $now = new DateTimeImmutable('today');
 
         return $this->createQueryBuilder('p')
+            ->leftJoin('p.rates', 'ra')->addSelect('ra')
             ->where('p.endingDate >= :now')
             ->setParameter('now', $now)
             ->orderBy('p.endingDate',  $orderBy)
