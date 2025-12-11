@@ -1,8 +1,59 @@
 {% extends 'base.html.twig' %} {% block title %}Les Parenthèses Dorées -
 Recherche{% endblock %} {% block body %}
 <main class="pt-5">
+    <section
+        id="search-bar-room"
+        class="container-fluid d-flex align-items-center py-5"
+    >
+        <div class="container">
+            <div
+                class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4"
+            >
+                <form id="search-room-form" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="arrival-date"
+                                >Date d'arrivée</label
+                            >
+                            <input
+                                class="form-control w-100"
+                                id="arrival-date"
+                                name="arrival_date"
+                                type="date"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="departure-date"
+                                >Date de départ</label
+                            >
+                            <input
+                                class="form-control w-100"
+                                id="departure-date"
+                                name="departure_date"
+                                type="date"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label invisible"
+                                >Rechercher
+                            </label>
+                            <button
+                                class="btn w-100"
+                                type="submit"
+                                aria-label="Rechercher les disponibilités"
+                            >
+                                Rechercher
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
     <section class="container-fluid py-5">
-        <div class="container"><h1>Recherche</h1></div>
+        <div id="rooms-list" class="container"></div>
     </section>
 </main>
 {% endblock %}
