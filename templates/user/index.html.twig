@@ -1,61 +1,207 @@
 {% extends 'base.html.twig' %} {% block title %}User index{% endblock %} {%
 block body %}
 <main class="pt-5">
+    <h1 class="text-center m-5">Tableau de bord</h1>
+
+    <!-- Clients présents -->
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>User index</h1>
+            <h2 class="text-center mb-5">Clients présents</h2>
+            <div class="row justify-content-center my-4">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="table-responsive shadow-sm border rounded">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Chambre</th>
+                                    <th>Client</th>
+                                    <th>Arrivée</th>
+                                    <th>Départ</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in inhouses %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>
+                                        {% for room in booking.room %}
+                                        {{ room.name }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for client in booking.client %}
+                                        {{ client.lastName }}
+                                        {{ client.firstName }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>
+                                        {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>{{ booking.totalAmount }}</td>
+                                    <td>{{ booking.status }}</td>
+                                    <td>
+                                        <a
+                                            class="btn"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >show</a
+                                        >
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">Aucun clients présents</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Login</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Roles</th>
-                        <th>CreatedAt</th>
-                        <th>UpdatedAt</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.login }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.password }}</td>
-                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                        <td>
-                            {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            {{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            <a
-                                href="{{
-                                    path('app_user_show', { id: user.id })
-                                }}"
-                                >show</a
-                            >
-                            <a
-                                href="{{
-                                    path('app_user_edit', { id: user.id })
-                                }}"
-                                >edit</a
-                            >
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- Départs du jour -->
+    <section class="container-fluid py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Départs du jour</h2>
+            <div class="row justify-content-center my-4">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="table-responsive shadow-sm border rounded">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Chambre</th>
+                                    <th>Client</th>
+                                    <th>Arrivée</th>
+                                    <th>Départ</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in inhouses %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>
+                                        {% for room in booking.room %}
+                                        {{ room.name }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for client in booking.client %}
+                                        {{ client.lastName }}
+                                        {{ client.firstName }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>
+                                        {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>{{ booking.totalAmount }}</td>
+                                    <td>{{ booking.status }}</td>
+                                    <td>
+                                        <a
+                                            class="btn"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >show</a
+                                        >
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">
+                                        Aucun départ aujourd'hui
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <a class="btn" href="{{ path('app_user_new') }}">Create new</a>
+    <!-- Arrivée du jour -->
+    <section class="container-fluid py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Arrivée du jour</h2>
+            <div class="row justify-content-center my-4">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="table-responsive shadow-sm border rounded">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Chambre</th>
+                                    <th>Client</th>
+                                    <th>Arrivée</th>
+                                    <th>Départ</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in inhouses %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>
+                                        {% for room in booking.room %}
+                                        {{ room.name }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {% for client in booking.client %}
+                                        {{ client.lastName }}
+                                        {{ client.firstName }}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>
+                                        {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                    <td>{{ booking.totalAmount }}</td>
+                                    <td>{{ booking.status }}</td>
+                                    <td>
+                                        <a
+                                            class="btn"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >show</a
+                                        >
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">
+                                        Aucune arrivée aujourd'hui
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
