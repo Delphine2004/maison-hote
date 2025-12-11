@@ -50,6 +50,15 @@ h3 {
   font-size: 20px;
 }
 
+.bg-blue {
+  background-color: #1e3a5f;
+}
+
+.border-gold {
+  border: 2px solid #ba912c;
+  border-radius: 0.5rem;
+}
+
 .navbar {
   min-height: 60px;
   background-color: #1e3a5f;
@@ -111,6 +120,10 @@ footer i {
   background-color: #f5f5dc;
 }
 
+#search-room-form label {
+  color: #ba912c;
+}
+
 #home,
 #adress {
   background-color: #f5f5dc;
@@ -129,9 +142,17 @@ footer i {
   width: 100%;
 }
 
-/* Page adoption */
-#adoption {
-  padding-top: 8rem;
+#search-bar-room {
+  background-image: url("../img/main.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+@media (min-width: 992px) {
+  #search-bar-room {
+    min-height: 60vh;
+  }
 }
 
 /* Page adoption */

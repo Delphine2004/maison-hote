@@ -39,3 +39,12 @@ h2,
 h3 {
     font-size: fonts.$font-size-md;
 }
+
+.bg-blue {
+    background-color: colors.$bs-darkblue;
+}
+
+.border-gold {
+    border: 2px solid colors.$bs-gold;
+    border-radius: 0.5rem;
+}
