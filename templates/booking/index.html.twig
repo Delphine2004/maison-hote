@@ -1,67 +1,211 @@
-{% extends 'base.html.twig' %} {% block title %}Booking index{% endblock %} {%
-block body %}
+{% extends 'base.html.twig' %} {% block title %}Espace utilisateur -
+Réservation{% endblock %} {% block body %}
 <main class="pt-5">
+    <h1 class="text-center m-5">Réservations</h1>
+
+    <!-- Liste des nouvelles réservations -->
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>Booking index</h1>
+            <!-- Liste -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm border-gold">
+                        <div class="card-header bg-blue text-gold py-3">
+                            <h3 class="mb-0 text-center">
+                                Réservations du jour
+                            </h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive shadow-sm border">
+                                <table
+                                    class="table table-hover align-middle mb-0"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Ref</th>
+                                            <th>Chambre</th>
+                                            <th>Client</th>
+                                            <th>Arrivée</th>
+                                            <th>Départ</th>
+                                            <th>Total</th>
+                                            <th>Statut</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for booking in bookings %}
+                                        <tr>
+                                            <td>{{ booking.id }}</td>
+                                            <td>
+                                                {% for room in booking.room %}
+                                                {{ room.name }}{% endfor %}
+                                            </td>
+                                            <td>
+                                                {% for client in booking.client
+                                                %}
+                                                {{ client.lastName }}
+                                                {{ client.firstName }}{% endfor
+                                                %}
+                                            </td>
+                                            <td>
+                                                {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                            </td>
+                                            <td>
+                                                {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                            </td>
+                                            <td>{{ booking.totalAmount }}</td>
+                                            <td>{{ booking.status }}</td>
+                                            <td>
+                                                <a
+                                                    class="btn"
+                                                    href="{{
+                                                        path(
+                                                            'app_booking_show',
+                                                            {
+                                                                id: booking.id
+                                                            }
+                                                        )
+                                                    }}"
+                                                    >show</a
+                                                >
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="8">
+                                                Aucun clients présents
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>StartingDate</th>
-                        <th>EndingDate</th>
-                        <th>TotalAmount</th>
-                        <th>Status</th>
-                        <th>CreatedAt</th>
-                        <th>UpdatedAt</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for booking in bookings %}
-                    <tr>
-                        <td>{{ booking.id }}</td>
-                        <td>
-                            {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>{{ booking.totalAmount }}</td>
-                        <td>{{ booking.status }}</td>
-                        <td>
-                            {{ booking.createdAt ? booking.createdAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            {{ booking.updatedAt ? booking.updatedAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            <a
-                                class="btn"
-                                href="{{
-                                    path('app_booking_show', { id: booking.id })
-                                }}"
-                                >show</a
-                            >
-                            <a
-                                class="btn"
-                                href="{{
-                                    path('app_booking_edit', { id: booking.id })
-                                }}"
-                                >edit</a
-                            >
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- Recherche de réservation -->
+    <section class="container-fluid py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div
+                        class="filter bg-blue border-gold card p-4 shadow-sm mb-4"
+                    >
+                        <h3 class="text-center text-gold mb-4">Rechercher</h3>
 
-            <a class="btn" href="{{ path('app_booking_new') }}">Create new</a>
+                        <form action="">
+                            <div
+                                class="row g-3 mb-3 d-flex justify-content-around"
+                            >
+                                <!-- Id -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="booking-id"
+                                        >Référence</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="number"
+                                        name="bookingId"
+                                        id="booking-id"
+                                        min="1"
+                                        step="1"
+                                    />
+                                </div>
+
+                                <!-- Nom client -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="last-name"
+                                        >Nom</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        name="last_name"
+                                        id="last-name"
+                                        min-lenght="2"
+                                        max-lenght="100"
+                                    />
+                                </div>
+
+                                <!-- Statut de réservation -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="status"
+                                        >Statut</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        name="status"
+                                        id="status"
+                                    >
+                                        <option selected value="">
+                                            Sélectionner un statut
+                                        </option>
+                                        <option value="Confirmée">
+                                            Confirmée
+                                        </option>
+                                        <option value="Present">Present</option>
+                                        <option value="Finalisé">
+                                            Finalisé
+                                        </option>
+                                        <option value="Annulé">Annulé</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div
+                                class="row g-3 mb-3 d-flex justify-content-around"
+                            >
+                                <!-- Date arrivée -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="arrival-date"
+                                        >Date d'arrivée</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="date"
+                                        name="arrival_date"
+                                        id="arrival-date"
+                                    />
+                                </div>
+
+                                <!-- Date départ -->
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="departure-date"
+                                        >Date de départ</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="date"
+                                        name="departure_date"
+                                        id="departure-date"
+                                    />
+                                </div>
+
+                                <!-- Date création -->
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="creation-date"
+                                        >Date de création</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="date"
+                                        name="creation_date"
+                                        id="creation-date"
+                                    />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="bookings-list" class="m-5"></div>
         </div>
     </section>
 </main>
