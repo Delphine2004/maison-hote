@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\BookingStatus;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+use App\Repository\BookingRepository;
+
+use DateTimeImmutable;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,30 +19,25 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     #[Route(name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
-    {
+    public function index(
+        BookingRepository $bookingRepository
+    ): Response {
+
+        // Récupération des séjours en cours
+        $inHouse =  $bookingRepository->findBookingsByFilters(['status' => BookingStatus::IN->value]);
+
+        $now = new DateTimeImmutable('today');
+
+        // Récupération des départs
+        $checkOut = $bookingRepository->findBookingsByFilters(['endingDate' => $now, 'status' => BookingStatus::IN->value]);
+
+        // Récupération des arrivées
+        $checkIn = $bookingRepository->findBookingsByFilters(['startingDate' => $now, 'status' => BookingStatus::CONFIRMED->value]);
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
+            'inhouses' => $inHouse,
+            'checkouts' => $checkOut,
+            'checkins' => $checkIn,
         ]);
     }
 
@@ -49,6 +48,8 @@ final class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    //------------------------------
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
@@ -66,16 +67,5 @@ final class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
