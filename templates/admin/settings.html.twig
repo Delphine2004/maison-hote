@@ -39,7 +39,7 @@ Paramétrages{% endblock %} {% block body %}
                                             </td>
                                             <td>
                                                 {% for rate in period.rates %}
-                                                {{ rate.price }} €{% if not
+                                                {{ rate.amount }} €{% if not
                                                 loop.last %}, {% endif %} {%
                                                 endfor %}
                                             </td>
