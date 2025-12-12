@@ -54,7 +54,7 @@ Réservation{% endblock %} {% block body %}
                                                 {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
                                             <td>{{ booking.totalAmount }}</td>
-                                            <td>{{ booking.status }}</td>
+                                            <td>{{ booking.status.value }}</td>
                                             <td>
                                                 <a
                                                     class="btn"
