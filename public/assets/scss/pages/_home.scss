@@ -8,11 +8,17 @@
 .hero {
     width: 500px;
 }
+
+.logo {
+    width: 100px;
+}
+
 .img-home img {
     width: 400px;
 }
 
 .hero img,
-.img-home img {
+.img-home img,
+.logo img {
     width: 100%;
 }
