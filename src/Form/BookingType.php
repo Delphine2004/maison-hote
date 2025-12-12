@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class BookingType extends AbstractType
 {
@@ -22,7 +23,12 @@ class BookingType extends AbstractType
             ->add('endingDate', null, [
                 'widget' => 'single_text',
             ])
-            ->add('totalAmount')
+            ->add('totalAmount', MoneyType::class, [
+                'currency'    => 'EUR',
+                'scale'       => 2,
+                'divisor'     => 100,  // Gestion automatique centimes - euros
+                'required'    => true,
+            ])
             ->add('status')
             ->add('createdAt', null, [
                 'widget' => 'single_text',

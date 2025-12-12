@@ -3,45 +3,76 @@
 namespace App\Form;
 
 use App\Entity\Period;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+
 class PeriodType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('name')
-            ->add('startingDate', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('endingDate', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('createdBy', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('updatedBy', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-        ;
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
+        $mode = $options['mode'];
+        if ($mode === 'create') {
+            $builder
+                ->add('name', TextType::class, [
+                    'label' => 'Nom de la période',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('startingDate',  DateType::class, [
+                    'label' => 'Date de début',
+                    'required' => true,
+                    'widget' => 'single_text',
+                    'html5' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('endingDate', DateType::class, [
+                    'label' => 'Date de fin',
+                    'required' => true,
+                    'widget' => 'single_text',
+                    'html5' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+            ;
+        }
+
+        if ($mode === 'update') {
+            $builder
+                ->add('name', TextType::class, [
+                    'label' => 'Nom de la période',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('startingDate',  DateType::class, [
+                    'label' => 'Date de début',
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'html5' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('endingDate', DateType::class, [
+                    'label' => 'Date de fin',
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'html5' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Period::class,
+            'mode' => 'create',
         ]);
     }
 }
