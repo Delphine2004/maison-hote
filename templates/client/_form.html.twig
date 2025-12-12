@@ -1,45 +1,46 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.firstName) }}
     {{ form_widget(form.firstName) }}
     {{ form_errors(form.firstName) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.lastName) }}
     {{ form_widget(form.lastName) }}
     {{ form_errors(form.lastName) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.email) }}
     {{ form_widget(form.email) }}
     {{ form_errors(form.email) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.password) }}
     {{ form_widget(form.password) }}
     {{ form_errors(form.password) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.phone) }}
     {{ form_widget(form.phone) }}
     {{ form_errors(form.phone) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.address) }}
     {{ form_widget(form.address) }}
     {{ form_errors(form.address) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.zipCode) }}
     {{ form_widget(form.zipCode) }}
     {{ form_errors(form.zipCode) }}
 </div>
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.city) }}
     {{ form_widget(form.city) }}
     {{ form_errors(form.city) }}
 </div>
-
-<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+<div class="text-center m-2">
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}

@@ -1,30 +1,30 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }} {% if form.role is
 defined %}
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.login) }}
     {{ form_widget(form.login) }}
     {{ form_errors(form.login) }}
 </div>
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.email) }}
     {{ form_widget(form.email) }}
     {{ form_errors(form.email) }}
 </div>
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.role) }}
     {{ form_widget(form.role) }}
     {{ form_errors(form.role) }}
 </div>
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.password) }}
     {{ form_widget(form.password) }}
     {{ form_errors(form.password) }}
 </div>
 {% endif %}
-
-<button class="btn">{{ button_label|default('Enregistrer') }}</button>
-
+<div class="text-center m-2">
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}

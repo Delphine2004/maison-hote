@@ -1,22 +1,23 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.amount) }}
     {{ form_widget(form.amount) }}
     {{ form_errors(form.amount) }}
 </div>
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.room) }}
     {{ form_widget(form.room) }}
     {{ form_errors(form.room) }}
 </div>
 
-<div class="mb-4">
+<div class="mb-4 text-gold">
     {{ form_label(form.period) }}
     {{ form_widget(form.period) }}
     {{ form_errors(form.period) }}
 </div>
-
-<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+<div class="text-center m-2">
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}
