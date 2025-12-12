@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Room;
+use App\Enum\RoomStatus;
 use App\Form\RoomType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,22 +24,33 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $room = new Room();
+        $room->setStatus(RoomStatus::AVAILABLE);
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            foreach ($form->getErrors(true) as $error) {
+                dump($error->getOrigin()->getName(), $error->getMessage());
+            }
+        }
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $room->setCreatedBy($this->getUser());
+
             $entityManager->persist($room);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_settings_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('room/new.html.twig', [
-            'room' => $room,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -71,7 +83,7 @@ final class RoomController extends AbstractController
     #[Route('/{id}', name: 'app_room_delete', methods: ['POST'])]
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($room);
             $entityManager->flush();
         }
