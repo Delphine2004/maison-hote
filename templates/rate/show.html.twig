@@ -1,42 +1,65 @@
-{% extends 'base.html.twig' %} {% block title %}Rate{% endblock %} {% block body
-%}
+{% extends 'base.html.twig' %} {% block title %}Tarif{% endblock %} {% block
+body %}
 <main class="pt-5">
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>Rate</h1>
+            <!-- Carte début -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div
+                        class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4"
+                    >
+                        <h1 class="text-center text-gold m-5">Tarif :</h1>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>Id</th>
+                                    <td>{{ rate.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tarif</th>
+                                    <td>{{ rate.amount }}</td>
+                                </tr>
+                                <tr>
+                                    <th>CreatedAt</th>
+                                    <td>
+                                        {{ rate.createdAt ? rate.createdAt|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>UpdatedAt</th>
+                                    <td>
+                                        {{ rate.updatedAt ? rate.updatedAt|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3"
+                        >
+                            <a
+                                class="btn btn-primary flex-fill"
+                                href="{{
+                                    path('app_rate_edit', { id: rate.id })
+                                }}"
+                            >
+                                Modifier
+                            </a>
 
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ rate.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Amount</th>
-                        <td>{{ rate.amount }}</td>
-                    </tr>
-                    <tr>
-                        <th>CreatedAt</th>
-                        <td>
-                            {{ rate.createdAt ? rate.createdAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>UpdatedAt</th>
-                        <td>
-                            {{ rate.updatedAt ? rate.updatedAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <div class="flex-fill">
+                                {{ include("rate/_delete_form.html.twig") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <a class="btn" href="{{ path('app_rate_index') }}">back to list</a>
-
-            <a class="btn" href="{{ path('app_rate_edit', { id: rate.id }) }}"
-                >edit</a
-            >
-
-            {{ include("rate/_delete_form.html.twig") }}
+            <!-- Carte fin -->
+            <div class="text-center m-5">
+                <a class="btn" href="{{ path('app_settings_index') }}"
+                    >Retour aux paramétres</a
+                >
+            </div>
         </div>
     </section>
 </main>

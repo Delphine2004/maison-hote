@@ -3,78 +3,101 @@ body %}
 <main class="pt-5">
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>Client</h1>
+            <!-- Carte début -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div
+                        class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4"
+                    >
+                        <h1 class="text-center text-gold m-5">
+                            Client : {{ client.firstName }}
+                            {{ client.lastName }}
+                        </h1>
 
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ client.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>FirstName</th>
-                        <td>{{ client.firstName }}</td>
-                    </tr>
-                    <tr>
-                        <th>LastName</th>
-                        <td>{{ client.lastName }}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ client.email }}</td>
-                    </tr>
-                    <tr>
-                        <th>Password</th>
-                        <td>{{ client.password }}</td>
-                    </tr>
-                    <tr>
-                        <th>Roles</th>
-                        <td>
-                            {{ client.roles ? client.roles|json_encode : '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Phone</th>
-                        <td>{{ client.phone }}</td>
-                    </tr>
-                    <tr>
-                        <th>Address</th>
-                        <td>{{ client.address }}</td>
-                    </tr>
-                    <tr>
-                        <th>ZipCode</th>
-                        <td>{{ client.zipCode }}</td>
-                    </tr>
-                    <tr>
-                        <th>City</th>
-                        <td>{{ client.city }}</td>
-                    </tr>
-                    <tr>
-                        <th>CreatedAt</th>
-                        <td>
-                            {{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>UpdatedAt</th>
-                        <td>
-                            {{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>Id</th>
+                                    <td>{{ client.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>FirstName</th>
+                                    <td>{{ client.firstName }}</td>
+                                </tr>
+                                <tr>
+                                    <th>LastName</th>
+                                    <td>{{ client.lastName }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ client.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Password</th>
+                                    <td>{{ client.password }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Roles</th>
+                                    <td>
+                                        {{ client.roles ? client.roles|json_encode : '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{ client.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>{{ client.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th>ZipCode</th>
+                                    <td>{{ client.zipCode }}</td>
+                                </tr>
+                                <tr>
+                                    <th>City</th>
+                                    <td>{{ client.city }}</td>
+                                </tr>
+                                <tr>
+                                    <th>CreatedAt</th>
+                                    <td>
+                                        {{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>UpdatedAt</th>
+                                    <td>
+                                        {{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3"
+                        >
+                            <a
+                                class="btn btn-primary flex-fill"
+                                href="{{
+                                    path('app_client_edit', { id: client.id })
+                                }}"
+                            >
+                                Modifier
+                            </a>
 
-            <a class="btn" href="{{ path('app_client_index') }}"
-                >back to list</a
-            >
+                            <div class="flex-fill">
+                                {{ include("client/_delete_form.html.twig") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <a
-                class="btn"
-                href="{{ path('app_client_edit', { id: client.id }) }}"
-                >edit</a
-            >
-
-            {{ include("client/_delete_form.html.twig") }}
+            <!-- Carte fin -->
+            <div class="text-center m-5">
+                <a class="btn" href="{{ path('app_settings_index') }}"
+                    >Retour aux paramétres</a
+                >
+            </div>
         </div>
     </section>
 </main>
