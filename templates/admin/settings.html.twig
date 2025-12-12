@@ -76,8 +76,8 @@ Paramétrages{% endblock %} {% block body %}
 
             <!-- Bouton -->
             <div class="text-center m-3">
-                <a class="btn" href="{{ path('app_period_new') }}"
-                    >Ajouter une période tarifaire</a
+                <a class="btn" href="{{ path('app_rate_new') }}"
+                    >Ajouter un tarif</a
                 >
             </div>
         </div>
@@ -99,16 +99,16 @@ Paramétrages{% endblock %} {% block body %}
                                 >
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Status</th>
-                                            <th>actions</th>
+                                            <th>Nom</th>
+                                            <th>Statut</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for room in rooms %}
                                         <tr>
                                             <td>{{ room.name }}</td>
-                                            <td>{{ room.status }}</td>
+                                            <td>{{ room.status.value }}</td>
                                             <td>
                                                 <a
                                                     class="btn btn-sm"
@@ -165,7 +165,7 @@ Paramétrages{% endblock %} {% block body %}
                                             <th scope="col">Email</th>
                                             <th scope="col">Rôle</th>
                                             <th scope="col" class="text-center">
-                                                Actions
+                                                Action
                                             </th>
                                         </tr>
                                     </thead>
