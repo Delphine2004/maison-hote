@@ -22,8 +22,8 @@ class Rate
 
     #[Assert\NotNull]
     #[Assert\PositiveOrZero]
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $amount = null;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $amountCents = 0;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
@@ -62,17 +62,17 @@ class Rate
         return $this->id;
     }
 
-    public function getAmount(): ?string
+    public function getAmount(): float
     {
-        return $this->amount;
+        return $this->amountCents / 100;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(float $amount): self
     {
-        $this->amount = $amount;
-
+        $this->amountCents = (int) round($amount * 100);
         return $this;
     }
+
 
     public function getCreatedAt(): ?DateTimeImmutable
     {

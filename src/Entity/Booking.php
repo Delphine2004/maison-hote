@@ -5,8 +5,6 @@ namespace App\Entity;
 use App\Repository\BookingRepository;
 
 use App\Enum\BookingStatus;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 use InvalidArgumentException;
 use DateTimeImmutable;
@@ -37,8 +35,8 @@ class Booking
 
     #[Assert\NotNull]
     #[Assert\PositiveOrZero]
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?float $totalAmount = null;
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $totalAmountCents = 0;
 
     #[Assert\NotNull]
     #[ORM\Column(type: Types::STRING, length: 50, enumType: BookingStatus::class)]
@@ -134,15 +132,14 @@ class Booking
         return $this;
     }
 
-    public function getTotalAmount(): ?float
+    public function getTotalAmount(): float
     {
-        return $this->totalAmount;
+        return $this->totalAmountCents / 100;
     }
 
-    public function setTotalAmount(float $totalAmount): static
+    public function setTotalAmount(float $amount): static
     {
-        $this->totalAmount = $totalAmount;
-
+        $this->totalAmountCents = (int) round($amount * 100);
         return $this;
     }
 
