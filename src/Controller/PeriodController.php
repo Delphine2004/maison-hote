@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/period')]
 final class PeriodController extends AbstractController
 {
-    #[Route(name: 'app_period_index', methods: ['GET'])]
+    #[Route('', name: 'app_period_index', methods: ['GET'])]
     public function index(PeriodRepository $periodRepository): Response
     {
         return $this->render('period/index.html.twig', [
@@ -71,7 +71,7 @@ final class PeriodController extends AbstractController
     #[Route('/{id}', name: 'app_period_delete', methods: ['POST'])]
     public function delete(Request $request, Period $period, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$period->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $period->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($period);
             $entityManager->flush();
         }

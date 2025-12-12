@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/booking')]
 final class BookingController extends AbstractController
 {
-    #[Route(name: 'app_booking_index', methods: ['GET'])]
+    #[Route('', name: 'app_booking_index', methods: ['GET'])]
     public function index(BookingRepository $bookingRepository): Response
     {
         return $this->render('booking/index.html.twig', [
@@ -71,7 +71,7 @@ final class BookingController extends AbstractController
     #[Route('/{id}', name: 'app_booking_delete', methods: ['POST'])]
     public function delete(Request $request, Booking $booking, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$booking->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $booking->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($booking);
             $entityManager->flush();
         }

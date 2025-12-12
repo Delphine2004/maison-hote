@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/rate')]
 final class RateController extends AbstractController
 {
-    #[Route(name: 'app_rate_index', methods: ['GET'])]
+    #[Route('', name: 'app_rate_index', methods: ['GET'])]
     public function index(RateRepository $rateRepository): Response
     {
         return $this->render('rate/index.html.twig', [
@@ -71,7 +71,7 @@ final class RateController extends AbstractController
     #[Route('/{id}', name: 'app_rate_delete', methods: ['POST'])]
     public function delete(Request $request, Rate $rate, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$rate->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $rate->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($rate);
             $entityManager->flush();
         }
