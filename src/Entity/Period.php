@@ -26,7 +26,7 @@ class Period
     private ?int $id = null;
 
     #[Assert\NotBlank(message: "Le nom est obligatoire.")]
-    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
     #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
     #[ORM\Column(length: 50, unique: true)]
@@ -171,7 +171,7 @@ class Period
     /**
      * @return Collection<int, Rate>
      */
-    public function getRate(): Collection
+    public function getRates(): Collection
     {
         return $this->rates;
     }
