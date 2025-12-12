@@ -1,13 +1,29 @@
-{% extends 'base.html.twig' %} {% block title %}New Rate{% endblock %} {% block
-body %}
+{% extends 'base.html.twig' %} {% block title %}Paramétrage - Création tarif{%
+endblock %} {% block body %}
 <main class="pt-5">
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>Create new Rate</h1>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <h1 class="text-center m-5">Ajouter un tarif</h1>
+                    <div
+                        class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4"
+                    >
+                        {{ include("rate/_form.html.twig") }}
+                        <div class="text-center m-5">
+                            <a class="btn" href="{{ path('app_period_new') }}"
+                                >Ajouter une période</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            {{ include("rate/_form.html.twig") }}
-
-            <a class="btn" href="{{ path('app_rate_index') }}">back to list</a>
+            <div class="text-center m-5">
+                <a class="btn" href="{{ path('app_settings_index') }}"
+                    >Retour aux paramétres</a
+                >
+            </div>
         </div>
     </section>
 </main>
