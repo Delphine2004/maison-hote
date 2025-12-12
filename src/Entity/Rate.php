@@ -69,7 +69,7 @@ class Rate
 
     public function setAmount(float $amount): self
     {
-        $this->amountCents = (int) round($amount * 100);
+        $this->amountCents = (int) round($amount);
         return $this;
     }
 
