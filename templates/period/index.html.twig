@@ -29,10 +29,10 @@ endblock %} {% block body %}
                                         <tr>
                                             <td>{{ period.name }}</td>
                                             <td>
-                                                {{ period.startingDate ? period.startingDate|date('Y-m-d') : '' }}
+                                                {{ period.startingDate ? period.startingDate|date('d/m/Y') : '' }}
                                             </td>
                                             <td>
-                                                {{ period.endingDate ? period.endingDate|date('Y-m-d') : '' }}
+                                                {{ period.endingDate ? period.endingDate|date('d/m/Y') : '' }}
                                             </td>
 
                                             <td>
