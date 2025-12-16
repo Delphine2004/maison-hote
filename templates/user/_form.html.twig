@@ -1,17 +1,17 @@
-{{ form_start(form, {'attr': {'novalidate':  true}}) }} {% if form.role is
+{{ form_start(form, {'attr': {'novalidate':  true}}) }} {% if form.login is
 defined %}
 <div class="mb-4 text-gold">
     {{ form_label(form.login) }}
     {{ form_widget(form.login) }}
     {{ form_errors(form.login) }}
 </div>
-
+{% endif %} {% if form.email is defined %}
 <div class="mb-4 text-gold">
     {{ form_label(form.email) }}
     {{ form_widget(form.email) }}
     {{ form_errors(form.email) }}
 </div>
-
+{% endif %} {% if form.password is defined %}
 <div class="mb-4 text-gold">
     {{ form_label(form.password) }}
     {{ form_widget(form.password) }}
