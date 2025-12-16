@@ -8,4 +8,5 @@ enum BookingStatus: string
     case CANCELLED = "Annulé";
     case IN = "Present";
     case FINALIZED = "Finalisé";
+    case OUTOFORDER = "Hors Service";
 }
