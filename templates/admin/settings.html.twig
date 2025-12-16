@@ -7,7 +7,7 @@ Paramétrages{% endblock %} {% block body %}
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
-                    <div class="card shadow-sm border-gold">
+                    <div class="card shadow-sm border-gold mb-5">
                         <div class="card-header bg-blue text-gold py-3">
                             <h3 class="text-center m-2">Tarifs</h3>
                         </div>
@@ -117,15 +117,15 @@ Paramétrages{% endblock %} {% block body %}
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer bg-blue py-3">
+                            <div class="text-center m-2">
+                                <a class="btn" href="{{ path('app_rate_new') }}"
+                                    >Ajouter un tarif</a
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Bouton -->
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_rate_new') }}"
-                    >Ajouter un tarif</a
-                >
             </div>
         </div>
     </section>
@@ -135,7 +135,7 @@ Paramétrages{% endblock %} {% block body %}
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
-                    <div class="card shadow-sm border-gold">
+                    <div class="card shadow-sm border-gold mb-5">
                         <div class="card-header bg-blue text-gold py-3">
                             <h3 class="text-center m-2">Chambres</h3>
                         </div>
@@ -181,15 +181,15 @@ Paramétrages{% endblock %} {% block body %}
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer bg-blue py-3">
+                            <div class="text-center m-2">
+                                <a class="btn" href="{{ path('app_room_new') }}"
+                                    >Ajouter une chambre</a
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Bouton -->
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_room_new') }}"
-                    >Ajouter une chambre</a
-                >
             </div>
         </div>
     </section>
@@ -197,10 +197,9 @@ Paramétrages{% endblock %} {% block body %}
     <!-- Utilisateurs -->
     <section class="container-fluid pb-5">
         <div class="container">
-            <!-- Liste -->
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
-                    <div class="card shadow-sm border-gold">
+                    <div class="card shadow-sm border-gold mb-5">
                         <div class="card-header bg-blue text-gold py-3">
                             <h3 class="text-center m-2">Utilisateurs</h3>
                         </div>
@@ -251,15 +250,15 @@ Paramétrages{% endblock %} {% block body %}
                                 </table>
                             </div>
                         </div>
+                        <div class="card-footer bg-blue py-3">
+                            <div class="text-center m-2">
+                                <a class="btn" href="{{ path('app_user_new') }}"
+                                    >Ajouter un utilisateur</a
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Bouton -->
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_user_new') }}"
-                    >Ajouter un utilisateur</a
-                >
             </div>
         </div>
     </section>
