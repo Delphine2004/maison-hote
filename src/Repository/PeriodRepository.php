@@ -23,10 +23,11 @@ class PeriodRepository extends ServiceEntityRepository
         int $limit = 10,
         string $orderBy = 'ASC'
     ): array {
-        $now = new DateTimeImmutable('today');
+        $now = new DateTimeImmutable('now');
 
         return $this->createQueryBuilder('p')
             ->leftJoin('p.rates', 'ra')->addSelect('ra')
+            ->leftJoin('ra.room', 'ro')->addSelect('ro')
             ->where('p.endingDate >= :now')
             ->setParameter('now', $now)
             ->orderBy('p.endingDate',  $orderBy)
