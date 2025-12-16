@@ -51,7 +51,6 @@ h3 {
 
 .border-gold {
   border: 2px solid #ba912c;
-  border-radius: 0.5rem;
 }
 
 .text-gold {
@@ -107,16 +106,6 @@ footer i {
 .btn:hover {
   background-color: #ba912c;
   color: #f5f5dc;
-}
-
-.card-header {
-  background-color: #1e3a5f;
-  color: #ba912c;
-}
-
-.card-body,
-.card-footer {
-  background-color: #f5f5dc;
 }
 
 label {
