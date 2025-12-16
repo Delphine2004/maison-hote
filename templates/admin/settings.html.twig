@@ -9,27 +9,84 @@ Paramétrages{% endblock %} {% block body %}
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm border-gold">
                         <div class="card-header bg-blue text-gold py-3">
-                            <h3 class="mb-0 text-center">
-                                Périodes tarifaires
-                            </h3>
+                            <h3 class="text-center m-2">Tarifs</h3>
                         </div>
                         <div class="card-body p-0">
-                            <div class="table-responsive shadow-sm border">
+                            <div class="text-center m-2">
+                                <a
+                                    href="{{ path('app_period_index') }}"
+                                    class="btn btn-sm"
+                                >
+                                    Gérer les périodes
+                                </a>
+                            </div>
+                            <!-- Version mobile -->
+                            <div class="d-md-none">
+                                {% for period in periods %} {% for rate in
+                                period.rates %}
+                                <div class="card m-2 shadow-sm">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-2">
+                                            {{ rate.room.name }} —
+                                            {{ period.name }}
+                                        </h6>
+
+                                        <p class="mb-1">
+                                            <strong>Prix :</strong>
+                                            {{ rate.amount }} €
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <strong>Du :</strong>
+                                            {{ period.startingDate|date('d/m/Y') }}
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <strong>Au :</strong>
+                                            {{ period.endingDate|date('d/m/Y') }}
+                                        </p>
+
+                                        <a
+                                            href="{{
+                                                path('app_rate_show', {
+                                                    id: rate.id
+                                                })
+                                            }}"
+                                            class="btn btn-sm w-100 mt-2"
+                                        >
+                                            Voir le tarif
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %} {% else %}
+                                <p class="text-center">
+                                    Aucune période tarifaire active
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- Version desktop -->
+                            <div
+                                class="table-responsive shadow-sm border d-none d-md-block"
+                            >
                                 <table
                                     class="table table-hover align-middle mb-0"
                                 >
                                     <thead>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Date début</th>
-                                            <th>Date fin</th>
-                                            <th>Prix / nuit</th>
-                                            <th>Action</th>
+                                            <th scope="col">Chambre</th>
+                                            <th scope="col">Prix / nuit</th>
+                                            <th scope="col">Nom</th>
+                                            <th scope="col">Date début</th>
+                                            <th scope="col">Date fin</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for period in periods %}
+                                        {% for period in periods %} {% for rate
+                                        in period.rates %}
                                         <tr>
+                                            <td>{{ rate.room.name }}</td>
+                                            <td>{{ rate.amount }} €</td>
                                             <td>{{ period.name }}</td>
                                             <td>
                                                 {{ period.startingDate ? period.startingDate|date('Y-m-d') : '' }}
@@ -38,30 +95,20 @@ Paramétrages{% endblock %} {% block body %}
                                                 {{ period.endingDate ? period.endingDate|date('Y-m-d') : '' }}
                                             </td>
                                             <td>
-                                                {% for rate in period.rates %}
-                                                {{ rate.amount }} €{% if not
-                                                loop.last %}, {% endif %} {%
-                                                endfor %}
-                                            </td>
-
-                                            <td>
                                                 <a
                                                     class="btn btn-sm"
                                                     href="{{
-                                                        path(
-                                                            'app_period_show',
-                                                            {
-                                                                id: period.id
-                                                            }
-                                                        )
+                                                        path('app_rate_show', {
+                                                            id: rate.id
+                                                        })
                                                     }}"
                                                     >Voir</a
                                                 >
                                             </td>
                                         </tr>
-                                        {% else %}
+                                        {% endfor %} {% else %}
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 Aucune période tarifaire active
                                             </td>
                                         </tr>
@@ -75,7 +122,7 @@ Paramétrages{% endblock %} {% block body %}
             </div>
 
             <!-- Bouton -->
-            <div class="text-center m-3">
+            <div class="text-center m-5">
                 <a class="btn" href="{{ path('app_rate_new') }}"
                     >Ajouter un tarif</a
                 >
@@ -90,7 +137,7 @@ Paramétrages{% endblock %} {% block body %}
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm border-gold">
                         <div class="card-header bg-blue text-gold py-3">
-                            <h3 class="mb-0 text-center">Chambres</h3>
+                            <h3 class="text-center m-2">Chambres</h3>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive shadow-sm border">
@@ -139,7 +186,7 @@ Paramétrages{% endblock %} {% block body %}
             </div>
 
             <!-- Bouton -->
-            <div class="text-center m-3">
+            <div class="text-center m-5">
                 <a class="btn" href="{{ path('app_room_new') }}"
                     >Ajouter une chambre</a
                 >
@@ -155,7 +202,7 @@ Paramétrages{% endblock %} {% block body %}
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm border-gold">
                         <div class="card-header bg-blue text-gold py-3">
-                            <h3 class="mb-0 text-center">Utilisateurs</h3>
+                            <h3 class="text-center m-2">Utilisateurs</h3>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive shadow-sm border">
@@ -209,7 +256,7 @@ Paramétrages{% endblock %} {% block body %}
             </div>
 
             <!-- Bouton -->
-            <div class="text-center m-3">
+            <div class="text-center m-5">
                 <a class="btn" href="{{ path('app_user_new') }}"
                     >Ajouter un utilisateur</a
                 >
