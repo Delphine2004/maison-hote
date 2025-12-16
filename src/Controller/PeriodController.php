@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Period;
+use App\Enum\UserRole;
 use App\Form\PeriodType;
 use App\Repository\PeriodRepository;
 
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/period')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted(UserRole::ADMIN->value)]
 final class PeriodController extends AbstractController
 {
     #[Route('', name: 'app_period_index', methods: ['GET'])]

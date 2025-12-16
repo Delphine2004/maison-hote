@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rate;
 use App\Entity\Period;
+use App\Enum\UserRole;
 use App\Form\RateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/rate')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted(UserRole::ADMIN->value)]
 final class RateController extends AbstractController
 {
 

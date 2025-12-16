@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Enum\BookingStatus;
+use App\Enum\UserRole;
 use App\Form\UserType;
 use App\Repository\BookingRepository;
 
@@ -14,7 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted(UserRole::EMPLOYE->value)]
 #[Route('/user')]
 final class UserController extends AbstractController
 {

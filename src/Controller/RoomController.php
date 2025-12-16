@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Enum\RoomStatus;
+use App\Enum\UserRole;
 use App\Form\RoomType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/room')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted(UserRole::ADMIN->value)]
 final class RoomController extends AbstractController
 {
 
