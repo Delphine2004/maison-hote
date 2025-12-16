@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[Assert\NotBlank(message: "Le login est obligatoire.")]
-    #[Assert\Regex(RegexPatterns::LOGIN)]
+    #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[Assert\Length(min: 8, maxMessage: "Le login doit contenir au minimum 8 lettres et/ou chiffres.")]
     #[Assert\Length(max: 25, maxMessage: "Le login ne doit pas dépasser 25 lettres et/ou chiffres.")]
     #[ORM\Column(length: 25, unique: true)]

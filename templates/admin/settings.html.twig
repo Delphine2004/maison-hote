@@ -99,14 +99,16 @@ Paramétrages{% endblock %} {% block body %}
                                 >
                                     <thead>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Statut</th>
-                                            <th>Action</th>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nom</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for room in rooms %}
                                         <tr>
+                                            <td>{{ room.number }}</td>
                                             <td>{{ room.name }}</td>
                                             <td>{{ room.status.value }}</td>
                                             <td>
@@ -123,7 +125,7 @@ Paramétrages{% endblock %} {% block body %}
                                         </tr>
                                         {% else %}
                                         <tr>
-                                            <td colspan="3">
+                                            <td colspan="4">
                                                 Aucune chambre enregistrée
                                             </td>
                                         </tr>

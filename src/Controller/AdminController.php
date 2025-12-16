@@ -14,8 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin')]
+#[IsGranted('ROLE_ADMIN')]
 final class AdminController extends AbstractController
 {
     #[Route('', name: 'app_settings_index', methods: ['GET'])]
@@ -32,7 +34,7 @@ final class AdminController extends AbstractController
         $rooms = $roomRepository->findAllRoom();
 
         // Récupération des utilisateurs
-        $users = $userRepository->findUsersWithRole(UserRole::EMPLOYE->value);
+        $users = $userRepository->findUsersWithoutRoles([UserRole::ADMIN->value, UserRole::CLIENT->value]);
 
         return $this->render('admin/settings.html.twig', [
             'periods' => $periods,
@@ -48,17 +50,15 @@ final class AdminController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response {
         $user = new User();
+        $user->setRoles([UserRole::EMPLOYE]);
         $form = $this->createForm(UserType::class, $user, ['mode' => 'create']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('password')->getData();
-            $role = $form->get('role')->getData();
-
             $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
 
             $user->setPassword($hashedPassword);
-            $user->setRoles($role ? [$role->value] : []);
 
             $entityManager->persist($user);
             $entityManager->flush();

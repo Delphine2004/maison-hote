@@ -16,15 +16,20 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findUsersWithRole(
-        string $role,
+    public function findUsersWithoutRoles(
+        array $roles,
         int $limit = 10,
         string $orderBy = 'ASC'
     ): array {
-        return $this->createQueryBuilder('u')
-            ->where('u.roles LIKE :role')
-            ->setParameter('role', '%"' . $role . '"%')
-            ->orderBy('u.id',  $orderBy)
+        $qb = $this->createQueryBuilder('u');
+
+        foreach ($roles as $index => $role) {
+            $qb->andWhere("u.roles NOT LIKE :role_$index")
+                ->setParameter("role_$index", '%"' . $role . '"%');
+        }
+
+        return $qb
+            ->orderBy('u.id', $orderBy)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

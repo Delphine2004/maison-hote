@@ -66,22 +66,7 @@ class UserType extends AbstractType
                         ]),
                     ],
                 ])
-                ->add('role', EnumType::class, [
-                    'class' => UserRole::class,
-                    'label' => 'Rôle',
-                    // Récupère toutes les valeurs de l'Enum et filtre le rôle admin
-                    'choices' => array_reduce(UserRole::cases(), function ($filteredRoles, UserRole $role) {
-                        if ($role !== UserRole::ADMIN) {
-                            $filteredRoles[$role->value] = $role;
-                        }
-                        return $filteredRoles;
-                    }, []),
-                    'choice_label' => fn(UserRole $choice) => $choice->name,
-                    'placeholder' => 'Choisir un rôle', // Première option vide
-                    'required' => false,
-                    'mapped' => false,
-                    'attr' => ['class' => 'form-select',],
-                ]);
+            ;
         }
 
         // Pour l'admin : modification de l'email de l'utilisateur
