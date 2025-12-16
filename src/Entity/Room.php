@@ -12,11 +12,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
+#[UniqueEntity(
+    fields: ['number'],
+    message: 'Ce numéro de chambre existe déjà.'
+)]
 #[ORM\HasLifecycleCallbacks]
 class Room
 {
@@ -25,12 +30,32 @@ class Room
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Le numéro est obligatoire.")]
+    #[Assert\Range(
+        min: 1,
+        max: 999,
+        notInRangeMessage: "Le numéro de chambre doit être compris entre {{ min }} et {{ max }}."
+    )]
+    #[ORM\Column(type: Types::INTEGER, unique: true)]
+    private int $number;
+
     #[Assert\NotBlank(message: "Le nom est obligatoire.")]
     #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
     #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
     #[Assert\Length(max: 50, maxMessage: "Le nom ne doit pas dépasser 50 lettres.")]
     #[ORM\Column(length: 50, unique: true)]
     private ?string $name = null;
+
+    #[Assert\NotBlank(message: "La description est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
+    #[Assert\Length(max: 255, maxMessage: "La description ne doit pas dépasser 255 caractères.")]
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    // Validation sur le type
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
+    private ?string $picture = null;
+
 
     #[Assert\NotNull]
     #[ORM\Column(type: Types::STRING, length: 50, enumType: RoomStatus::class)]
@@ -85,6 +110,19 @@ class Room
         return $this->id;
     }
 
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): static
+    {
+
+        $this->number = $number;
+
+        return $this;
+    }
+
     public function getStatus(): ?RoomStatus
     {
         return $this->status;
@@ -105,6 +143,31 @@ class Room
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+
+        $this->description = ucfirst($description);
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }
