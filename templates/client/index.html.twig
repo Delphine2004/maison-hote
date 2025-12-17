@@ -1,73 +1,76 @@
 {% extends 'base.html.twig' %} {% block title %}Client index{% endblock %} {%
 block body %}
 <main class="pt-5">
+    <h1 class="text-center m-5">Clients</h1>
+
     <section class="container-fluid py-5">
         <div class="container">
-            <h1>Client index</h1>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Roles</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>ZipCode</th>
-                        <th>City</th>
-                        <th>CreatedAt</th>
-                        <th>UpdatedAt</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for client in clients %}
-                    <tr>
-                        <td>{{ client.id }}</td>
-                        <td>{{ client.firstName }}</td>
-                        <td>{{ client.lastName }}</td>
-                        <td>{{ client.email }}</td>
-                        <td>{{ client.password }}</td>
-                        <td>
-                            {{ client.roles ? client.roles|json_encode : '' }}
-                        </td>
-                        <td>{{ client.phone }}</td>
-                        <td>{{ client.address }}</td>
-                        <td>{{ client.zipCode }}</td>
-                        <td>{{ client.city }}</td>
-                        <td>
-                            {{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            {{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}
-                        </td>
-                        <td>
-                            <a
-                                href="{{
-                                    path('app_client_show', { id: client.id })
-                                }}"
-                                >show</a
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div
+                        class="filter bg-blue border-gold card p-4 shadow-sm mb-4"
+                    >
+                        <h3 class="text-center text-gold mb-4">Rechercher</h3>
+                        <form id="search-client-form">
+                            <div
+                                class="row g-3 mb-3 d-flex justify-content-around"
                             >
-                            <a
-                                href="{{
-                                    path('app_client_edit', { id: client.id })
-                                }}"
-                                >edit</a
-                            >
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="13">no records found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                <!-- Id -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="client-id"
+                                        >N° client</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="number"
+                                        name="clientId"
+                                        id="client-id"
+                                        min="1"
+                                        step="1"
+                                    />
+                                </div>
 
-            <a class="btn" href="{{ path('app_client_new') }}">Create new</a>
+                                <!-- Nom client -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="last-name"
+                                        >Nom</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        name="last_name"
+                                        id="last-name"
+                                        min-lenght="2"
+                                        max-lenght="100"
+                                    />
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-4">
+                                    <label class="form-label" for="email"
+                                        >Email</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                    />
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn">
+                                    Rechercher
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="clients-list"
+                class="row justify-content-center align-items-center my-4"
+            ></div>
         </div>
     </section>
 </main>
