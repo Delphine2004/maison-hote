@@ -13,8 +13,55 @@ bord{% endblock %} {% block body %}
                             <h3 class="mb-0 text-center">Clients présents</h3>
                         </div>
                         <div class="card-body p-0">
+                            <!-- Version mobile -->
+                            <div class="d-md-none">
+                                {% for booking in inhouses %}
+                                <div class="card m-2 shadow-sm">
+                                    <div class="card-body">
+                                        <p class="mb-1">
+                                            <strong>Ref : </strong
+                                            >{{ booking.id }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Client : </strong>
+                                            {{ booking.client.lastName }}
+                                            {{ booking.client.firstName }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Chambre : </strong>
+                                            {{ booking.room.name }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Séjour : </strong>
+                                            {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                            -
+                                            {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Total : </strong>
+                                            {{ booking.totalAmount }}
+                                        </p>
+                                        <a
+                                            class="btn btn-sm"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >Voir</a
+                                        >
+                                    </div>
+                                </div>
+
+                                {% else %}
+                                <p class="text-center m-2">
+                                    Aucun clients présents
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- Version desktop -->
                             <div
-                                class="table-responsive shadow-sm border rounded"
+                                class="table-responsive shadow-sm d-none d-md-block"
                             >
                                 <table
                                     class="table table-hover align-middle mb-0"
@@ -22,12 +69,11 @@ bord{% endblock %} {% block body %}
                                     <thead>
                                         <tr>
                                             <th>Ref</th>
-                                            <th>Chambre</th>
                                             <th>Client</th>
+                                            <th>Chambre</th>
                                             <th>Arrivée</th>
                                             <th>Départ</th>
                                             <th>Total</th>
-                                            <th>Statut</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -36,16 +82,10 @@ bord{% endblock %} {% block body %}
                                         <tr>
                                             <td>{{ booking.id }}</td>
                                             <td>
-                                                {% for room in booking.room %}
-                                                {{ room.name }}{% endfor %}
+                                                {{ booking.client.lastName }}
+                                                {{ booking.client.firstName }}
                                             </td>
-                                            <td>
-                                                {% for client in booking.client
-                                                %}
-                                                {{ client.lastName }}
-                                                {{ client.firstName }}{% endfor
-                                                %}
-                                            </td>
+                                            <td>{{ booking.room.name }}</td>
                                             <td>
                                                 {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
@@ -53,10 +93,9 @@ bord{% endblock %} {% block body %}
                                                 {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
                                             <td>{{ booking.totalAmount }}</td>
-                                            <td>{{ booking.status.value }}</td>
                                             <td>
                                                 <a
-                                                    class="btn"
+                                                    class="btn btn-sm"
                                                     href="{{
                                                         path(
                                                             'app_booking_show',
@@ -65,13 +104,13 @@ bord{% endblock %} {% block body %}
                                                             }
                                                         )
                                                     }}"
-                                                    >show</a
+                                                    >Voir</a
                                                 >
                                             </td>
                                         </tr>
                                         {% else %}
                                         <tr>
-                                            <td colspan="8">
+                                            <td colspan="7">
                                                 Aucun clients présents
                                             </td>
                                         </tr>
@@ -96,8 +135,55 @@ bord{% endblock %} {% block body %}
                             <h3 class="mb-0 text-center">Départs du jour</h3>
                         </div>
                         <div class="card-body p-0">
+                            <!-- Version mobile -->
+                            <div class="d-md-none">
+                                {% for booking in checkouts %}
+                                <div class="card m-2 shadow-sm">
+                                    <div class="card-body">
+                                        <p class="mb-1">
+                                            <strong>Ref : </strong
+                                            >{{ booking.id }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Client : </strong>
+                                            {{ booking.client.lastName }}
+                                            {{ booking.client.firstName }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Chambre : </strong>
+                                            {{ booking.room.name }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Séjour : </strong>
+                                            {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                            -
+                                            {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Total : </strong>
+                                            {{ booking.totalAmount }}
+                                        </p>
+                                        <a
+                                            class="btn btn-sm"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >Voir</a
+                                        >
+                                    </div>
+                                </div>
+
+                                {% else %}
+                                <p class="text-center m-2">
+                                    Aucun clients présents
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- Version desktop -->
                             <div
-                                class="table-responsive shadow-sm border rounded"
+                                class="table-responsive shadow-sm d-none d-md-block"
                             >
                                 <table
                                     class="table table-hover align-middle mb-0"
@@ -105,30 +191,23 @@ bord{% endblock %} {% block body %}
                                     <thead>
                                         <tr>
                                             <th>Ref</th>
-                                            <th>Chambre</th>
                                             <th>Client</th>
+                                            <th>Chambre</th>
                                             <th>Arrivée</th>
                                             <th>Départ</th>
                                             <th>Total</th>
-                                            <th>Statut</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for booking in inhouses %}
+                                        {% for booking in checkouts %}
                                         <tr>
                                             <td>{{ booking.id }}</td>
                                             <td>
-                                                {% for room in booking.room %}
-                                                {{ room.name }}{% endfor %}
+                                                {{ booking.client.lastName }}
+                                                {{ booking.client.firstName }}
                                             </td>
-                                            <td>
-                                                {% for client in booking.client
-                                                %}
-                                                {{ client.lastName }}
-                                                {{ client.firstName }}{% endfor
-                                                %}
-                                            </td>
+                                            <td>{{ booking.room.name }}</td>
                                             <td>
                                                 {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
@@ -136,10 +215,9 @@ bord{% endblock %} {% block body %}
                                                 {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
                                             <td>{{ booking.totalAmount }}</td>
-                                            <td>{{ booking.status.value }}</td>
                                             <td>
                                                 <a
-                                                    class="btn"
+                                                    class="btn btn-sm"
                                                     href="{{
                                                         path(
                                                             'app_booking_show',
@@ -148,14 +226,14 @@ bord{% endblock %} {% block body %}
                                                             }
                                                         )
                                                     }}"
-                                                    >show</a
+                                                    >Voir</a
                                                 >
                                             </td>
                                         </tr>
                                         {% else %}
                                         <tr>
-                                            <td colspan="8">
-                                                Aucun départ aujourd'hui
+                                            <td colspan="7">
+                                                Aucun clients présents
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -179,8 +257,55 @@ bord{% endblock %} {% block body %}
                             <h3 class="mb-0 text-center">Arrivée du jour</h3>
                         </div>
                         <div class="card-body p-0">
+                            <!-- Version mobile -->
+                            <div class="d-md-none">
+                                {% for booking in checkins %}
+                                <div class="card m-2 shadow-sm">
+                                    <div class="card-body">
+                                        <p class="mb-1">
+                                            <strong>Ref : </strong
+                                            >{{ booking.id }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Client : </strong>
+                                            {{ booking.client.lastName }}
+                                            {{ booking.client.firstName }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Chambre : </strong>
+                                            {{ booking.room.name }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Séjour : </strong>
+                                            {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                            -
+                                            {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Total : </strong>
+                                            {{ booking.totalAmount }}
+                                        </p>
+                                        <a
+                                            class="btn btn-sm"
+                                            href="{{
+                                                path('app_booking_show', {
+                                                    id: booking.id
+                                                })
+                                            }}"
+                                            >Voir</a
+                                        >
+                                    </div>
+                                </div>
+
+                                {% else %}
+                                <p class="text-center m-2">
+                                    Aucun clients présents
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- Version desktop -->
                             <div
-                                class="table-responsive shadow-sm border rounded"
+                                class="table-responsive shadow-sm d-none d-md-block"
                             >
                                 <table
                                     class="table table-hover align-middle mb-0"
@@ -188,30 +313,23 @@ bord{% endblock %} {% block body %}
                                     <thead>
                                         <tr>
                                             <th>Ref</th>
-                                            <th>Chambre</th>
                                             <th>Client</th>
+                                            <th>Chambre</th>
                                             <th>Arrivée</th>
                                             <th>Départ</th>
                                             <th>Total</th>
-                                            <th>Statut</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for booking in inhouses %}
+                                        {% for booking in checkins %}
                                         <tr>
                                             <td>{{ booking.id }}</td>
                                             <td>
-                                                {% for room in booking.room %}
-                                                {{ room.name }}{% endfor %}
+                                                {{ booking.client.lastName }}
+                                                {{ booking.client.firstName }}
                                             </td>
-                                            <td>
-                                                {% for client in booking.client
-                                                %}
-                                                {{ client.lastName }}
-                                                {{ client.firstName }}{% endfor
-                                                %}
-                                            </td>
+                                            <td>{{ booking.room.name }}</td>
                                             <td>
                                                 {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
@@ -219,10 +337,9 @@ bord{% endblock %} {% block body %}
                                                 {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
                                             </td>
                                             <td>{{ booking.totalAmount }}</td>
-                                            <td>{{ booking.status.value }}</td>
                                             <td>
                                                 <a
-                                                    class="btn"
+                                                    class="btn btn-sm"
                                                     href="{{
                                                         path(
                                                             'app_booking_show',
@@ -231,14 +348,14 @@ bord{% endblock %} {% block body %}
                                                             }
                                                         )
                                                     }}"
-                                                    >show</a
+                                                    >Voir</a
                                                 >
                                             </td>
                                         </tr>
                                         {% else %}
                                         <tr>
-                                            <td colspan="8">
-                                                Aucune arrivée aujourd'hui
+                                            <td colspan="7">
+                                                Aucun clients présents
                                             </td>
                                         </tr>
                                         {% endfor %}

@@ -27,9 +27,13 @@ Paramétrages{% endblock %} {% block body %}
                                 <div class="card m-2 shadow-sm">
                                     <div class="card-body">
                                         <h6 class="fw-bold mb-2">
-                                            {{ rate.room.name }} —
                                             {{ period.name }}
                                         </h6>
+
+                                        <p class="mb-1">
+                                            <strong>Chambre :</strong>
+                                            {{ rate.room.name }}
+                                        </p>
 
                                         <p class="mb-1">
                                             <strong>Prix :</strong>
@@ -59,14 +63,14 @@ Paramétrages{% endblock %} {% block body %}
                                     </div>
                                 </div>
                                 {% endfor %} {% else %}
-                                <p class="text-center">
+                                <p class="text-center m-2">
                                     Aucune période tarifaire active
                                 </p>
                                 {% endfor %}
                             </div>
                             <!-- Version desktop -->
                             <div
-                                class="table-responsive shadow-sm border d-none d-md-block"
+                                class="table-responsive shadow-sm d-none d-md-block"
                             >
                                 <table
                                     class="table table-hover align-middle mb-0"
@@ -140,7 +144,45 @@ Paramétrages{% endblock %} {% block body %}
                             <h3 class="text-center m-2">Chambres</h3>
                         </div>
                         <div class="card-body p-0">
-                            <div class="table-responsive shadow-sm border">
+                            <!-- Version mobile -->
+                            <div class="d-md-none">
+                                {% for room in rooms %}
+                                <div class="card m-2 shadow-sm">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-2">
+                                            {{ room.name }}
+                                        </h6>
+
+                                        <p class="mb-1">
+                                            <strong>Numéro :</strong>
+                                            {{ room.number }}
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Statut :</strong>
+                                            {{ room.status.value }}
+                                        </p>
+                                        <a
+                                            href="{{
+                                                path('app_room_show', {
+                                                    id: room.id
+                                                })
+                                            }}"
+                                            class="btn btn-sm w-100 mt-2"
+                                        >
+                                            Voir
+                                        </a>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <p class="text-center m-2">
+                                    Aucune chambre enregistrée
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- Version desktop -->
+                            <div
+                                class="table-responsive shadow-sm d-none d-md-block"
+                            >
                                 <table
                                     class="table table-hover align-middle mb-0"
                                 >
@@ -204,7 +246,7 @@ Paramétrages{% endblock %} {% block body %}
                             <h3 class="text-center m-2">Utilisateurs</h3>
                         </div>
                         <div class="card-body p-0">
-                            <div class="table-responsive shadow-sm border">
+                            <div class="table-responsive shadow-sm">
                                 <table
                                     class="table table-hover align-middle mb-0"
                                 >
