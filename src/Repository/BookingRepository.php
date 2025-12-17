@@ -76,6 +76,55 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findInHouse(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.status = :status')
+            ->setParameter('status', BookingStatus::IN->value)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findCheckOutsForDay(
+        DateTimeImmutable $day
+    ): array {
+        $start = $day->setTime(0, 0, 0);
+        $end   = $day->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.status = :status')
+            ->andWhere('b.endingDate BETWEEN :start AND :end')
+            ->setParameter('status', BookingStatus::IN->value)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCheckInsForDay(
+        DateTimeImmutable $day
+    ): array {
+        $start = $day->setTime(0, 0, 0);
+        $end   = $day->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.status = :status')
+            ->andWhere('b.startingDate BETWEEN :start AND :end')
+            ->setParameter('status', BookingStatus::CONFIRMED->value)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     public function sumTotalAmountByCreationPeriod(
         DateTimeImmutable $start,

@@ -27,15 +27,15 @@ final class UserController extends AbstractController
     ): Response {
 
         // Récupération des séjours en cours
-        $inHouse =  $bookingRepository->findBookingsByFilters(['status' => BookingStatus::IN->value]);
+        $inHouse =  $bookingRepository->findInHouse();
 
-        $now = new DateTimeImmutable('today');
+        $today = new DateTimeImmutable('today');
 
         // Récupération des départs
-        $checkOut = $bookingRepository->findBookingsByFilters(['endingDate' => $now, 'status' => BookingStatus::IN->value]);
+        $checkOut = $bookingRepository->findCheckOutsForDay($today);
 
         // Récupération des arrivées
-        $checkIn = $bookingRepository->findBookingsByFilters(['startingDate' => $now, 'status' => BookingStatus::CONFIRMED->value]);
+        $checkIn = $bookingRepository->findCheckInsForDay($today);
 
         return $this->render('user/index.html.twig', [
             'inhouses' => $inHouse,
