@@ -48,12 +48,12 @@ class ClientType extends AbstractType
                     'label' => 'Confirmer le mot de passe',
                     'attr' => ['class' => 'form-control'],
                 ],
+                'label' => false,
                 'required' => true,
                 'mapped' => false, // n'est pas mappé avec la bd car il sera hashé
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire.']),
                     new Assert\Length([
-
                         'max' => 255,
                         'maxMessage' => 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.',
                     ]),
@@ -64,22 +64,22 @@ class ClientType extends AbstractType
                 ],
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Téléphone',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('address', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Adresse',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('zipCode', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Code postal',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('city', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Ville',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
