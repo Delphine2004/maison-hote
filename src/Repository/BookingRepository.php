@@ -25,7 +25,7 @@ class BookingRepository extends ServiceEntityRepository
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {
-        //$criteria = $criteria ?? [];
+
 
         $qb = $this->createQueryBuilder('b')
             ->leftJoin('b.client', 'c')->addSelect('c')
@@ -55,8 +55,14 @@ class BookingRepository extends ServiceEntityRepository
             if (!empty($criteria[$field])) {
 
                 $date = $criteria[$field];
+
+                if (!$date instanceof \DateTime) {
+                    $date = new \DateTime($date);
+                }
+
                 $startOfDay = (clone $date)->setTime(0, 0, 0);
-                $endOfDay = (clone $date)->setTime(23, 59, 59);
+                $endOfDay   = (clone $date)->setTime(23, 59, 59);
+
 
                 $qb->andWhere("b.$field BETWEEN :{$field}_start AND :{$field}_end")
                     ->setParameter("{$field}_start", $startOfDay)

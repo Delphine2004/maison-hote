@@ -3,14 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Enum\UserRole;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
+use DateTimeImmutable;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 #[Route('/booking')]
 final class BookingController extends AbstractController
 {
@@ -18,7 +23,7 @@ final class BookingController extends AbstractController
     public function index(BookingRepository $bookingRepository): Response
     {
         return $this->render('booking/index.html.twig', [
-            'bookings' => $bookingRepository->findAll(),
+            'bookings' => $bookingRepository->findBookingsByFilters([new DateTimeImmutable('now')]),
         ]);
     }
 

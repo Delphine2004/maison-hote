@@ -38,9 +38,9 @@ Réservation{% endblock %} {% block body %}
                                         </p>
                                         <p class="mb-1">
                                             <strong>Séjour : </strong>
-                                            {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                            {{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
                                             -
-                                            {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                            {{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
                                         </p>
                                         <p class="mb-1">
                                             <strong>Total : </strong>
@@ -60,7 +60,7 @@ Réservation{% endblock %} {% block body %}
 
                                 {% else %}
                                 <p class="text-center m-2">
-                                    Aucun clients présents
+                                    Aucune nouvelle réservation pour le moment
                                 </p>
                                 {% endfor %}
                             </div>
@@ -92,10 +92,10 @@ Réservation{% endblock %} {% block body %}
                                             </td>
                                             <td>{{ booking.room.name }}</td>
                                             <td>
-                                                {{ booking.startingDate ? booking.startingDate|date('Y-m-d H:i:s') : '' }}
+                                                {{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
                                             </td>
                                             <td>
-                                                {{ booking.endingDate ? booking.endingDate|date('Y-m-d H:i:s') : '' }}
+                                                {{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
                                             </td>
                                             <td>{{ booking.totalAmount }}</td>
                                             <td>
@@ -116,7 +116,8 @@ Réservation{% endblock %} {% block body %}
                                         {% else %}
                                         <tr>
                                             <td colspan="7">
-                                                Aucun clients présents
+                                                Aucune nouvelle réservation pour
+                                                le moment
                                             </td>
                                         </tr>
                                         {% endfor %}
