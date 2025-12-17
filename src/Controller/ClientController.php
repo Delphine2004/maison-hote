@@ -3,23 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Enum\UserRole;
 use App\Form\ClientType;
-use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 #[Route('/client')]
 final class ClientController extends AbstractController
 {
     #[Route('', name: 'app_client_index', methods: ['GET'])]
-    public function index(ClientRepository $clientRepository): Response
+    public function index(): Response
     {
-        return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
-        ]);
+        return $this->render('client/index.html.twig');
     }
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
