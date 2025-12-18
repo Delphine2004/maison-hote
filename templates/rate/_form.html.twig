@@ -13,20 +13,11 @@
 </div>
 
 <div class="mb-4 text-gold">
-    {{ form_label(form.period.name) }}
-    {{ form_widget(form.period.name) }}
-    {{ form_errors(form.period.name) }}
+    {{ form_label(form.period) }}
+    {{ form_widget(form.period) }}
+    {{ form_errors(form.period) }}
 </div>
-<div class="mb-4 text-gold">
-    {{ form_label(form.period.startingDate) }}
-    {{ form_widget(form.period.startingDate) }}
-    {{ form_errors(form.period.startingDate) }}
-</div>
-<div class="mb-4 text-gold">
-    {{ form_label(form.period.endingDate) }}
-    {{ form_widget(form.period.endingDate) }}
-    {{ form_errors(form.period.endingDate) }}
-</div>
+
 <div class="text-center m-2">
     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 </div>

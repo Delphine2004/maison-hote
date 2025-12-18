@@ -35,9 +35,12 @@ class RateType extends AbstractType
                     'required'    => true,
                     'attr' => ['class' => 'form-control'],
                 ])
-                ->add('period', PeriodType::class, [
+                ->add('period', EntityType::class, [
+                    'class' => Period::class,
                     'label' => 'Période',
+                    'choice_label' => 'name',
                     'required'    => true,
+                    'attr' => ['class' => 'form-control'],
                 ])
             ;
         }
@@ -54,13 +57,13 @@ class RateType extends AbstractType
                 ])
                 ->add('room', EntityType::class, [
                     'class' => Room::class,
-                    'choice_label' => 'id',
+                    'choice_label' => 'name',
                     'required'    => false,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('period', EntityType::class, [
                     'class' => Period::class,
-                    'choice_label' => 'id',
+                    'choice_label' => 'name',
                     'required'    => false,
                     'attr' => ['class' => 'form-control'],
                 ])

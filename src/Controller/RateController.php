@@ -22,7 +22,6 @@ final class RateController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $rate = new Rate();
-        $rate->setPeriod(new Period());
         $form = $this->createForm(RateType::class, $rate);
         $form->handleRequest($request);
 
