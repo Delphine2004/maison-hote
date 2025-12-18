@@ -96,6 +96,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Booking>
      */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'CreatedByUser')]
+    private Collection $bookingsCreatedByUser;
+
+    /**
+     * @var Collection<int, Booking>
+     */
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'updatedByUser')]
     private Collection $bookingsUpdatedByUser;
 
@@ -109,6 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ratesUpdated = new ArrayCollection();
         $this->periodsCreated = new ArrayCollection();
         $this->periodsUpdated = new ArrayCollection();
+        $this->bookingsCreatedByUser = new ArrayCollection();
         $this->bookingsUpdatedByUser = new ArrayCollection();
     }
 
@@ -386,6 +393,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($periodsUpdated->getUpdatedBy() === $this) {
                 $periodsUpdated->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookingsCreatedByUser(): Collection
+    {
+        return $this->bookingsCreatedByUser;
+    }
+
+    public function addBookingsCreatedByUser(Booking $bookingsCreatedByUser): static
+    {
+        if (!$this->bookingsCreatedByUser->contains($bookingsCreatedByUser)) {
+            $this->bookingsCreatedByUser->add($bookingsCreatedByUser);
+            $bookingsCreatedByUser->setCreatedByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingsCreatedByUser(Booking $bookingsCreatedByUser): static
+    {
+        if ($this->bookingsCreatedByUser->removeElement($bookingsCreatedByUser)) {
+            // set the owning side to null (unless already changed)
+            if ($bookingsCreatedByUser->getCreatedByUser() === $this) {
+                $bookingsCreatedByUser->setCreatedByUser(null);
             }
         }
 

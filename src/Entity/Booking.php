@@ -54,11 +54,14 @@ class Booking
     #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'bookings')]
     private ?Room $room = null;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreated')]
-    private ?Client $createdBy = null;
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreatedByClient')]
+    private ?Client $createdByClient = null;
 
     #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsUpdatedByClient')]
     private ?Client $updatedByClient = null;
+
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreatedByUser')]
+    private ?User $createdByUser = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsUpdatedByUser')]
     private ?User $updatedByUser = null;
@@ -190,14 +193,27 @@ class Booking
         return $this;
     }
 
-    public function getCreatedBy(): ?Client
+    public function getCreatedByClient(): ?Client
     {
-        return $this->createdBy;
+        return $this->createdByClient;
     }
 
-    public function setCreatedBy(?Client $createdBy): static
+    public function setCreatedByClient(?Client $createdByClient): static
     {
-        $this->createdBy = $createdBy;
+        $this->createdByClient = $createdByClient;
+
+        return $this;
+    }
+
+
+    public function getUpdatedByClient(): ?Client
+    {
+        return $this->updatedByClient;
+    }
+
+    public function setUpdatedByClient(?Client $updatedByClient): static
+    {
+        $this->updatedByClient = $updatedByClient;
 
         return $this;
     }
@@ -210,6 +226,30 @@ class Booking
     public function setBookingsUpdatedByClient(?Client $updatedByClient): static
     {
         $this->updatedByClient = $updatedByClient;
+
+        return $this;
+    }
+
+    public function getCreatedByUser(): ?User
+    {
+        return $this->createdByUser;
+    }
+
+    public function setCreatedByUser(?User $createdByUser): static
+    {
+        $this->createdByUser = $createdByUser;
+
+        return $this;
+    }
+
+    public function getUpdatedByUser(): ?User
+    {
+        return $this->updatedByUser;
+    }
+
+    public function setUpdatedByUser(?User $updatedByUser): static
+    {
+        $this->updatedByUser = $updatedByUser;
 
         return $this;
     }

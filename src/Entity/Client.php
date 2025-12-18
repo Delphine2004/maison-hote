@@ -88,8 +88,8 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Booking>
      */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'createdBy')]
-    private Collection $bookingsCreated;
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'createdByClient')]
+    private Collection $bookingsCreatedByClient;
 
     /**
      * @var Collection<int, Booking>
@@ -100,7 +100,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->bookingsCreated = new ArrayCollection();
+        $this->bookingsCreatedByClient = new ArrayCollection();
         $this->bookingsUpdatedByClient = new ArrayCollection();
     }
 
@@ -299,27 +299,27 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookingsCreated(): Collection
+    public function getBookingsCreatedByClient(): Collection
     {
-        return $this->bookingsCreated;
+        return $this->bookingsCreatedByClient;
     }
 
-    public function addBookingsCreated(Booking $bookingsCreated): static
+    public function addBookingsCreatedByClient(Booking $bookingsCreatedByClient): static
     {
-        if (!$this->bookingsCreated->contains($bookingsCreated)) {
-            $this->bookingsCreated->add($bookingsCreated);
-            $bookingsCreated->setCreatedBy($this);
+        if (!$this->bookingsCreatedByClient->contains($bookingsCreatedByClient)) {
+            $this->bookingsCreatedByClient->add($bookingsCreatedByClient);
+            $bookingsCreatedByClient->setCreatedByClient($this);
         }
 
         return $this;
     }
 
-    public function removeBookingsCreated(Booking $bookingsCreated): static
+    public function removeBookingsCreatedByClient(Booking $bookingsCreatedByClient): static
     {
-        if ($this->bookingsCreated->removeElement($bookingsCreated)) {
+        if ($this->bookingsCreatedByClient->removeElement($bookingsCreatedByClient)) {
             // set the owning side to null (unless already changed)
-            if ($bookingsCreated->getCreatedBy() === $this) {
-                $bookingsCreated->setCreatedBy(null);
+            if ($bookingsCreatedByClient->getCreatedByClient() === $this) {
+                $bookingsCreatedByClient->setCreatedByClient(null);
             }
         }
 
