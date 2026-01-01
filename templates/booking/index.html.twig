@@ -34,6 +34,14 @@ Réservation{% endblock %} {% block body %}
                             </h3>
                         </div>
                         <div class="card-body p-0">
+                            <div class="text-center m-2">
+                                <a
+                                    href="{{ path('app_booking_statistics') }}"
+                                    class="btn btn-sm"
+                                >
+                                    Statistiques
+                                </a>
+                            </div>
                             <!-- Version mobile -->
                             <div class="d-md-none">
                                 {% for booking in bookings %}
