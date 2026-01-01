@@ -1,4 +1,5 @@
 import { Booking } from "../Model/Booking.js";
+
 export function renderBookingResult() {
     // Récupération des éléments
     const searchForm = document.getElementById("search-booking-form");

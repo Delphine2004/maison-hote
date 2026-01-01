@@ -1,4 +1,5 @@
 import { Client } from "../Model/Client.js";
+
 export function renderClientResult() {
     // Récupération des éléments
     const searchForm = document.getElementById("search-client-form");
