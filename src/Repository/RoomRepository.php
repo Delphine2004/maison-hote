@@ -29,11 +29,13 @@ class RoomRepository extends ServiceEntityRepository
     public function findRoomsByPeriod(
         DateTimeImmutable $start,
         DateTimeImmutable $end,
-        BookingStatus $bookingStatus,
-        RoomStatus $roomStatus,
         int $limit = 10,
         string $orderBy = 'ASC'
     ): array {
+
+        $bookingStatus = BookingStatus::CONFIRMED;
+        $roomStatus = RoomStatus::AVAILABLE;
+
         // r = room - p = period - b = booking - ra = rate
         return $this->createQueryBuilder('r')
             ->select([
@@ -41,9 +43,9 @@ class RoomRepository extends ServiceEntityRepository
                 'r.number',
                 'r.name',
                 'r.status',
-                'ra.rate',
+                'ra.amountCents',
                 'DATE_DIFF(:dateEnd, :dateStart) AS nights',
-                '(DATE_DIFF(:dateEnd, :dateStart) * ra.rate) AS total_price'
+                '(DATE_DIFF(:dateEnd, :dateStart) * ra.amountCents) AS total_price'
             ])
             ->leftJoin(
                 'r.bookings',
