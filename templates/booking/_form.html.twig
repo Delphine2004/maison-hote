@@ -1,8 +1,30 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
 <div class="mb-4">
-    {{ form_label(form.name) }}
-    {{ form_widget(form.name) }}
-    {{ form_errors(form.name) }}
+    {{ form_label(form.startingDate) }}
+    {{ form_widget(form.startingDate) }}
+    {{ form_errors(form.startingDate) }}
 </div>
-<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+<div class="mb-4">
+    {{ form_label(form.endingDate) }}
+    {{ form_widget(form.endingDate) }}
+    {{ form_errors(form.endingDate) }}
+</div>
+<div class="mb-4">
+    {{ form_label(form.totalAmount) }}
+    {{ form_widget(form.totalAmount) }}
+    {{ form_errors(form.totalAmount) }}
+</div>
+<div class="mb-4">
+    {{ form_label(form.client) }}
+    {{ form_widget(form.client) }}
+    {{ form_errors(form.client) }}
+</div>
+<div class="mb-4">
+    {{ form_label(form.room) }}
+    {{ form_widget(form.room) }}
+    {{ form_errors(form.room) }}
+</div>
+<div class="text-center m-2">
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}

@@ -1,0 +1,12 @@
+<form
+    method="post"
+    action="{{ path('app_booking_checkout', { id: booking.id }) }}"
+    onsubmit="return confirm('Confirmez vous le départ?');"
+>
+    <input
+        type="hidden"
+        name="_token"
+        value="{{ csrf_token('checkout' ~ booking.id) }}"
+    />
+    <button class="btn w-100">OUT</button>
+</form>

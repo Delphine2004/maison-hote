@@ -1,0 +1,12 @@
+<form
+    method="post"
+    action="{{ path('app_booking_cancel_client', { id: booking.id }) }}"
+    onsubmit="return confirm('Confirmez vous l\'annulation?');"
+>
+    <input
+        type="hidden"
+        name="_token"
+        value="{{ csrf_token('cancel' ~ booking.id) }}"
+    />
+    <button class="btn w-100">Annuler</button>
+</form>
