@@ -75,19 +75,17 @@ block body %}
                             <div
                                 class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3"
                             >
-                                <a
-                                    class="btn flex-fill"
-                                    href="{{
-                                        path('app_booking_edit', {
-                                            id: booking.id
-                                        })
-                                    }}"
-                                    >Modifier</a
-                                >
                                 <div class="flex-fill">
                                     {{
                                         include(
-                                            "booking/_delete_form.html.twig"
+                                            "booking/_cancel_client_form.html.twig"
+                                        )
+                                    }}
+                                </div>
+                                <div class="flex-fill">
+                                    {{
+                                        include(
+                                            "booking/_cancel_staff_form.html.twig"
                                         )
                                     }}
                                 </div>
