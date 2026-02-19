@@ -11,50 +11,47 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class BookingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('startingDate', null, [
+            ->add('startingDate', DateType::class, [
                 'widget' => 'single_text',
+                'label' => 'Arrivée',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('endingDate', null, [
+            ->add('endingDate', DateType::class, [
                 'widget' => 'single_text',
+                'label' => 'Départ',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('totalAmount', MoneyType::class, [
+                'label' => 'Montant total',
                 'currency'    => 'EUR',
                 'scale'       => 2,
                 'divisor'     => 100,  // Gestion automatique centimes - euros
                 'required'    => true,
-            ])
-            ->add('status')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
-                'choice_label' => 'id',
+                'label' => 'Client',
+                'choice_label' => 'name',
+                'required' => true,
+                'attr' => ['class' => 'form-control', 'data-controller' => 'autocomplete'],
             ])
             ->add('room', EntityType::class, [
                 'class' => Room::class,
-                'choice_label' => 'id',
-            ])
-            ->add('createdBy', EntityType::class, [
-                'class' => Client::class,
-                'choice_label' => 'id',
-            ])
-            ->add('updatedByClient', EntityType::class, [
-                'class' => Client::class,
-                'choice_label' => 'id',
-            ])
-            ->add('updatedByUser', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                'label' => 'Chambre',
+                'choice_label' => 'name',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
         ;
     }
