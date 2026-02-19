@@ -11,12 +11,7 @@
 /var/sessions/
 
 # Environnements
-/.env.local
-/.env.local.php
-/.env.*.local
-/.env.test
-/.env.test.local
-/.env.prod.local
+.env
 
 # Fichiers de build front (si tu utilises Webpack Encore ou autre)
 /public/build/
