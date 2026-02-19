@@ -13,26 +13,26 @@
         "doctrine/doctrine-bundle": "^2.18.2",
         "doctrine/doctrine-fixtures-bundle": "^4.3.1",
         "doctrine/doctrine-migrations-bundle": "^3.7",
-        "doctrine/orm": "^3.6",
-        "mongodb/mongodb": "^2.1.2",
+        "doctrine/orm": "^3.6.2",
+        "mongodb/mongodb": "^2.2.0",
         "runtime/frankenphp-symfony": "^0.2.0",
-        "symfony/asset": "7.3.*",
-        "symfony/console": "7.3.*",
-        "symfony/dotenv": "7.3.*",
+        "symfony/asset": "7.4.*",
+        "symfony/console": "7.4.*",
+        "symfony/dotenv": "7.4.*",
         "symfony/flex": "^2.10",
-        "symfony/form": "7.3.*",
-        "symfony/framework-bundle": "7.3.*",
-        "symfony/mailer": "7.3.*",
-        "symfony/mime": "7.3.*",
-        "symfony/runtime": "7.3.*",
-        "symfony/security-bundle": "7.3.*",
-        "symfony/translation": "7.3.*",
-        "symfony/twig-bundle": "7.3.*",
-        "symfony/validator": "7.3.*",
-        "symfony/yaml": "7.3.*",
+        "symfony/form": "7.4.*",
+        "symfony/framework-bundle": "7.4.*",
+        "symfony/mailer": "7.4.*",
+        "symfony/mime": "7.4.*",
+        "symfony/runtime": "7.4.*",
+        "symfony/security-bundle": "7.4.*",
+        "symfony/translation": "7.4.*",
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/validator": "7.4.*",
+        "symfony/yaml": "7.4.*",
         "symfonycasts/reset-password-bundle": "^1.24",
-        "twig/extra-bundle": "^2.12|^3.22.2",
-        "twig/twig": "^2.12|^3.22.2"
+        "twig/extra-bundle": "^2.12|^3.23.0",
+        "twig/twig": "^2.12|^3.23.0"
     },
     "config": {
         "allow-plugins": {
@@ -81,12 +81,12 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.3.*",
+            "require": "7.4.*",
             "docker": true
         }
     },
     "require-dev": {
         "soyuka/stubs-mongodb": "^1.0",
-        "symfony/maker-bundle": "^1.65.1"
+        "symfony/maker-bundle": "^1.66.0"
     }
 }
