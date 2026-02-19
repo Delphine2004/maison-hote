@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Enum\UserRole;
+use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
 use DateTimeImmutable;
@@ -20,16 +21,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class BookingController extends AbstractController
 {
     #[Route('', name: 'app_booking_index', methods: ['GET'])]
-    public function index(BookingRepository $bookingRepository): Response
-    {
+    public function index(
+        BookingRepository $bookingRepository
+    ): Response {
         return $this->render('booking/index.html.twig', [
             'bookings' => $bookingRepository->findBookingsByFilters([new DateTimeImmutable('now')]),
         ]);
     }
 
     #[Route('/new', name: 'app_booking_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
@@ -48,39 +52,93 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_booking_show', methods: ['GET'])]
-    public function show(Booking $booking): Response
-    {
+    public function show(
+        Booking $booking
+    ): Response {
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_booking_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Booking $booking, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(BookingType::class, $booking);
-        $form->handleRequest($request);
+    #[Route('/{id}/cancelbystaff', name: 'app_booking_cancel_staff', methods: ['POST'])]
+    public function cancelByStaff(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+        if (!$this->isCsrfTokenValid('cancelbystaff' . $booking->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 
-        return $this->render('booking/edit.html.twig', [
-            'booking' => $booking,
-            'form' => $form,
-        ]);
-    }
+        $booking->setStatus(BookingStatus::CANCELLED);
+        $booking->setUpdatedByUser($this->getUser());
 
-    #[Route('/{id}', name: 'app_booking_delete', methods: ['POST'])]
-    public function delete(Request $request, Booking $booking, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $booking->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($booking);
-            $entityManager->flush();
-        }
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/cancel', name: 'app_booking_cancel_client', methods: ['POST'])]
+    public function cancel(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if (!$this->isCsrfTokenValid('cancel' . $booking->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $booking->setStatus(BookingStatus::CANCELLED);
+        $booking->setUpdatedByClient($this->getUser());
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/checkin', name: 'app_booking_checkin', methods: ['POST'])]
+    public function checkin(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if (!$this->isCsrfTokenValid('checkin' . $booking->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $booking->setStatus(BookingStatus::IN);
+        $booking->setUpdatedByUser($this->getUser());
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/checkout', name: 'app_booking_checkout', methods: ['POST'])]
+    public function checkout(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if (!$this->isCsrfTokenValid('checkout' . $booking->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $booking->setStatus(BookingStatus::FINALIZED);
+        $booking->setUpdatedByUser($this->getUser());
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/statistics', name: 'app_booking_statistics')]
+    public function renderSearch(): Response
+    {
+        return $this->render('booking/statistics.html.twig');
     }
 }
