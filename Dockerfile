@@ -41,7 +41,7 @@ RUN apt-get update && apt-get install -y libssl-dev pkg-config && \
 
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV MERCURE_TRANSPORT_URL=bolt:///data/mercure.db
+ENV MERCURE_EXTRA_DIRECTIVES=bolt:///data/mercure.db
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 RUN install-php-extensions pdo_mysql
 
