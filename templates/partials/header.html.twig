@@ -1,141 +1,87 @@
 <header>
-    <nav
-        class="navbar navbar-expand-lg shadow-sm position-fixed w-100 z-3 pt-2"
-    >
-        <div class="container-fluid">
-            <a class="navbar-brand d-lg-none" href="{{ path('app_home') }}">
-                <img
-                    class="logo"
-                    src="{{ asset('assets/img/logo/logo.webp') }}"
-                    alt="logo Parenthèses dorées"
-            /></a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle main navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div
-                class="collapse navbar-collapse position-relative"
-                id="navbarNavDropdown"
-            >
-                <a
-                    class="navbar-brand d-none d-lg-block position-absolute start-50 translate-middle-x"
-                    href="{{ path('app_home') }}"
-                >
-                    <img
-                        class="logo"
-                        src="{{ asset('assets/img/logo/logo.webp') }}"
-                        alt="Logo Parenthèses dorées"
-                    />
-                </a>
+	<nav class="navbar navbar-expand-lg shadow-sm position-fixed w-100 z-3 pt-2">
+		<div class="container-fluid">
+			<a class="navbar-brand d-lg-none" href="{{ path('app_home') }}">
+				<img class="logo" src="{{ asset('assets/img/logo/logo.webp') }}" alt="logo Parenthèses dorées"/></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle main navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse position-relative" id="navbarNavDropdown">
+				<a class="navbar-brand d-none d-lg-block position-absolute start-50 translate-middle-x" href="{{ path('app_home') }}">
+					<img class="logo" src="{{ asset('assets/img/logo/logo.webp') }}" alt="Logo Parenthèses dorées"/>
+				</a>
 
-                <div class="d-flex justify-content-between w-100">
-                    <ul class="navbar-nav">
-                        <!-- Liens visibles uniquement par les visiteurs non
-                    connectés -->
-                        {% if not app.user %}
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_gallery') }}"
-                                >Galerie</a
-                            >
-                        </li>
-                        <li class="nav-item me-3">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_services') }}"
-                                >Nos services</a
-                            >
-                        </li>
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_search') }}"
-                                >Réserver</a
-                            >
-                        </li>
-                        {% endif %}
+				<div class="d-flex justify-content-between w-100">
+					<ul
+						class="navbar-nav">
+						<!-- Liens visibles uniquement par les visiteurs non
+												                    connectés -->
+						{% if not app.user %}
+							<li class="nav-item me-3">
+								<a class="nav-link" href="{{ path('app_gallery') }}">Galerie</a>
+							</li>
+							<li class="nav-item me-3">
+								<a class="nav-link" href="{{ path('app_services') }}">Nos services</a>
+							</li>
+							<li class="nav-item me-3">
+								<a class="nav-link" href="{{ path('app_search') }}">Réserver</a>
+							</li>
+						{% endif %}
 
-                        <!-- Liens visibles uniquement par l'admin
-                    connecté -->
-                        {% if is_granted('ROLE_ADMIN')%}
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_settings_index') }}"
-                                >Paramétres</a
-                            >
-                        </li>
+						<!-- Liens visibles uniquement par l'admin
+												                    connecté -->
+						{% if is_granted('ROLE_ADMIN')%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_settings_index') }}">Paramétres</a>
+							</li>
 
-                        {% endif %}
-                        <!-- Liens visibles uniquement par les employés
-                    connectés -->
-                        {% if is_granted('ROLE_EMPLOYE')%}
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_booking_index') }}"
-                                >Réservations</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_client_index') }}"
-                                >Clients</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_review_index') }}"
-                                >Commentaires</a
-                            >
-                        </li>
-                        {% endif %}
-                        <!-- Liens visibles uniquement par les
-                    utilisateurs connectés -->
-                    </ul>
+						{% endif %}
 
-                    <ul class="navbar-nav">
-                        {% if is_granted('ROLE_EMPLOYE')%}
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{ path('app_user_index') }}"
-                                >Tableau de bord</a
-                            >
-                        </li>
-                        {% endif %} {% if app.user %}
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{{
-                                    path('app_user_show', { id: app.user.id })
-                                }}"
-                                >Mon compte</a
-                            >
-                        </li>
-                        {% endif %} {% if app.user %}
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_logout') }}"
-                                >Déconnexion</a
-                            >
-                        </li>
-                        {% endif %} {% if not
+						<!-- Liens visibles uniquement par les employés
+												                    connectés -->
+						{% if is_granted('ROLE_EMPLOYE')%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_booking_index') }}">Réservations</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_client_index') }}">Clients</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_review_index') }}">Commentaires</a>
+							</li>
+						{% endif %}
+					</ul>
+
+					<ul class="navbar-nav">
+						{% if is_granted('ROLE_EMPLOYE')%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_user_index') }}">Tableau de bord</a>
+							</li>
+              							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_user_show', { id: app.user.id }) }}">Mon compte</a>
+							</li>
+						{% endif %}
+						<!-- Liens visibles uniquement par les
+												                    utilisateurs connectés -->
+						{% if is_granted('ROLE_CLIENT')%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_client_show', { id: app.client.id }) }}">Mon compte</a>
+							</li>
+						{% endif %}
+						{% if app.user %}
+							<li class="nav-item me-3">
+								<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+							</li>
+						{% endif %}
+						{% if not
                         is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_login') }}"
-                                >Connexion</a
-                            >
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+							<li class="nav-item me-3">
+								<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
 </header>
