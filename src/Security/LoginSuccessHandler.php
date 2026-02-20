@@ -18,7 +18,10 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     {
         $roles = $token->getRoleNames();
 
-        if (in_array(UserRole::EMPLOYE->value, $roles, true)) {
+        if (
+            in_array(UserRole::ADMIN->value, $roles, true)
+            || in_array(UserRole::EMPLOYE->value, $roles, true)
+        ) {
             // Redirection pour les gestionnaires
             return new RedirectResponse($this->router->generate('app_user_index'));
         }
