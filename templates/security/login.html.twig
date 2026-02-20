@@ -1,81 +1,49 @@
-{% extends 'base.html.twig' %} {% block title %}Les Parenthèses Dorées -
-Connexion{% endblock %} {% block body %}
-<main class="pt-5">
-    <section id="event-page" class="container-fluid py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <div
-                        class="filter bg-blue border-gold card p-4 shadow-sm mb-4"
-                    >
-                        <h2 class="text-center text-gold m-3">Connexion</h2>
-                        <form method="post">
-                            {% if error %}
-                            <div class="alert alert-danger">
-                                {{ error.messageKey|trans(error.messageData, 'security') }}
-                            </div>
-                            {% endif %}
+{% extends 'base.html.twig' %}
+{% block title %}Les Parenthèses Dorées -
+	Connexion
+{% endblock %}
+{% block body %}
+	<main class="pt-5">
+		<section id="event-page" class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="bg-blue border-gold card shadow-sm p-4 mb-4">
+							<h2 class="text-center text-gold m-3">Connexion</h2>
+							<form method="post">
+								{% if error %}
+									<div class="alert alert-danger">
+										{{ error.messageKey|trans(error.messageData, 'security') }}
+									</div>
+								{% endif %}
 
-                            <div class="mb-4 text-gold">
-                                <label for="username">Email</label>
-                                <input
-                                    type="email"
-                                    value="{{ last_username }}"
-                                    name="_username"
-                                    id="username"
-                                    class="form-control"
-                                    autocomplete="email"
-                                    required
-                                    autofocus
-                                />
-                            </div>
-                            <div class="mb-4 text-gold">
-                                <label for="password">Mot de passe</label>
-                                <input
-                                    type="password"
-                                    name="_password"
-                                    id="password"
-                                    class="form-control"
-                                    autocomplete="current-password"
-                                    required
-                                />
-                                <input
-                                    type="hidden"
-                                    name="_csrf_token"
-                                    data-controller="csrf-protection"
-                                    value="{{ csrf_token('authenticate') }}"
-                                />
-                            </div>
+								<div class="mb-4 text-gold">
+									<label for="username">Email</label>
+									<input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus/>
+								</div>
+								<div class="mb-4 text-gold">
+									<label for="password">Mot de passe</label>
+									<input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required/>
+									<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}"/>
+								</div>
 
-                            {# Uncomment this section and add a remember_me
-                            option below your firewall to activate remember me
-                            functionality. See
-                            https://symfony.com/doc/current/security/remember_me.html
+								<div class="text-center m-4">
+									<button class="btn" type="submit">
+										Connexion
+									</button>
+								</div>
 
-                            <div class="checkbox mb-3">
-                                <input
-                                    type="checkbox"
-                                    name="_remember_me"
-                                    id="_remember_me"
-                                />
-                                <label for="_remember_me">Remember me</label>
-                            </div>
-                            #}
-                            <div class="text-center m-4">
-                                <a href="{{ path('app_register') }}"
-                                    >Pas encore de compte?</a
-                                >
-                            </div>
-                            <div class="text-center m-4">
-                                <button class="btn" type="submit">
-                                    Connexion
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+							</form>
+							<div class="text-center m-1">
+								<a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié?</a>
+							</div>
+							<div class="text-center m-4">
+								<a href="{{ path('app_register') }}">Pas encore de compte?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
 {% endblock %}

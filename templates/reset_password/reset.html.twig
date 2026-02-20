@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe
+{% endblock %}
+
+{% block body %}
+	<main class="pt-5">
+		<section id="login" class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+
+						<div class="bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4">
+							<h1>Réinitialiser votre mot de passe</h1>
+							{{ form_start(resetForm) }}
+							<div class="row g-3 mb-3 justify-content-center">
+								<div class="col-md-10 text-brown mb-4">
+									{{ form_row(resetForm.plainPassword) }}
+								</div>
+							</div>
+							<div class="text-center m-2">
+								<button class="btn">Réinitialiser le mot de passe</button>
+							</div>
+							{{ form_end(resetForm) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+{% endblock %}
