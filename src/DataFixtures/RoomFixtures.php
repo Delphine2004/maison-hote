@@ -21,7 +21,7 @@ class RoomFixtures extends Fixture
             [
                 'number' => '2',
                 'name' => 'Côté Jardin',
-                'description' => 'La chambre Côté Jardin offre le privilege rare de s\'éveiller au rythme de la nature, depuis l\'intimité d\'un espace élégamment aménagé. Tournée vers le verdoyant jardin de la propriété, elle bénéficie d\'une lumière naturelle généreuse qui sublime ses teintes douces et sa décoration soignée. Chaque élément a été sélectionné avec soin pour marier confort contemporain et charme authentique. Au fil des saisons, la vue sur le jardin se pare de nouvelles couleurs, offrant à chaque séjour une atmosphère unique. Une chambre idéale pour ceux qui souhaitent se ressourcer dans un cadre raffiné, bercés par le calme et la beauté du vivant.',
+                'description' => 'La chambre Côté Jardin offre le privilège rare de s\'éveiller au rythme de la nature, depuis l\'intimité d\'un espace élégamment aménagé. Tournée vers le verdoyant jardin de la propriété, elle bénéficie d\'une lumière naturelle généreuse qui sublime ses teintes douces et sa décoration soignée. Chaque élément a été sélectionné avec soin pour marier confort contemporain et charme authentique. Au fil des saisons, la vue sur le jardin se pare de nouvelles couleurs, offrant à chaque séjour une atmosphère unique. Une chambre idéale pour ceux qui souhaitent se ressourcer dans un cadre raffiné, bercés par le calme et la beauté du vivant.',
                 'picture' => 'room-2'
             ],
             [
