@@ -49,7 +49,7 @@ class Room
     #[Assert\NotBlank(message: "La description est obligatoire.")]
     #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[Assert\Length(max: 255, maxMessage: "La description ne doit pas dépasser 255 caractères.")]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     // Validation sur le type
