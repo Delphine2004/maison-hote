@@ -12,7 +12,7 @@ class Review
 
     function __construct(
         private int|string|null $id = null, // n'a pas de valeur au moment de l'instanciation
-        private ?int $clientId = null,
+        private ?int $userId = null,
         private ?int $bookingId = null,
         private ?int $rating = null,
         private ?string $comment = null,
@@ -27,9 +27,9 @@ class Review
         return $this->id;
     }
 
-    public function getClientId(): ?int
+    public function getUserId(): ?int
     {
-        return $this->clientId;
+        return $this->userId;
     }
 
     public function getBookingId(): ?int
@@ -75,9 +75,9 @@ class Review
         return $this;
     }
 
-    public function setClientId(?int $clientId): self
+    public function setUserId(?int $userId): self
     {
-        $this->clientId = $clientId;
+        $this->userId = $userId;
         return $this;
     }
 

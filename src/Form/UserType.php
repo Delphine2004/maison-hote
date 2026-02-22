@@ -28,9 +28,20 @@ class UserType extends AbstractType
         // Pour l'admin: création d'utilisateur
         if ($mode === 'create') {
             $builder
+
+                ->add('firstName', TextType::class, [
+                    'label' => 'Prénom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('lastName', TextType::class, [
+                    'label' => 'Nom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
                 ->add('login', TextType::class, [
                     'label' => 'Nom utilisateur',
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
@@ -40,6 +51,26 @@ class UserType extends AbstractType
                         'class' => 'form-control',
                         'placeholder' => 'exemple@email.com'
                     ],
+                ])
+                ->add('phone', TextType::class, [
+                    'label' => 'Téléphone',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('address', TextType::class, [
+                    'label' => 'Adresse',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('zipCode', TextType::class, [
+                    'label' => 'Code postal',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('city', TextType::class, [
+                    'label' => 'Ville',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
@@ -128,6 +159,44 @@ class UserType extends AbstractType
         // Pour l'utilisateur : modification mot de passe
         if ($mode === 'updateUser') {
             $builder
+                ->add('firstName', TextType::class, [
+                    'label' => 'Prénom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('lastName', TextType::class, [
+                    'label' => 'Nom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('phone', TextType::class, [
+                    'label' => 'Téléphone',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('address', TextType::class, [
+                    'label' => 'Adresse',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('zipCode', TextType::class, [
+                    'label' => 'Code postal',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('city', TextType::class, [
+                    'label' => 'Ville',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('email', EmailType::class, [
+                    'label' => 'Adresse e-mail',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'exemple@email.com'
+                    ],
+                ])
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [

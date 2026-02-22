@@ -48,23 +48,17 @@ class Booking
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookings')]
-    private ?Client $client = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookings')]
+    private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'bookings')]
     private ?Room $room = null;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreatedByClient')]
-    private ?Client $createdByClient = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsCreatedBy')]
+    private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsUpdatedByClient')]
-    private ?Client $updatedByClient = null;
-
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'bookingsCreatedByUser')]
-    private ?User $createdByUser = null;
-
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsUpdatedByUser')]
-    private ?User $updatedByUser = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsUpdatedBy')]
+    private ?User $updatedBy = null;
 
 
     public function __construct() {}
@@ -169,14 +163,14 @@ class Booking
         return $this->updatedAt;
     }
 
-    public function getClient(): ?Client
+    public function getUser(): ?User
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?Client $client): static
+    public function setUser(?User $user): static
     {
-        $this->client = $client;
+        $this->user = $user;
 
         return $this;
     }
@@ -193,75 +187,40 @@ class Booking
         return $this;
     }
 
-    public function getCreatedByClient(): ?Client
+
+
+    public function getCreatedBy(): ?User
     {
-        return $this->createdByClient;
+        return $this->createdBy;
     }
 
-    public function setCreatedByClient(?Client $createdByClient): static
+    public function setCreatedBy(?User $createdBy): static
     {
-        $this->createdByClient = $createdByClient;
+        $this->createdBy = $createdBy;
 
         return $this;
     }
 
-
-    public function getUpdatedByClient(): ?Client
+    public function getUpdatedBy(): ?User
     {
-        return $this->updatedByClient;
+        return $this->updatedBy;
     }
 
-    public function setUpdatedByClient(?Client $updatedByClient): static
+    public function setUpdatedBy(?User $updatedBy): static
     {
-        $this->updatedByClient = $updatedByClient;
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }
 
-    public function getBookingsUpdatedByClient(): ?Client
+    public function getBookingsUpdatedBy(): ?User
     {
-        return $this->updatedByClient;
+        return $this->updatedBy;
     }
 
-    public function setBookingsUpdatedByClient(?Client $updatedByClient): static
+    public function setBookingsUpdatedBy(?User $updatedBy): static
     {
-        $this->updatedByClient = $updatedByClient;
-
-        return $this;
-    }
-
-    public function getCreatedByUser(): ?User
-    {
-        return $this->createdByUser;
-    }
-
-    public function setCreatedByUser(?User $createdByUser): static
-    {
-        $this->createdByUser = $createdByUser;
-
-        return $this;
-    }
-
-    public function getUpdatedByUser(): ?User
-    {
-        return $this->updatedByUser;
-    }
-
-    public function setUpdatedByUser(?User $updatedByUser): static
-    {
-        $this->updatedByUser = $updatedByUser;
-
-        return $this;
-    }
-
-    public function getBookingsUpdatedByUser(): ?User
-    {
-        return $this->updatedByUser;
-    }
-
-    public function setBookingsUpdatedByUser(?User $updatedByUser): static
-    {
-        $this->updatedByUser = $updatedByUser;
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }

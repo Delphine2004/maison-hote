@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
-use App\Repository\ClientRepository;
+use App\Entity\User;
+use App\Repository\UserRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-final class ClientApiController extends AbstractController
+final class UserApiController extends AbstractController
 {
 
-    #[Route('/client/api', name: 'app_client_api', methods: ['GET'])]
+    #[Route('/user/api', name: 'app_user_api', methods: ['GET'])]
     public function index(
         Request $request,
-        ClientRepository $clientRepository
+        UserRepository $userRepository
     ): JsonResponse {
 
         // Récupération brute des query params
@@ -30,24 +30,24 @@ final class ClientApiController extends AbstractController
             ], 400);
         }
 
-        $clients = $clientRepository->findClientByFilters($criteria);
+        $users = $userRepository->findUserByFilters($criteria);
 
         // Transformation en tableau JSON des propriétés
-        $data = array_map(function (Client $client) {
+        $data = array_map(function (User $user) {
             return [
-                'id' => $client->getId(),
-                'lastName' => $client->getLastName(),
-                'firstName' => $client->getFirstName(),
+                'id' => $user->getId(),
+                'lastName' => $user->getLastName(),
+                'firstName' => $user->getFirstName(),
 
 
             ];
-        }, $clients);
+        }, $users);
 
         // Réponse JSON
         return $this->json([
             'status' => 'success',
             'count'  => count($data),
-            'clients' => $data
+            'users' => $data
         ]);
     }
 }

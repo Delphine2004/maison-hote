@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Client;
+use App\Entity\User;
 
 use App\Utils\RegexPatterns;
 
@@ -24,12 +24,12 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'required' => true,
+                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'required' => true,
+                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, [
@@ -80,7 +80,7 @@ class RegistrationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Client::class,
+            'data_class' => User::class,
         ]);
     }
 }

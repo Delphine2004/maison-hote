@@ -60,26 +60,7 @@ final class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/cancelbystaff', name: 'app_booking_cancel_staff', methods: ['POST'])]
-    public function cancelByStaff(
-        Request $request,
-        Booking $booking,
-        EntityManagerInterface $entityManager
-    ): Response {
-
-        if (!$this->isCsrfTokenValid('cancelbystaff' . $booking->getId(), $request->request->get('_token'))) {
-            throw $this->createAccessDeniedException('Token CSRF invalide.');
-        }
-
-        $booking->setStatus(BookingStatus::CANCELLED);
-        $booking->setUpdatedByUser($this->getUser());
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/{id}/cancel', name: 'app_booking_cancel_client', methods: ['POST'])]
+    #[Route('/{id}/cancel', name: 'app_booking_cancel', methods: ['POST'])]
     public function cancel(
         Request $request,
         Booking $booking,
@@ -91,7 +72,7 @@ final class BookingController extends AbstractController
         }
 
         $booking->setStatus(BookingStatus::CANCELLED);
-        $booking->setUpdatedByClient($this->getUser());
+        $booking->setUpdatedBy($this->getUser());
 
         $entityManager->flush();
 
@@ -110,7 +91,7 @@ final class BookingController extends AbstractController
         }
 
         $booking->setStatus(BookingStatus::IN);
-        $booking->setUpdatedByUser($this->getUser());
+        $booking->setUpdatedBy($this->getUser());
 
         $entityManager->flush();
 
@@ -129,7 +110,7 @@ final class BookingController extends AbstractController
         }
 
         $booking->setStatus(BookingStatus::FINALIZED);
-        $booking->setUpdatedByUser($this->getUser());
+        $booking->setUpdatedBy($this->getUser());
 
         $entityManager->flush();
 

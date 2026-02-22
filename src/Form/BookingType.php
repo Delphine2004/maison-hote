@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Booking;
-use App\Entity\Client;
 use App\Entity\Room;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -39,8 +38,8 @@ class BookingType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('client', EntityType::class, [
-                'class' => Client::class,
+            ->add('user', EntityType::class, [
+                'class' => User::class,
                 'label' => 'Client',
                 'choice_label' => 'name',
                 'required' => true,

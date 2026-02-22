@@ -17,21 +17,25 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): RedirectResponse
     {
         $roles = $token->getRoleNames();
+        $user = $token->getUser();
+
+        if (!$user instanceof \App\Entity\User) {
+            throw new \LogicException('User is not an instance of App\Entity\User');
+        }
 
         if (
             in_array(UserRole::ADMIN->value, $roles, true)
             || in_array(UserRole::EMPLOYE->value, $roles, true)
         ) {
-            // Redirection pour les gestionnaires
-            return new RedirectResponse($this->router->generate('app_user_index'));
+            return new RedirectResponse(
+                $this->router->generate('app_user_index')
+            );
         }
 
-        if (in_array(UserRole::CLIENT->value, $roles, true)) {
-            // Redirection pour les clients
-            return new RedirectResponse($this->router->generate('app_client_index'));
-        }
-
-        // Redirection par défaut si pas de rôle
-        return new RedirectResponse($this->router->generate('home'));
+        return new RedirectResponse(
+            $this->router->generate('app_user_show', [
+                'id' => $user->getId()
+            ])
+        );
     }
 }

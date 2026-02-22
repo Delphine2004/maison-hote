@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Enum\UserRole;
 
 use App\Utils\RegexPatterns;
 
@@ -30,11 +31,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: "Le login est obligatoire.")]
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Length(min: 2, maxMessage: "Le prénom doit contenir au minimum 2 lettres.")]
+    #[Assert\Length(max: 100, maxMessage: "Le prénom ne doit pas dépasser 100 lettres.")]
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $firstName = null;
+
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Length(min: 2, maxMessage: "Le nom doit contenir au minimum 2 lettres.")]
+    #[Assert\Length(max: 100, maxMessage: "Le nom ne doit pas dépasser 100 lettres.")]
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $lastName = null;
+
     #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[Assert\Length(min: 8, maxMessage: "Le login doit contenir au minimum 8 lettres et/ou chiffres.")]
     #[Assert\Length(max: 25, maxMessage: "Le login ne doit pas dépasser 25 lettres et/ou chiffres.")]
-    #[ORM\Column(length: 25, unique: true)]
+    #[ORM\Column(length: 25, nullable: true, unique: true)]
     private ?string $login = null;
 
     #[Assert\NotBlank(message: "L'email est obligatoire.")]
@@ -50,6 +62,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotNull(message: "Veuillez sélectionner un rôle.")]
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
+    #[Assert\Regex(RegexPatterns::FRENCH_MOBILE_PHONE)]
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phone = null;
+
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
+
+    #[Assert\Regex(RegexPatterns::ZIP_CODE)]
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $zipCode = null;
+
+    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $city = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
@@ -96,14 +124,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Booking>
      */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'CreatedByUser')]
-    private Collection $bookingsCreatedByUser;
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'user')]
+    private Collection $bookings;
 
     /**
      * @var Collection<int, Booking>
      */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'updatedByUser')]
-    private Collection $bookingsUpdatedByUser;
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'createdBy')]
+    private Collection $bookingsCreatedBy;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'updatedBy')]
+    private Collection $bookingsUpdatedBy;
 
 
 
@@ -115,8 +149,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ratesUpdated = new ArrayCollection();
         $this->periodsCreated = new ArrayCollection();
         $this->periodsUpdated = new ArrayCollection();
-        $this->bookingsCreatedByUser = new ArrayCollection();
-        $this->bookingsUpdatedByUser = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
+        $this->bookingsCreatedBy = new ArrayCollection();
+        $this->bookingsUpdatedBy = new ArrayCollection();
     }
 
 
@@ -146,6 +181,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+
+        $this->firstName = ucfirst($firstName);
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+
+        $this->lastName = strtoupper($lastName);
+
+        return $this;
+    }
     public function getLogin(): ?string
     {
         return $this->login;
@@ -186,7 +246,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = ($this->roles);
+        $roles = $this->roles ?? [];
 
         $roles[] = 'ROLE_USER'; // rôle requis par symfony
 
@@ -204,6 +264,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): static
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = strtoupper($city);
+
         return $this;
     }
 
@@ -402,27 +510,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookingsCreatedByUser(): Collection
+    public function getBookings(): Collection
     {
-        return $this->bookingsCreatedByUser;
+        return $this->bookings;
     }
 
-    public function addBookingsCreatedByUser(Booking $bookingsCreatedByUser): static
+    public function addBooking(Booking $booking): static
     {
-        if (!$this->bookingsCreatedByUser->contains($bookingsCreatedByUser)) {
-            $this->bookingsCreatedByUser->add($bookingsCreatedByUser);
-            $bookingsCreatedByUser->setCreatedByUser($this);
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeBookingsCreatedByUser(Booking $bookingsCreatedByUser): static
+    public function removeBooking(Booking $booking): static
     {
-        if ($this->bookingsCreatedByUser->removeElement($bookingsCreatedByUser)) {
+        if ($this->bookings->removeElement($booking)) {
             // set the owning side to null (unless already changed)
-            if ($bookingsCreatedByUser->getCreatedByUser() === $this) {
-                $bookingsCreatedByUser->setCreatedByUser(null);
+            if ($booking->getUser() === $this) {
+                $booking->setUser(null);
             }
         }
 
@@ -432,27 +540,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookingsUpdatedByUser(): Collection
+    public function getBookingsCreatedBy(): Collection
     {
-        return $this->bookingsUpdatedByUser;
+        return $this->bookingsCreatedBy;
     }
 
-    public function addBookingsUpdatedByUser(Booking $bookingsUpdatedByUser): static
+    public function addBookingsCreatedBy(Booking $bookingsCreatedBy): static
     {
-        if (!$this->bookingsUpdatedByUser->contains($bookingsUpdatedByUser)) {
-            $this->bookingsUpdatedByUser->add($bookingsUpdatedByUser);
-            $bookingsUpdatedByUser->setBookingsUpdatedByUser($this);
+        if (!$this->bookingsCreatedBy->contains($bookingsCreatedBy)) {
+            $this->bookingsCreatedBy->add($bookingsCreatedBy);
+            $bookingsCreatedBy->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeBookingsUpdatedByUser(Booking $bookingsUpdatedByUser): static
+    public function removeBookingsCreatedBy(Booking $bookingsCreatedBy): static
     {
-        if ($this->bookingsUpdatedByUser->removeElement($bookingsUpdatedByUser)) {
+        if ($this->bookingsCreatedBy->removeElement($bookingsCreatedBy)) {
             // set the owning side to null (unless already changed)
-            if ($bookingsUpdatedByUser->getBookingsUpdatedByUser() === $this) {
-                $bookingsUpdatedByUser->setBookingsUpdatedByUser(null);
+            if ($bookingsCreatedBy->getCreatedBy() === $this) {
+                $bookingsCreatedBy->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookingsUpdatedBy(): Collection
+    {
+        return $this->bookingsUpdatedBy;
+    }
+
+    public function addBookingsUpdatedBy(Booking $bookingsUpdatedBy): static
+    {
+        if (!$this->bookingsUpdatedBy->contains($bookingsUpdatedBy)) {
+            $this->bookingsUpdatedBy->add($bookingsUpdatedBy);
+            $bookingsUpdatedBy->setBookingsUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingsUpdatedBy(Booking $bookingsUpdatedBy): static
+    {
+        if ($this->bookingsUpdatedBy->removeElement($bookingsUpdatedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($bookingsUpdatedBy->getBookingsUpdatedBy() === $this) {
+                $bookingsUpdatedBy->setBookingsUpdatedBy(null);
             }
         }
 

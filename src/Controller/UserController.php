@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted(UserRole::EMPLOYE->value)]
+//#[IsGranted(UserRole::EMPLOYE->value)]
 #[Route('/user')]
 final class UserController extends AbstractController
 {

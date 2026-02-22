@@ -16,6 +16,34 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findUserByFilters(
+        ?array $criteria,
+        int $limit = 10,
+        string $orderBy = 'DESC'
+    ): array {
+        $qb = $this->createQueryBuilder('u')
+            ->select('DISTINCT u', 'b')
+            ->leftJoin('u.bookings', 'b')->addSelect('b');
+
+        if (!empty($criteria['id'])) {
+            $qb->andWhere('u.id = :id')
+                ->setParameter('id', $criteria['id']);
+        }
+        if (!empty($criteria['lastName'])) {
+            $qb->andWhere('u.lastName = :lastName')
+                ->setParameter('lastName', $criteria['lastName']);
+        }
+        if (!empty($criteria['email'])) {
+            $qb->andWhere('u.email = :email')
+                ->setParameter('email', $criteria['email']);
+        }
+        return $qb->orderBy('u.id',  $orderBy)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function findUsersWithoutRoles(
         array $roles,
         int $limit = 10,

@@ -35,7 +35,7 @@ final class BookingApiController extends AbstractController
         // Transformation en tableau JSON des propriétés
         $data = array_map(function (Booking $booking) {
 
-            $client = $booking->getClient();
+            $user = $booking->getUser();
             $room   = $booking->getRoom();
 
             return [
@@ -43,10 +43,10 @@ final class BookingApiController extends AbstractController
                 'startingDate' => $booking->getStartingDate()->format('d/m/Y'),
                 'endingDate' => $booking->getEndingDate()->format('d/m/Y'),
                 'totalAmount' => $booking->getTotalAmount(),
-                'client' => $client ? [
-                    'id' => $client->getId(),
-                    'lastName' => $client->getLastName(),
-                    'firstName' => $client->getFirstName(),
+                'user' => $user ? [
+                    'id' => $user->getId(),
+                    'lastName' => $user->getLastName(),
+                    'firstName' => $user->getFirstName(),
                 ] : null,
                 'room' => $room ? [
                     'id' => $room->getId(),

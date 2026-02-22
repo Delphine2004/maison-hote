@@ -1,6 +1,6 @@
 <form
     method="post"
-    action="{{ path('app_booking_cancel_client', { id: booking.id }) }}"
+    action="{{ path('app_booking_cancel', { id: booking.id }) }}"
     onsubmit="return confirm('Confirmez vous l\'annulation?');"
 >
     <input

@@ -10,7 +10,7 @@ client{% endblock %} {% block body %}
                         class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4"
                     >
                         {{
-                            include("client/_form.html.twig", {
+                            include("user/_form.html.twig", {
                                 button_label: "Modifier"
                             })
                         }}
@@ -19,7 +19,7 @@ client{% endblock %} {% block body %}
                 <div class="text-center m-5">
                     <a
                         class="btn"
-                        href="{{ path('app_client_show', { id: client.id }) }}"
+                        href="{{ path('app_user_show', { id: user.id }) }}"
                         >Retour sur le profil client</a
                     >
                 </div>

@@ -28,7 +28,7 @@ class BookingRepository extends ServiceEntityRepository
 
 
         $qb = $this->createQueryBuilder('b')
-            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r');
 
         // Booking Id
@@ -79,7 +79,7 @@ class BookingRepository extends ServiceEntityRepository
     public function findInHouse(): array
     {
         return $this->createQueryBuilder('b')
-            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
             ->andWhere('b.status = :status')
             ->setParameter('status', BookingStatus::IN->value)
@@ -95,7 +95,7 @@ class BookingRepository extends ServiceEntityRepository
         $end   = $day->setTime(23, 59, 59);
 
         return $this->createQueryBuilder('b')
-            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
             ->andWhere('b.status = :status')
             ->andWhere('b.endingDate BETWEEN :start AND :end')
@@ -113,7 +113,7 @@ class BookingRepository extends ServiceEntityRepository
         $end   = $day->setTime(23, 59, 59);
 
         return $this->createQueryBuilder('b')
-            ->leftJoin('b.client', 'c')->addSelect('c')
+            ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
             ->andWhere('b.status = :status')
             ->andWhere('b.startingDate BETWEEN :start AND :end')
