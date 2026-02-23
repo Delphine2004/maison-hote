@@ -6,6 +6,7 @@ use App\Entity\Rate;
 use App\Entity\Period;
 use App\Enum\UserRole;
 use App\Form\RateType;
+use App\Repository\PeriodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(UserRole::ADMIN->value)]
 final class RateController extends AbstractController
 {
+    #[Route('', name: 'app_rate_index', methods: ['GET'])]
+    public function index(PeriodRepository $periodRepository): Response
+    {
+        // Récupération des périodes
+        $periods = $periodRepository->findActivePeriod();
+        return $this->render('rate/index.html.twig', ['periods' => $periods,]);
+    }
 
     #[Route('/new', name: 'app_rate_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
