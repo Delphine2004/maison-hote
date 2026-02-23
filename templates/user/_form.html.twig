@@ -1,24 +1,79 @@
-{{ form_start(form, {'attr': {'novalidate':  true}}) }} {% if form.login is
-defined %}
-<div class="mb-4 text-gold">
-    {{ form_label(form.login) }}
-    {{ form_widget(form.login) }}
-    {{ form_errors(form.login) }}
-</div>
-{% endif %} {% if form.email is defined %}
-<div class="mb-4 text-gold">
-    {{ form_label(form.email) }}
-    {{ form_widget(form.email) }}
-    {{ form_errors(form.email) }}
-</div>
-{% endif %} {% if form.password is defined %}
-<div class="mb-4 text-gold">
-    {{ form_label(form.password) }}
-    {{ form_widget(form.password) }}
-    {{ form_errors(form.password) }}
-</div>
+{{ form_start(form, {'attr': {'novalidate':  true}}) }}
+
+{% if form.firstName is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.firstName) }}
+		{{ form_widget(form.firstName) }}
+		{{ form_errors(form.firstName) }}
+	</div>
 {% endif %}
+
+{% if form.lastName is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.lastName) }}
+		{{ form_widget(form.lastName) }}
+		{{ form_errors(form.lastName) }}
+	</div>
+{% endif %}
+
+{% if form.login is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.login) }}
+		{{ form_widget(form.login) }}
+		{{ form_errors(form.login) }}
+	</div>
+{% endif %}
+
+{% if form.email is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.email) }}
+		{{ form_widget(form.email) }}
+		{{ form_errors(form.email) }}
+	</div>
+{% endif %}
+
+{% if form.phone is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.phone) }}
+		{{ form_widget(form.phone) }}
+		{{ form_errors(form.phone) }}
+	</div>
+{% endif %}
+
+{% if form.address is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.address) }}
+		{{ form_widget(form.address) }}
+		{{ form_errors(form.address) }}
+	</div>
+{% endif %}
+
+{% if form.zipCode is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.zipCode) }}
+		{{ form_widget(form.zipCode) }}
+		{{ form_errors(form.zipCode) }}
+	</div>
+{% endif %}
+
+{% if form.city is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.city) }}
+		{{ form_widget(form.city) }}
+		{{ form_errors(form.city) }}
+	</div>
+{% endif %}
+
+{% if form.password is defined %}
+	<div class="mb-4 text-gold">
+		{{ form_label(form.password) }}
+		{{ form_widget(form.password) }}
+		{{ form_errors(form.password) }}
+	</div>
+{% endif %}
+
+
 <div class="text-center m-2">
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
 </div>
 {{ form_end(form) }}
