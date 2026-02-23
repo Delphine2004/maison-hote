@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}Les Parenthèses Dorées -
+					Paramétrages
+{% endblock %}
+{% block body %}
+	<main class="pt-5">
+
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card shadow-sm border-gold m-5">
+							<div class="card-header bg-blue text-gold py-3">
+								<h1 class="text-center m-2">Paramétrages</h1>
+							</div>
+							<div class="card-body">
+								<div class="row g-3">
+									<div class="col-12 col-md-4">
+										<a href="{{ path('app_rate_index') }}" class="btn btn-outline-primary w-100">
+											Tarifs
+										</a>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<a href="{{ path('app_hotel_settings') }}" class="btn btn-outline-primary w-100">
+											Etablissement
+										</a>
+									</div>
+
+									<div class="col-12 col-md-4">
+										<a href="{{ path('app_staff_index') }}" class="btn btn-outline-primary w-100">
+											Utilisateurs
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</main>
+{% endblock %}
