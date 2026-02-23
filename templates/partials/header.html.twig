@@ -15,7 +15,7 @@
 					<ul
 						class="navbar-nav">
 						<!-- Liens visibles uniquement par les visiteurs non
-												                    connectés -->
+																		                    connectés -->
 						{% if not app.user %}
 							<li class="nav-item me-3">
 								<a class="nav-link" href="{{ path('app_gallery') }}">Galerie</a>
@@ -29,7 +29,7 @@
 						{% endif %}
 
 						<!-- Liens visibles uniquement par l'admin
-												                    connecté -->
+																		                    connecté -->
 						{% if is_granted('ROLE_ADMIN')%}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('app_settings_index') }}">Paramétres</a>
@@ -38,7 +38,7 @@
 						{% endif %}
 
 						<!-- Liens visibles uniquement par les employés
-												                    connectés -->
+																		                    connectés -->
 						{% if is_granted('ROLE_EMPLOYE')%}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('app_booking_index') }}">Réservations</a>
@@ -55,20 +55,21 @@
 					<ul class="navbar-nav">
 						{% if is_granted('ROLE_EMPLOYE')%}
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_user_index') }}">Tableau de bord</a>
+								<a class="nav-link" href="{{ path('app_user_dashboard') }}">Tableau de bord</a>
 							</li>
-              							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_user_show', { id: app.user.id }) }}">Mon compte</a>
-							</li>
-						{% endif %}
-						<!-- Liens visibles uniquement par les
-												                    utilisateurs connectés -->
-						{% if is_granted('ROLE_CLIENT')%}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('app_user_show', { id: app.user.id }) }}">Mon compte</a>
 							</li>
 						{% endif %}
-						{% if app.user %}
+						{% if is_granted('ROLE_CLIENT')%}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('app_client_show', { id: app.user.id }) }}">Mon compte</a>
+							</li>
+						{% endif %}
+
+						<!-- Liens visibles uniquement par les
+																		                    utilisateurs connectés -->
+						{% if is_granted('IS_AUTHENTICATED_FULLY')%}
 							<li class="nav-item me-3">
 								<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
 							</li>
