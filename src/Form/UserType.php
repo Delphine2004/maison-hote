@@ -26,22 +26,61 @@ class UserType extends AbstractType
         $mode = $options['mode'];
 
         // Pour l'admin: création d'utilisateur
-        if ($mode === 'create') {
+        if ($mode === 'createUser') {
+            $builder
+                ->add('login', TextType::class, [
+                    'label' => 'Nom utilisateur',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('email', EmailType::class, [
+                    'label' => 'Adresse e-mail',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'exemple@email.com'
+                    ],
+                ])
+                ->add('password', RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'first_options' => [
+                        'label' => 'Mot de passe',
+                        'attr' => ['class' => 'form-control'],
+                    ],
+                    'second_options' => [
+                        'label' => 'Confirmer le mot de passe',
+                        'attr' => ['class' => 'form-control'],
+                    ],
+                    'label' => false,
+                    'required' => true,
+                    'mapped' => false, // n'est pas mappé avec la bd car il sera hashé
+                    'constraints' => [
+                        new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire.']),
+                        new Assert\Length([
+                            'max' => 255,
+                            'maxMessage' => 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.',
+                        ]),
+                        new Assert\Regex([
+                            'pattern' => RegexPatterns::PASSWORD,
+                            'message' => 'Le mot de passe doit contenir au moins 12 caractères incluant une majuscule, une minuscule, un chiffre et un caractère spécial.',
+                        ]),
+                    ],
+                ])
+            ;
+        }
+
+        // Pour l'employé et le visiteur
+        if ($mode === 'createClient') {
             $builder
 
                 ->add('firstName', TextType::class, [
                     'label' => 'Prénom',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('lastName', TextType::class, [
                     'label' => 'Nom',
-                    'required' => false,
-                    'attr' => ['class' => 'form-control'],
-                ])
-                ->add('login', TextType::class, [
-                    'label' => 'Nom utilisateur',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
@@ -54,22 +93,22 @@ class UserType extends AbstractType
                 ])
                 ->add('phone', TextType::class, [
                     'label' => 'Téléphone',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('address', TextType::class, [
                     'label' => 'Adresse',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('zipCode', TextType::class, [
                     'label' => 'Code postal',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('city', TextType::class, [
                     'label' => 'Ville',
-                    'required' => false,
+                    'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
                 ->add('password', RepeatedType::class, [
@@ -104,7 +143,7 @@ class UserType extends AbstractType
         if ($mode === 'updateUserByAdmin') {
             $builder
                 ->add('login', TextType::class, [
-                    'label' => 'Prénom',
+                    'label' => 'Nom utilisateur',
                     'required' => true,
                     'attr' => ['class' => 'form-control'],
                 ])
@@ -158,6 +197,36 @@ class UserType extends AbstractType
 
         // Pour l'utilisateur : modification mot de passe
         if ($mode === 'updateUser') {
+            $builder
+                ->add('password', RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'first_options' => [
+                        'label' => 'Mot de passe',
+                        'attr' => ['class' => 'form-control'],
+                    ],
+                    'second_options' => [
+                        'label' => 'Confirmer le mot de passe',
+                        'attr' => ['class' => 'form-control'],
+                    ],
+                    'label' => false,
+                    'required' => true,
+                    'mapped' => false, // n'est pas mappé avec la bd car il sera hashé
+                    'constraints' => [
+                        new Assert\NotBlank(message: 'Le mot de passe est obligatoire.'),
+                        new Assert\Length(
+                            max: 255,
+                            maxMessage: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.',
+                        ),
+                        new Assert\Regex(
+                            pattern: RegexPatterns::PASSWORD,
+                            message: 'Le mot de passe doit contenir au moins 12 caractères incluant une majuscule, une minuscule, un chiffre et un caractère spécial.',
+                        ),
+                    ],
+                ]);
+        }
+
+        // Pour le client et l'employé
+        if ($mode === 'updateClient') {
             $builder
                 ->add('firstName', TextType::class, [
                     'label' => 'Prénom',
