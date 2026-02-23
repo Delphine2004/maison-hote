@@ -24,32 +24,43 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'required' => false,
+                'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'required' => false,
+                'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse e-mail',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'exemple@exemple.com'
+                    'placeholder' => 'exemple@email.com'
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Conditions d\'utilisation',
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter les conditions.',
-                    ]),
-                ],
+            ->add('phone', TextType::class, [
+                'label' => 'Téléphone',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('address', TextType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('zipCode', TextType::class, [
+                'label' => 'Code postal',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'Mot de passe',
@@ -74,7 +85,17 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        ;
+
+
+            ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'Conditions d\'utilisation',
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter les conditions.',
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
