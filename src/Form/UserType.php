@@ -178,6 +178,7 @@ class UserType extends AbstractType
                         'label' => 'Confirmer le mot de passe',
                         'attr' => ['class' => 'form-control'],
                     ],
+                    'label' => false,
                     'required' => true,
                     'mapped' => false, // n'est pas mappé avec la bd car il sera hashé
                     'constraints' => [
