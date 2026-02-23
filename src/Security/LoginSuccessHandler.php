@@ -28,12 +28,12 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
             || in_array(UserRole::EMPLOYE->value, $roles, true)
         ) {
             return new RedirectResponse(
-                $this->router->generate('app_user_index')
+                $this->router->generate('app_user_dashboard')
             );
         }
 
         return new RedirectResponse(
-            $this->router->generate('app_user_show', [
+            $this->router->generate('app_client_show', [
                 'id' => $user->getId()
             ])
         );
