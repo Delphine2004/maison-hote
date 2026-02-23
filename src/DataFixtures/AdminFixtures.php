@@ -23,7 +23,7 @@ class AdminFixtures extends Fixture
         $admin->setEmail('admin@guesthouse.fr');
         $admin->setLogin('Administrateur');
         $admin->setRoles([UserRole::ADMIN, UserRole::EMPLOYE]);
-        $hashedPassword = $this->hasher->hashPassword($admin, 'admin123');
+        $hashedPassword = $this->hasher->hashPassword($admin, 'Azertyuiop12*');
         $admin->setPassword($hashedPassword, true);
 
         $manager->persist($admin);

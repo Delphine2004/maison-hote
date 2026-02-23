@@ -23,7 +23,7 @@ class StaffFixtures extends Fixture
         $staff->setEmail('staff@guesthouse.fr');
         $staff->setLogin('front-office');
         $staff->setRoles([UserRole::EMPLOYE]);
-        $hashedPassword = $this->hasher->hashPassword($staff, 'frontoffiche123');
+        $hashedPassword = $this->hasher->hashPassword($staff, 'Azertyuiop12*');
         $staff->setPassword($hashedPassword, true);
 
         $manager->persist($staff);
