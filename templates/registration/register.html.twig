@@ -1,23 +1,73 @@
-{% extends 'base.html.twig' %} {% block title %}Les Parenthèses Dorées -
-Inscription{% endblock %} {% block body %}
-<main class="pt-5">
-    <section class="container-fluid py-5">
-        <div class="container">
-            <h1 class="text-center m-5">Inscription</h1>
+{% extends 'base.html.twig' %}
+{% block title %}Les Parenthèses Dorées -
+				Inscription
+{% endblock %}
+{% block body %}
+	<main class="pt-5">
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4">
+							<h1 class="text-center m-5">Inscription</h1>
 
-            {{ form_errors(registrationForm) }}
+							{{ form_errors(registrationForm) }}
 
-            {{ form_start(registrationForm) }}
+							{{ form_start(registrationForm) }}
 
-            {{ form_row(registrationForm.firstName) }}
-            {{ form_row(registrationForm.lastName) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword) }}
-            {{ form_row(registrationForm.agreeTerms) }}
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.firstName) }}
+								{{ form_widget(registrationForm.firstName) }}
+								{{ form_errors(registrationForm.firstName) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.lastName) }}
+								{{ form_widget(registrationForm.lastName) }}
+								{{ form_errors(registrationForm.lastName) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.email) }}
+								{{ form_widget(registrationForm.email) }}
+								{{ form_errors(registrationForm.email) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.phone) }}
+								{{ form_widget(registrationForm.phone) }}
+								{{ form_errors(registrationForm.phone) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.address) }}
+								{{ form_widget(registrationForm.address) }}
+								{{ form_errors(registrationForm.address) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.zipCode) }}
+								{{ form_widget(registrationForm.zipCode) }}
+								{{ form_errors(registrationForm.zipCode) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.city) }}
+								{{ form_widget(registrationForm.city) }}
+								{{ form_errors(registrationForm.city) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.password) }}
+								{{ form_widget(registrationForm.password) }}
+								{{ form_errors(registrationForm.password) }}
+							</div>
+							<div class="mb-4 text-gold">
+								{{ form_label(registrationForm.agreeTerms) }}
+								{{ form_widget(registrationForm.agreeTerms) }}
+								{{ form_errors(registrationForm.agreeTerms) }}
+							</div>
 
-            <button type="submit" class="btn">S'inscrire</button>
-            {{ form_end(registrationForm) }}
-        </div>
-    </section>
-</main>
+							<button type="submit" class="btn">S'inscrire</button>
+							{{ form_end(registrationForm) }}</div>
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+	</main>
 {% endblock %}
