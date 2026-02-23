@@ -41,7 +41,7 @@ class BookingType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Client',
-                'choice_label' => 'name',
+                'choice_label' => 'lastName',
                 'required' => true,
                 'attr' => ['class' => 'form-control', 'data-controller' => 'autocomplete'],
             ])
