@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('IS_AUTHENTICATED_FULLY')]
 #[Route('/booking')]
 final class BookingController extends AbstractController
 {
@@ -49,6 +48,12 @@ final class BookingController extends AbstractController
             'booking' => $booking,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/statistics', name: 'app_booking_statistics')]
+    public function renderSearch(): Response
+    {
+        return $this->render('booking/statistics.html.twig');
     }
 
     #[Route('/{id}', name: 'app_booking_show', methods: ['GET'])]
@@ -115,11 +120,5 @@ final class BookingController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/statistics', name: 'app_booking_statistics')]
-    public function renderSearch(): Response
-    {
-        return $this->render('booking/statistics.html.twig');
     }
 }
