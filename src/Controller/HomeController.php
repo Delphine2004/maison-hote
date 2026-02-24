@@ -20,7 +20,7 @@ final class HomeController extends AbstractController
         return $this->render('home/gallery.html.twig');
     }
 
-    #[Route('/services', name: 'app_services')]
+    #[Route('/infos', name: 'app_services')]
     public function renderServices(): Response
     {
         return $this->render('home/services.html.twig');
