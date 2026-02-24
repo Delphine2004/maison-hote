@@ -69,7 +69,7 @@ class UserType extends AbstractType
             ;
         }
 
-        // Pour l'employé et le visiteur
+        // Pour l'employé
         if ($mode === 'createClient') {
             $builder
 
@@ -110,31 +110,6 @@ class UserType extends AbstractType
                     'label' => 'Ville',
                     'required' => true,
                     'attr' => ['class' => 'form-control'],
-                ])
-                ->add('password', RepeatedType::class, [
-                    'type' => PasswordType::class,
-                    'first_options' => [
-                        'label' => 'Mot de passe',
-                        'attr' => ['class' => 'form-control'],
-                    ],
-                    'second_options' => [
-                        'label' => 'Confirmer le mot de passe',
-                        'attr' => ['class' => 'form-control'],
-                    ],
-                    'label' => false,
-                    'required' => true,
-                    'mapped' => false, // n'est pas mappé avec la bd car il sera hashé
-                    'constraints' => [
-                        new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire.']),
-                        new Assert\Length([
-                            'max' => 255,
-                            'maxMessage' => 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.',
-                        ]),
-                        new Assert\Regex([
-                            'pattern' => RegexPatterns::PASSWORD,
-                            'message' => 'Le mot de passe doit contenir au moins 12 caractères incluant une majuscule, une minuscule, un chiffre et un caractère spécial.',
-                        ]),
-                    ],
                 ])
             ;
         }
