@@ -26,7 +26,12 @@ security:
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/user, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/period, roles: ROLE_ADMIN }
+        - { path: ^/rate, roles: ROLE_ADMIN }
+        - { path: ^/room, roles: ROLE_ADMIN }
+        - { path: ^/picture, roles: ROLE_ADMIN }
+        - { path: ^/service, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_EMPLOYE }
 
 when@test:
     security:
