@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block title %}Espace utilisateur -
-				Client
+												Client
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
-		<section class="container-fluid">
+		<h1 class="text-center m-5">Clients</h1>
+		<!-- Créer un client -->
+		<section class="container-fluid pb-5">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
-							<h1 class="text-center m-3">Clients</h1>
+						<div class="card bg-blue shadow-sm border-gold text-gold py-3">
 							<div class="text-center m-3">
-								<a class="btn" href="{{ path('app_client_new') }}">Créer une client</a>
+								<a class="btn" href="{{ path('app_client_new') }}">Créer un client</a>
 							</div>
 						</div>
 					</div>
@@ -20,14 +21,14 @@
 		</section>
 
 		<!-- Recherche de client -->
-		<section class="container-fluid py-5">
+		<section class="container-fluid pb-5">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="bg-blue border-gold card p-4 shadow-sm mb-4">
 							<h3 class="text-center text-gold mb-4">Rechercher</h3>
 
-							<form id="search-client-form">
+							<form method="GET" action="{{ path('app_client_index') }}">
 								<div
 									class="row g-3 mb-3 d-flex justify-content-around">
 									<!-- Id -->
@@ -39,7 +40,7 @@
 									<!-- Nom client -->
 									<div class="col-md-4">
 										<label class="form-label" for="last-name">Nom</label>
-										<input class="form-control" type="text" name="last_name" id="last-name" min-lenght="2" max-lenght="100"/>
+										<input class="form-control" type="text" name="last_name" id="last-name" minlenght="2" maxlenght="100"/>
 									</div>
 
 									<!-- Email client -->
@@ -58,7 +59,41 @@
 						</div>
 					</div>
 				</div>
-				<div id="clients-list" class="row justify-content-center align-items-center my-4"></div>
+				<div id="clients-list" class="row justify-content-center align-items-center my-4">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="table-responsive shadow-sm border rounded">
+							<table class="table table-hover align-middle mb-0">
+								<thead>
+									<tr>
+										<th scope="col">ID</th>
+										<th scope="col">Client</th>
+										<th scope="col">Action</th>
+									</tr>
+								</thead>
+								<tbody id="clients-table-body">
+									{% for user in users %}
+										<tr>
+											<td>{{ user.id }}</td>
+											<td>{{ user.lastName }}
+												{{ user.firstName }}</td>
+											<td>
+												<a class="btn btn-sm" href="{{ path('app_client_show', { id: user.id }) }}">
+													Voir
+												</a>
+											</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="3" class="text-center">
+												Aucun client ne correspond à la recherche.
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
 		</section>
 	</main>
