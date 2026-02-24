@@ -112,6 +112,12 @@ label {
   color: #ba912c;
 }
 
+.pictures-list {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+
 #home,
 #adress {
   background-color: #f5f5dc;
