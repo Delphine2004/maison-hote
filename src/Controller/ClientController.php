@@ -13,11 +13,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/client')]
 final class ClientController extends AbstractController
 {
+    #[Route('/dashboard/{id}', name: 'app_client_dashboard', methods: ['GET'])]
+    #[IsGranted(UserRole::CLIENT->value)]
+    public function renderClientDashboard(User $user): Response
+    {
+        return $this->render('user/dashboard_client.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function showClient(User $user): Response
     {
         return $this->render('user/show_client.html.twig', [
@@ -26,6 +37,7 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::CLIENT->value)]
     public function edit(
         Request $request,
         User $user,
