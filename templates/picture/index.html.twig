@@ -1,35 +1,51 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Picture index{% endblock %}
-
+{% block title %}Espace administrateur -
+													Photos
+{% endblock %}
 {% block body %}
-    <h1>Picture index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for picture in pictures %}
-            <tr>
-                <td>{{ picture.id }}</td>
-                <td>{{ picture.picture }}</td>
-                <td>
-                    <a href="{{ path('app_picture_show', {'id': picture.id}) }}">show</a>
-                    <a href="{{ path('app_picture_edit', {'id': picture.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<main class="pt-5">
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10">
+						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
+							<h1 class="text-center m-3">Photos</h1>
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_picture_new') }}">Ajouter une photo</a>
+							</div>
+						</div>
+					</div>
+					<div class="text-center m-3">
+						<a class="btn" href="{{ path('app_hotel_settings') }}">Retour aux paramétres</a>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    <a href="{{ path('app_picture_new') }}">Create new</a>
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center g-4">
+
+					{% for picture in pictures %}
+						<div class="col-12 col-md-5 my-4">
+							<div class="card shadow-sm border-gold h-100">
+
+								<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="card-img-top pictures-list "/>
+
+								<div class="card-body flex-fill bg-blue text-gold">
+											{{include("picture/_delete_form.html.twig")}}
+								</div>
+
+							</div>
+						</div>
+					{% else %}
+						<p class="text-center">Aucune photo enregistrée</p>
+					{% endfor %}
+
+				</div>
+			</div>
+		</section>
+
+	</main>
 {% endblock %}

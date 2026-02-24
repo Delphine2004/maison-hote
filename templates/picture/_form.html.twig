@@ -1,4 +1,12 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'novalidate':  true}}) }}
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.picture) }}
+	{{ form_widget(form.picture) }}
+	{{ form_errors(form.picture) }}
+</div>
+
+<div class="text-center m-2">
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}
