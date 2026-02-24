@@ -16,7 +16,7 @@
 						class="navbar-nav">
 						<!-- Liens visibles uniquement par les visiteurs non
 																		                    connectés -->
-						{% if not app.user %}
+						{% if not app.user or is_granted('ROLE_CLIENT')%}
 							<li class="nav-item me-3">
 								<a class="nav-link" href="{{ path('app_gallery') }}">Galerie</a>
 							</li>
@@ -63,7 +63,7 @@
 						{% endif %}
 						{% if is_granted('ROLE_CLIENT')%}
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_client_show', { id: app.user.id }) }}">Mon compte</a>
+								<a class="nav-link" href="{{ path('app_client_dashboard', { id: app.user.id }) }}">Mon compte</a>
 							</li>
 						{% endif %}
 
