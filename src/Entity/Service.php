@@ -17,7 +17,7 @@ class Service
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
+    #[ORM\Column(length: 100)]
     private ?string $price = null;
 
     #[ORM\Column(length: 255)]
