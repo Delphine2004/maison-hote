@@ -43,31 +43,35 @@ block body %}
 								</div>
 							</div>
 							<div class="card-footer bg-blue">
-								<div
-									class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3">
+								<div class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3">
 
+									{% set isAdmin = is_granted('ROLE_ADMIN') %}
+									{% set isSelf = app.user.id == user.id %}
+									{% set targetIsAdmin = 'ROLE_ADMIN' in user.roles %}
+									{% set showDelete = isAdmin and not isSelf and not targetIsAdmin %}
 
-									{# Bouton Modifier toujours affiché #}
-
-
-									<div class="{% if is_granted('ROLE_ADMIN') and app.user.id != user.id and 'ROLE_EMPLOYE' in user.roles and 'ROLE_ADMIN' not in user.roles %} flex-fill {% else %} mx-auto {% endif %}">
-										<a class="btn w-100" href="{{ path('app_user_edit_by_admin', { id: user.id }) }}">
-											Modifier
-										</a>
-									</div>
-									{% if is_granted('ROLE_EMPLOYE') and not is_granted('ROLE_ADMIN') and app.user.id != user.id and 'ROLE_EMPLOYE' in user.roles and 'ROLE_ADMIN' not in user.roles %}
-										<div>
-											<a class="btn w-100" href="{{ path('app_user_edit', { id: user.id }) }}">
-												Modifier
+									{% if isAdmin %}
+										<div class="{% if showDelete %}flex-fill{% else %}mx-auto{% endif %}">
+											<a class="btn w-100" href="{{ path('app_user_edit_by_admin', { id: user.id }) }}">
+												Modifier par admin
 											</a>
 										</div>
-									{% endif %}
-									{# Bouton Supprimer uniquement pour admin sur compte employé différent de lui-même #}
-									{% if is_granted('ROLE_ADMIN') and app.user.id != user.id and 'ROLE_EMPLOYE' in user.roles and 'ROLE_ADMIN' not in user.roles %}
-										<div class="flex-fill">
-											{{include("admin/_delete_form.html.twig")}}
+
+										{% if showDelete %}
+											<div class="flex-fill">
+												{{ include("admin/_delete_form.html.twig") }}
+											</div>
+										{% endif %}
+
+									{% elseif is_granted('ROLE_EMPLOYE') and isSelf %}
+										<div class="mx-auto">
+											<a class="btn w-100" href="{{ path('app_user_edit', { id: user.id }) }}">
+												Modifier par employé
+											</a>
 										</div>
+
 									{% endif %}
+
 								</div>
 							</div>
 						</div>
