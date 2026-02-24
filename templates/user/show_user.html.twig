@@ -53,7 +53,7 @@ block body %}
 									{% if isAdmin %}
 										<div class="{% if showDelete %}flex-fill{% else %}mx-auto{% endif %}">
 											<a class="btn w-100" href="{{ path('app_user_edit_by_admin', { id: user.id }) }}">
-												Modifier par admin
+												Modifier
 											</a>
 										</div>
 
@@ -66,7 +66,7 @@ block body %}
 									{% elseif is_granted('ROLE_EMPLOYE') and isSelf %}
 										<div class="mx-auto">
 											<a class="btn w-100" href="{{ path('app_user_edit', { id: user.id }) }}">
-												Modifier par employé
+												Modifier
 											</a>
 										</div>
 
