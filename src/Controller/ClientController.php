@@ -18,6 +18,26 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/client')]
 final class ClientController extends AbstractController
 {
+
+    #[Route('/search', name: 'app_client_index', methods: ['GET'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function index(
+        Request $request,
+        UserRepository $userRepository
+    ): Response {
+        $criteria = array_filter($request->query->all());
+
+        $users = [];
+
+        if (!empty($criteria)) {
+            $users = $userRepository->findUserByFilters($criteria);
+        }
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
     #[Route('/dashboard/{id}', name: 'app_client_dashboard', methods: ['GET'])]
     #[IsGranted(UserRole::CLIENT->value)]
     public function renderClientDashboard(User $user): Response

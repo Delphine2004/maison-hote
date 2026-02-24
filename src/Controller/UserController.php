@@ -46,24 +46,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'app_user_index', methods: ['GET'])]
-    public function index(
-        UserRepository $userRepository
-    ): Response {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findUserByFilters([]),
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function showUser(
-        User $user
-    ): Response {
-        return $this->render('user/show_user.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -76,7 +58,7 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('password')->getData();
+            $plainPassword = "PasswordToChange123";
             $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
 
             $user->setPassword($hashedPassword);
@@ -89,6 +71,15 @@ final class UserController extends AbstractController
 
         return $this->render('user/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    public function showUser(
+        User $user
+    ): Response {
+        return $this->render('user/show_user.html.twig', [
+            'user' => $user,
         ]);
     }
 
