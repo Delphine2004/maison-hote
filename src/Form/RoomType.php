@@ -40,7 +40,7 @@ class RoomType extends AbstractType
                     'attr' => ['class' => 'form-control',],
                     'constraints' => [
                         new File([
-                            'maxSize' => '10M', // ICI tu règles la taille
+                            'maxSize' => '10M',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/png',
