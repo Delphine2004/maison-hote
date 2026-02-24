@@ -23,15 +23,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(UserRole::EMPLOYE->value)]
 final class UserController extends AbstractController
 {
-    #[Route('/search', name: 'app_user_index', methods: ['GET'])]
-    public function index(
-        UserRepository $userRepository
-    ): Response {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findUserByFilters([]),
-        ]);
-    }
-
     #[Route('/dashboard', name: 'app_user_dashboard', methods: ['GET'])]
     public function renderUserDashboard(
         BookingRepository $bookingRepository
@@ -52,6 +43,15 @@ final class UserController extends AbstractController
             'inhouses' => $inHouse,
             'checkouts' => $checkOut,
             'checkins' => $checkIn,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_user_index', methods: ['GET'])]
+    public function index(
+        UserRepository $userRepository
+    ): Response {
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findUserByFilters([]),
         ]);
     }
 
