@@ -1,4 +1,24 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.name) }}
+	{{ form_widget(form.name) }}
+	{{ form_errors(form.name) }}
+</div>
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.price) }}
+	{{ form_widget(form.price) }}
+	{{ form_errors(form.price) }}
+</div>
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.description) }}
+	{{ form_widget(form.description) }}
+	{{ form_errors(form.description) }}
+</div>
+
+<div class="text-center m-2">
+	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}

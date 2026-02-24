@@ -1,39 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Service index{% endblock %}
+{% block title %}Espace administrateur -Services
+{% endblock %}
 
 {% block body %}
-    <h1>Service index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for service in services %}
-            <tr>
-                <td>{{ service.id }}</td>
-                <td>{{ service.name }}</td>
-                <td>{{ service.price }}</td>
-                <td>{{ service.description }}</td>
-                <td>
-                    <a href="{{ path('app_service_show', {'id': service.id}) }}">show</a>
-                    <a href="{{ path('app_service_edit', {'id': service.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<main class="pt-5">
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10">
+						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
+							<h1 class="text-center m-3">Services</h1>
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_service_new') }}">Ajouter un service</a>
+							</div>
 
-    <a href="{{ path('app_service_new') }}">Create new</a>
+						</div>
+					</div>
+					<div class="text-center m-3">
+						<a class="btn" href="{{ path('app_hotel_settings') }}">Retour aux paramétres</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center g-4">
+
+					{% for service in services %}
+						<div class="col-12 col-md-5 my-4">
+							<div class="card shadow-sm border-gold h-100">
+								<div class="card-header bg-blue text-gold">
+									<h2 class="text-center text-gold m-3">{{ service.name }}</h2>
+								</div>
+								<div class="card-body ">
+									<p>{{ service.price }}</p>
+									<p>{{ service.description }}</p>
+								</div>
+								<div class="card-footer bg-blue">
+									<div class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3">
+
+										<a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btn flex-fill">Modifier</a>
+										<div class="flex-fill">
+											{{include("service/_delete_form.html.twig")}}
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					{% else %}
+						<p class="text-center">Aucun service enregistré</p>
+					{% endfor %}
+
+				</div>
+			</div>
+		</section>
+
+	</main>
 {% endblock %}

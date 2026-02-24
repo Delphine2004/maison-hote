@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Service{% endblock %}
+{% block title %}Paramétrage - Modification Service
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Service</h1>
+	<main class="pt-5">
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4">
+							<h1 class="text-center text-gold m-5">Modifier</h1>
 
-    {{ include('service/_form.html.twig', {'button_label': 'Update'}) }}
+							{{ include('service/_form.html.twig', {'button_label': 'Modifier'}) }}
+						</div>
+					</div>
+					<div class="text-center m-5">
+						<a class="btn" href="{{ path('app_service_index') }}">Retour sur le compte</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
 
-    <a href="{{ path('app_service_index') }}">back to list</a>
-
-    {{ include('service/_delete_form.html.twig') }}
 {% endblock %}

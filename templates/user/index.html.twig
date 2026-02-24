@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}Espace utilisateur -
-			Client
+				Client
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
-		<h1 class="text-center m-5">Clients</h1>
-		<!-- Créer un client  -->
 		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card bg-blue shadow-sm border-gold text-gold py-3">
+						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
+							<h1 class="text-center m-3">Clients</h1>
 							<div class="text-center m-3">
 								<a class="btn" href="{{ path('app_client_new') }}">Créer une client</a>
 							</div>
