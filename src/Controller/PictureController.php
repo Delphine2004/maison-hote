@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Picture;
+use App\Enum\UserRole;
 use App\Form\PictureType;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/picture')]
+#[IsGranted(UserRole::ADMIN->value)]
 final class PictureController extends AbstractController
 {
 

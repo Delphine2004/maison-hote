@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Enum\BookingStatus;
 use App\Enum\UserRole;
 use App\Form\UserType;
 use App\Repository\BookingRepository;
@@ -19,8 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-//#[IsGranted(UserRole::EMPLOYE->value)]
+
 #[Route('/user')]
+#[IsGranted(UserRole::EMPLOYE->value)]
 final class UserController extends AbstractController
 {
     #[Route('/search', name: 'app_user_index', methods: ['GET'])]
@@ -56,22 +56,14 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function showUser(User $user): Response
-    {
+    public function showUser(
+        User $user
+    ): Response {
         return $this->render('user/show_user.html.twig', [
             'user' => $user,
         ]);
     }
 
-    #[Route('/client/{id}', name: 'app_client_show', methods: ['GET'])]
-    public function showClient(User $user): Response
-    {
-        return $this->render('user/show_client.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-    //------------------------------
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -106,7 +98,7 @@ final class UserController extends AbstractController
         User $user,
         EntityManagerInterface $entityManager
     ): Response {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['mode' => 'updateUser']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
