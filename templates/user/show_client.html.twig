@@ -110,8 +110,8 @@ block body %}
 							<div class="card-footer bg-blue">
 								<div
 									class="text-center m-2">
-									<!-- {{ path('app_staff_new') }} -->
-									<a class="btn" href="">Historique</a>
+							
+									<a class="btn" href="{{ path('app_client_booking', { id: user.id }) }}">Historique</a>
 								</div>
 							</div>
 						</tbody>

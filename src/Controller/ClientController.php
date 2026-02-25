@@ -59,6 +59,20 @@ final class ClientController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/history', name: 'app_client_booking', methods: ['GET'])]
+    #[IsGranted(UserRole::CLIENT->value)]
+    public function renderClientHistory(
+        User $user,
+        BookingRepository $bookingRepository
+    ): Response {
+        $today = new DateTimeImmutable('today');
+        $bookings = $bookingRepository->findPastBookingsByClient($user->getId(), $today);
+
+        return $this->render('user/user_history.html.twig', [
+            'bookings' => $bookings
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
     #[IsGranted(UserRole::CLIENT->value)]
     public function edit(

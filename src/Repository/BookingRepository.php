@@ -85,12 +85,30 @@ class BookingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
-            ->andWhere('u.id = :userId')
+            ->andWhere('b.user = :userId')
             ->andWhere('b.status = :status')
             ->andWhere('b.endingDate < :start')
             ->setParameter('userId', $userId)
             ->setParameter('status', BookingStatus::CONFIRMED->value)
             ->setParameter('start', $start)
+            ->orderBy('b.startingDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPastBookingsByClient(
+        int $userId,
+        DateTimeImmutable $day
+    ) {
+        $end = $day->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.user', 'u')->addSelect('u')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.user = :userId')
+            ->andWhere('b.endingDate < :end')
+            ->setParameter('userId', $userId)
+            ->setParameter('end', $end)
             ->orderBy('b.startingDate', 'ASC')
             ->getQuery()
             ->getResult();
