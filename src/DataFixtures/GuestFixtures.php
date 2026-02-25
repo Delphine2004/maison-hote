@@ -19,20 +19,81 @@ class GuestFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setFirstName('Bruce');
-        $user->setLastName('WAYNE');
-        $user->setEmail('batman@batman.fr');
-        $user->setPhone('0601020304');
-        $user->setAddress('12 rue du manoir');
-        $user->setCity('GOTHAM');
-        $user->setZipCode('88000');
 
-        $user->setRoles([UserRole::CLIENT]);
-        $hashedPassword = $this->hasher->hashPassword($user, 'Azertyuiop12*');
-        $user->setPassword($hashedPassword, true);
+        $clientData = [
 
-        $manager->persist($user);
+            [
+                'lastName' => 'WAYNE',
+                'firstName' => 'Bruce',
+                'email' => 'batman@batman.com',
+                'phone' => '0601020304',
+                'address' => '12 rue du manoir',
+                'city' => 'GOTHAM',
+                'zipCode' => '88000'
+            ],
+            [
+                'lastName' => 'KENT',
+                'firstName' => 'Clark',
+                'email' => 'superman@dailyplanet.com',
+                'phone' => '0612345678',
+                'address' => '344 Clinton Street',
+                'city' => 'METROPOLIS',
+                'zipCode' => '75000'
+            ],
+            [
+                'lastName' => 'STARK',
+                'firstName' => 'Tony',
+                'email' => 'ironman@starkindustries.com',
+                'phone' => '0698765432',
+                'address' => '10880 Malibu Point',
+                'city' => 'MALIBU',
+                'zipCode' => '90265'
+            ],
+            [
+                'lastName' => 'PARKER',
+                'firstName' => 'Peter',
+                'email' => 'spiderman@bugle.com',
+                'phone' => '0623456789',
+                'address' => '20 Ingram Street',
+                'city' => 'QUEENS',
+                'zipCode' => '11375'
+            ],
+            [
+                'lastName' => 'GRANGER',
+                'firstName' => 'Hermione',
+                'email' => 'hermione@poudlard.com',
+                'phone' => '0634567890',
+                'address' => '7 allée des Moldus',
+                'city' => 'LONDON',
+                'zipCode' => '12345'
+            ],
+            [
+                'lastName' => 'BOND',
+                'firstName' => 'James',
+                'email' => 'bond007@mi6.co.uk',
+                'phone' => '0645678901',
+                'address' => '30 Wellington Square',
+                'city' => 'LONDON',
+                'zipCode' => '13000'
+            ]
+        ];
+
+        foreach ($clientData as $data) {
+            $client = new User();
+            $client->setFirstName($data['firstName']);
+            $client->setLastName($data['lastName']);
+            $client->setEmail($data['email']);
+            $client->setPhone($data['phone']);
+            $client->setAddress($data['address']);
+            $client->setCity($data['city']);
+            $client->setZipCode($data['zipCode']);
+
+            $client->setRoles([UserRole::CLIENT]);
+            $hashedPassword = $this->hasher->hashPassword($client, 'Azertyuiop12*');
+            $client->setPassword($hashedPassword, true);
+
+            $manager->persist($client);
+        }
         $manager->flush();
     }
 }
