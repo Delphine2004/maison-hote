@@ -268,6 +268,48 @@ class UserType extends AbstractType
                     ],
                 ]);
         }
+
+        if ($mode === 'updateClientByStaff') {
+            $builder
+                ->add('firstName', TextType::class, [
+                    'label' => 'Prénom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('lastName', TextType::class, [
+                    'label' => 'Nom',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('phone', TextType::class, [
+                    'label' => 'Téléphone',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('address', TextType::class, [
+                    'label' => 'Adresse',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('zipCode', TextType::class, [
+                    'label' => 'Code postal',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('city', TextType::class, [
+                    'label' => 'Ville',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+                ->add('email', EmailType::class, [
+                    'label' => 'Adresse e-mail',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'exemple@email.com'
+                    ],
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
