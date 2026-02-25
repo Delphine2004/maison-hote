@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,32 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findUserByFilters(
+    public function findClientByFilters(
         ?array $criteria,
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {
         $qb = $this->createQueryBuilder('u')
             ->select('DISTINCT u', 'b')
-            ->leftJoin('u.bookings', 'b')->addSelect('b');
+            ->leftJoin('u.bookings', 'b');
 
-        if (!empty($criteria['id'])) {
+        if (!empty($criteria['user_id'])) {
             $qb->andWhere('u.id = :id')
-                ->setParameter('id', $criteria['id']);
+                ->setParameter('id', $criteria['user_id']);
         }
-        if (!empty($criteria['lastName'])) {
-            $qb->andWhere('u.lastName = :lastName')
-                ->setParameter('lastName', $criteria['lastName']);
+        if (!empty($criteria['last_name'])) {
+            $qb->andWhere('u.lastName LIKE :lastName')
+                ->setParameter('lastName', '%' . $criteria['last_name'] . '%');
         }
         if (!empty($criteria['email'])) {
-            $qb->andWhere('u.email = :email')
-                ->setParameter('email', $criteria['email']);
+            $qb->andWhere('u.email LIKE :email')
+                ->setParameter('email', '%' . $criteria['email'] . '%');
         }
-        return $qb->orderBy('u.id',  $orderBy)
+        // filtre clients
+        $qb->andWhere('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_CLIENT%');
+        return $qb->orderBy('u.id', $orderBy)
+
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
