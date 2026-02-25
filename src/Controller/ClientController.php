@@ -7,6 +7,9 @@ use App\Enum\UserRole;
 use App\Form\UserType;
 
 use App\Repository\UserRepository;
+use App\Repository\BookingRepository;
+
+use DateTimeImmutable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('/client')]
 final class ClientController extends AbstractController
@@ -30,7 +34,7 @@ final class ClientController extends AbstractController
         $users = [];
 
         if (!empty($criteria)) {
-            $users = $userRepository->findUserByFilters($criteria);
+            $users = $userRepository->findClientByFilters($criteria);
         }
 
         return $this->render('user/index.html.twig', [
@@ -38,21 +42,20 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/{id}', name: 'app_client_dashboard', methods: ['GET'])]
-    #[IsGranted(UserRole::CLIENT->value)]
-    public function renderClientDashboard(User $user): Response
-    {
-        return $this->render('user/dashboard_client.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
-    #[IsGranted(UserRole::EMPLOYE->value)]
-    public function showClient(User $user): Response
-    {
+    #[IsGranted(UserRole::CLIENT->value)]
+    public function showClient(
+        User $user,
+        BookingRepository $bookingRepository
+    ): Response {
+
+        $today = new DateTimeImmutable('today');
+
+        $bookings = $bookingRepository->findUpcomingBookingsByClient($user->getId(), $today);
+
         return $this->render('user/show_client.html.twig', [
             'user' => $user,
+            'bookings' => $bookings
         ]);
     }
 
@@ -63,7 +66,14 @@ final class ClientController extends AbstractController
         User $user,
         EntityManagerInterface $entityManager
     ): Response {
-        $form = $this->createForm(UserType::class, $user, ['mode' => 'updateClient']);
+
+        if ($this->getUser() === $user) {
+            $mode = 'updateClient';
+        } else {
+            $mode = 'updateClientByStaff';
+        }
+
+        $form = $this->createForm(UserType::class, $user, ['mode' => $mode]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,5 +86,32 @@ final class ClientController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
+    #[IsGranted(UserRole::CLIENT->value)]
+    public function delete(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
+
+            // Si l'utilisateur supprime son propre compte
+            if ($this->getUser() === $user) {
+                $tokenStorage->setToken(null);
+                $request->getSession()->invalidate();
+            }
+
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        if ($this->isGranted('ROLE_EMPLOYE')) {
+            return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        };
     }
 }
