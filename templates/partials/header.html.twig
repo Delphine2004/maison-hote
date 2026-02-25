@@ -16,7 +16,7 @@
 						class="navbar-nav">
 						<!-- Liens visibles uniquement par les visiteurs non
 																		                    connectés -->
-						{% if not app.user or is_granted('ROLE_CLIENT')%}
+						{% if not app.user or is_granted('ROLE_CLIENT') and not is_granted('ROLE_EMPLOYE')%}
 							<li class="nav-item me-3">
 								<a class="nav-link" href="{{ path('app_gallery') }}">Galerie</a>
 							</li>
@@ -39,7 +39,7 @@
 
 						<!-- Liens visibles uniquement par les employés
 																		                    connectés -->
-						{% if is_granted('ROLE_EMPLOYE')%}
+						{% if is_granted('ROLE_EMPLOYE') %}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('app_booking_index') }}">Réservations</a>
 							</li>
@@ -61,9 +61,9 @@
 								<a class="nav-link" href="{{ path('app_user_show', { id: app.user.id }) }}">Mon compte</a>
 							</li>
 						{% endif %}
-						{% if is_granted('ROLE_CLIENT')%}
+						{% if is_granted('ROLE_CLIENT') and not is_granted('ROLE_EMPLOYE')%}
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_client_dashboard', { id: app.user.id }) }}">Mon compte</a>
+								<a class="nav-link" href="{{ path('app_client_show', { id: app.user.id }) }}">Mon compte</a>
 							</li>
 						{% endif %}
 
