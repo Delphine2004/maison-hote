@@ -76,6 +76,26 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findUpcomingBookingsByClient(
+        int $userId,
+        DateTimeImmutable $day
+    ) {
+        $start = $day->setTime(0, 0, 0);
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.user', 'u')->addSelect('u')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('u.id = :userId')
+            ->andWhere('b.status = :status')
+            ->andWhere('b.endingDate < :start')
+            ->setParameter('userId', $userId)
+            ->setParameter('status', BookingStatus::CONFIRMED->value)
+            ->setParameter('start', $start)
+            ->orderBy('b.startingDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findInHouse(): array
     {
         return $this->createQueryBuilder('b')
