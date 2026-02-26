@@ -52,6 +52,8 @@ class RoomFixtures extends Fixture
             $room->setPicture($data['picture']);
             $room->setStatus(RoomStatus::AVAILABLE);
             $manager->persist($room);
+
+            $this->addReference('room_' . $data['number'], $room);
         }
 
         $manager->flush();
