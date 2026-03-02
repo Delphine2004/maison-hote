@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PictureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,9 +16,11 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/gallery', name: 'app_gallery')]
-    public function renderGallery(): Response
-    {
-        return $this->render('home/gallery.html.twig');
+    public function renderGallery(
+        PictureRepository $pictureRepository
+    ): Response {
+        $pictures = $pictureRepository->findAllPictures();
+        return $this->render('home/gallery.html.twig', ['pictures' => $pictures]);
     }
 
     #[Route('/infos', name: 'app_services')]

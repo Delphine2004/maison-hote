@@ -1,8 +1,35 @@
-{% extends 'base.html.twig' %} {% block title %}Les Parenthèses Dorées -
-Galerie{% endblock %} {% block body %}
-<main class="pt-5">
-    <section class="container-fluid py-5">
-        <div class="container"><h1 class="text-center text-gold m-2">Galerie</h1></div>
-    </section>
-</main>
+{% extends 'base.html.twig' %}
+{% block title %}Les Parenthèses Dorées -
+			Galerie
+{% endblock %}
+{% block body %}
+	<main class="pt-5">
+		<section class="container-fluid py-5">
+			<div class="container">
+				<h1 class="text-center text-gold m-2">Galerie</h1>
+
+				<div id="carousel-gallery" class="carousel slide w-75 mx-auto">
+					<div class="carousel-inner">
+						{% for picture in pictures %}
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="d-block w-100">
+							</div>
+						{% else %}
+							<div class="carousel-item active">
+								<p class="text-center">Aucune photo</p>
+							</div>
+						{% endfor %}
+					</div>
+
+					<button class="carousel-control-prev" type="button" data-bs-target="#carousel-gallery" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon"></span>
+					</button>
+
+					<button class="carousel-control-next" type="button" data-bs-target="#carousel-gallery" data-bs-slide="next">
+						<span class="carousel-control-next-icon"></span>
+					</button>
+				</div>
+			</div>
+		</section>
+	</main>
 {% endblock %}
