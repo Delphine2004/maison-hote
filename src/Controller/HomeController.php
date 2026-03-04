@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PictureRepository;
+use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,9 +25,11 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/infos', name: 'app_services')]
-    public function renderServices(): Response
-    {
-        return $this->render('home/services.html.twig');
+    public function renderServices(
+        ServiceRepository $serviceRepository
+    ): Response {
+        $services = $serviceRepository->findAllServices();
+        return $this->render('home/services.html.twig', ['services' => $services]);
     }
 
     #[Route('/search', name: 'app_search')]
