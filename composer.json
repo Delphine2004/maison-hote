@@ -11,7 +11,6 @@
         "ext-iconv": "*",
         "doctrine/dbal": "^3.10.4",
         "doctrine/doctrine-bundle": "^2.18.2",
-        "doctrine/doctrine-fixtures-bundle": "^4.3.1",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6.2",
         "mongodb/mongodb": "^2.2.0",
@@ -86,7 +85,11 @@
         }
     },
     "require-dev": {
-        "soyuka/stubs-mongodb": "^1.0",
-        "symfony/maker-bundle": "^1.66.0"
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "symfony/debug-bundle": "7.4.*",
+        "symfony/maker-bundle": "^1.66.0",
+        "symfony/monolog-bundle": "^3.0|^4.0",
+        "symfony/stopwatch": "7.4.*",
+        "symfony/web-profiler-bundle": "7.4.*"
     }
 }
