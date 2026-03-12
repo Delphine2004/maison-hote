@@ -23,6 +23,7 @@ class GuestFixtures extends Fixture
         $clientData = [
 
             [
+                'number' => '1',
                 'lastName' => 'WAYNE',
                 'firstName' => 'Bruce',
                 'email' => 'batman@batman.com',
@@ -32,6 +33,7 @@ class GuestFixtures extends Fixture
                 'zipCode' => '88000'
             ],
             [
+                'number' => '2',
                 'lastName' => 'KENT',
                 'firstName' => 'Clark',
                 'email' => 'superman@dailyplanet.com',
@@ -41,6 +43,7 @@ class GuestFixtures extends Fixture
                 'zipCode' => '75000'
             ],
             [
+                'number' => '3',
                 'lastName' => 'STARK',
                 'firstName' => 'Tony',
                 'email' => 'ironman@starkindustries.com',
@@ -50,6 +53,7 @@ class GuestFixtures extends Fixture
                 'zipCode' => '90265'
             ],
             [
+                'number' => '4',
                 'lastName' => 'PARKER',
                 'firstName' => 'Peter',
                 'email' => 'spiderman@bugle.com',
@@ -59,6 +63,7 @@ class GuestFixtures extends Fixture
                 'zipCode' => '11375'
             ],
             [
+                'number' => '5',
                 'lastName' => 'GRANGER',
                 'firstName' => 'Hermione',
                 'email' => 'hermione@poudlard.com',
@@ -68,6 +73,7 @@ class GuestFixtures extends Fixture
                 'zipCode' => '12345'
             ],
             [
+                'number' => '6',
                 'lastName' => 'BOND',
                 'firstName' => 'James',
                 'email' => 'bond007@mi6.co.uk',
@@ -87,12 +93,13 @@ class GuestFixtures extends Fixture
             $client->setAddress($data['address']);
             $client->setCity($data['city']);
             $client->setZipCode($data['zipCode']);
-
             $client->setRoles([UserRole::CLIENT]);
             $hashedPassword = $this->hasher->hashPassword($client, 'Azertyuiop12*');
             $client->setPassword($hashedPassword, true);
 
             $manager->persist($client);
+
+            $this->addReference('client_' . $data['number'], $client);
         }
         $manager->flush();
     }
