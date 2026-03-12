@@ -579,7 +579,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->bookingsUpdatedBy->contains($bookingsUpdatedBy)) {
             $this->bookingsUpdatedBy->add($bookingsUpdatedBy);
-            $bookingsUpdatedBy->setBookingsUpdatedBy($this);
+            $bookingsUpdatedBy->setUpdatedBy($this);
         }
 
         return $this;
@@ -589,8 +589,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->bookingsUpdatedBy->removeElement($bookingsUpdatedBy)) {
             // set the owning side to null (unless already changed)
-            if ($bookingsUpdatedBy->getBookingsUpdatedBy() === $this) {
-                $bookingsUpdatedBy->setBookingsUpdatedBy(null);
+            if ($bookingsUpdatedBy->getUpdatedBy() === $this) {
+                $bookingsUpdatedBy->setUpdatedBy(null);
             }
         }
 
