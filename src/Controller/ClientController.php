@@ -69,6 +69,7 @@ final class ClientController extends AbstractController
         $bookings = $bookingRepository->findPastBookingsByClient($user->getId(), $today);
 
         return $this->render('user/user_history.html.twig', [
+            'user' => $user,
             'bookings' => $bookings
         ]);
     }
