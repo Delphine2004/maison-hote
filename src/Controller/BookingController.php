@@ -100,7 +100,7 @@ final class BookingController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/checkout', name: 'app_booking_checkout', methods: ['POST'])]
@@ -119,6 +119,6 @@ final class BookingController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }
