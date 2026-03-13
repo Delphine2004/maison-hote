@@ -1,111 +1,89 @@
-{% extends 'base.html.twig' %} {% block title %}Réservation{% endblock %} {%
+{% extends 'base.html.twig' %}
+{% block title %}Réservation
+{% endblock %}
+{%
 block body %}
-<main class="pt-5">
-    <section class="container-fluid py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <div class="card shadow-sm border-gold">
-                        <div class="card-header bg-blue text-gold">
-                            <h2 class="text-center text-gold m-3">
-                                Réservation
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <!-- Référence -->
-                            <div class="py-2 mb-3 border-bottom">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Référence :</strong>
-                                    <span>{{ booking.id }}</span>
-                                </div>
-                            </div>
-                            <!-- Nom client -->
-                            <div class="py-2 mb-3 border-bottom">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Prénom :</strong>
-                                    <span>{{ booking.user.firstName }}</span>
-                                </div>
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Nom :</strong>
-                                    <span>{{ booking.user.lastName }}</span>
-                                </div>
-                            </div>
-                            <!-- Chambre et période -->
-                            <div class="py-2 mb-3 border-bottom">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Chambre :</strong>
-                                    <span>{{ booking.room.name }}</span>
-                                </div>
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Séjour :</strong>
-                                    <span>
-                                        {{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
-                                        -
-                                        {{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</span
-                                    >
-                                </div>
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Statut :</strong>
-                                    <span> {{ booking.status }}</span>
-                                </div>
-                            </div>
-                            <!-- Total -->
-                            <div class="py-2 mb-3 border-bottom">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Total :</strong>
-                                    <span>{{ booking.totalAmount }} €</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-blue">
-                            <div
-                                class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3"
-                            >
-                                <div class="flex-fill">
-                                    {{
+	<main class="pt-5">
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card shadow-sm border-gold">
+							<div class="card-header bg-blue text-gold">
+								<h2 class="text-center text-gold m-3">
+									Réservation
+								</h2>
+							</div>
+							<div
+								class="card-body">
+								<!-- Référence -->
+								<div class="py-2 mb-3 border-bottom">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Référence :</strong>
+										<span>{{ booking.id }}</span>
+									</div>
+								</div>
+								<!-- Nom client -->
+								<div class="py-2 mb-3 border-bottom">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Prénom :</strong>
+										<span>{{ booking.user.firstName }}</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Nom :</strong>
+										<span>{{ booking.user.lastName }}</span>
+									</div>
+								</div>
+								<!-- Chambre et période -->
+								<div class="py-2 mb-3 border-bottom">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Chambre :</strong>
+										<span>{{ booking.room.name }}</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Séjour :</strong>
+										<span>
+											{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+											-
+											{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Statut :</strong>
+										<span>
+											{{ booking.status.value }}</span>
+									</div>
+								</div>
+								<!-- Total -->
+								<div class="py-2 mb-3 border-bottom">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Total :</strong>
+										<span>{{ booking.totalAmount }}
+											€</span>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer bg-blue">
+								<div class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3">
+									{{
                                         include(
-                                            "booking/_cancel_client_form.html.twig"
+                                            "booking/_cancel_form.html.twig"
                                         )
                                     }}
-                                </div>
-                                <div class="flex-fill">
-                                    {{
-                                        include(
-                                            "booking/_cancel_staff_form.html.twig"
-                                        )
-                                    }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% if is_granted('ROLE_EMPLOYE') %}
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_booking_index') }}"
-                    >Retour aux réservations</a
-                >
-            </div>
-            {% else %}
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_user_dashboard') }}">Retour</a>
-            </div>
-            {% endif %}
-        </div>
-    </section>
-</main>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% if is_granted('ROLE_EMPLOYE') %}
+					<div class="text-center m-5">
+						<a class="btn" href="{{ path('app_booking_index') }}">Retour aux réservations</a>
+					</div>
+				{% else %}
+					<div class="text-center m-5">
+						<a class="btn" href="{{ path('app_user_dashboard') }}">Retour</a>
+					</div>
+				{% endif %}
+			</div>
+		</section>
+	</main>
 {% endblock %}
