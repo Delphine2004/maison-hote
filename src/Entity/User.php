@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone = null;
 
-    #[Assert\Regex(RegexPatterns::ONLY_TEXTE_REGEX)]
+    #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
