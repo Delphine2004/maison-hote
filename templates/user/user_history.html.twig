@@ -29,15 +29,15 @@ block body %}
 
 											{% for booking in bookings %}
 												<tr>
-													<td>{{ booking.startingDate }}</td>
-													<td>{{ booking.endingingDate }}</td>
+													<td>{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</td>
+													<td>{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</td>
 													<td>{{ booking.room.name }}</td>
-													<td>{{ booking.status }}</td>
+													<td>{{ booking.status.value }}</td>
 												</tr>
 											{% else %}
 												<tr>
 													<td colspan="4">
-														Aucun utilisateur trouvé.
+														Aucun historique trouvé.
 													</td>
 												</tr>
 											{% endfor %}
@@ -47,12 +47,9 @@ block body %}
 							</div>
 						</div>
 					</div>
-					{% if is_granted('ROLE_EMPLOYE') %}
-						<div class="text-center m-5">
-							<a class="btn" href="{{ path('app_client_index') }}">Retour aux clients</a>
-						</div>
-					{% endif %}
-
+					<div class="text-center m-5">
+						<a class="btn" href="{{ path('app_client_show', { id: user.id }) }}">Retour</a>
+					</div>
 				</div>
 			</div>
 		</section>
