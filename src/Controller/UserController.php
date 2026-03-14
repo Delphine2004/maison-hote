@@ -29,7 +29,7 @@ final class UserController extends AbstractController
     ): Response {
 
         // Récupération des séjours en cours
-        $inHouse =  $bookingRepository->findInHouse();
+        $booking =  $bookingRepository->findInHouse();
 
         $today = new DateTimeImmutable('today');
 
@@ -40,7 +40,7 @@ final class UserController extends AbstractController
         $checkIn = $bookingRepository->findCheckInsForDay($today);
 
         return $this->render('booking/index.html.twig', [
-            'inhouses' => $inHouse,
+            'bookings' => $booking,
             'checkouts' => $checkOut,
             'checkins' => $checkIn,
         ]);
