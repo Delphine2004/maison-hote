@@ -86,13 +86,11 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
 
-
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Conditions d\'utilisation',
+            ->add('rgpdConsent', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter les conditions.',
+                        'message' => 'Vous devez accepter le traitement des données.'
                     ]),
                 ],
             ]);

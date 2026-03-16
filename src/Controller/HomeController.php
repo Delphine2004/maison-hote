@@ -50,6 +50,12 @@ final class HomeController extends AbstractController
         return $this->render('home/legal_notices.html.twig');
     }
 
+    #[Route('/privatyPolicy', name: 'app_privaty_policy')]
+    public function renderPrivacyPolicy(): Response
+    {
+        return $this->render('home/privaty_policy.html.twig');
+    }
+
     #[Route('/gts', name: 'app_gts')]
     public function renderGts(): Response
     {
