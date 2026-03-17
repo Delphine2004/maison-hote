@@ -1,56 +1,46 @@
 {% extends 'base.html.twig' %}
-{% block title %}Les Parenthèses Dorées -
-					Paramétrages
+{% block title %}Les Parenthèses Dorées - Paramétrages
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
 
 		<section class="container-fluid py-5">
 			<div class="container">
+
+				<div class="text-center mt-5">
+					<a class="btn" href="{{ path('app_settings_index') }}">Retour aux paramétres</a>
+				</div>
+
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card shadow-sm border-gold m-5">
+
+						<div class="card shadow-sm border-gold my-5">
 							<div class="card-header bg-blue text-gold py-3">
-								<h1 class="text-center m-2">Utilisateurs</h1>
+								<h1 class="text-center m-3">Utilisateurs</h1>
 							</div>
+              
 							<div class="card-body p-0">
-								<div class="table-responsive shadow-sm">
-									<table class="table table-hover align-middle mb-0">
-										<thead>
-											<tr>
-												<th scope="col">Email</th>
-												<th scope="col">Rôle</th>
-												<th scope="col" class="text-center">
-													Action
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for user in users %}
-												<tr>
-													<td>{{ user.email }}</td>
-													<td>
-														{% for role in user.roles %}
-															{%
-                                                if role != 'ROLE_USER' %}
-																{{ role|replace({'ROLE_': ''}) }}
-															{% endif %}
-														{% endfor %}
-													</td>
-													<td class="text-center">
-														<a class="btn btn-sm" href="{{ path('app_user_show', { id: user.id }) }}">Voir</a>
-													</td>
-												</tr>
-											{% else %}
-												<tr>
-													<td colspan="3">
-														Aucun utilisateur trouvé.
-													</td>
-												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								</div>
+								{% for user in users %}
+									<div class="card d-flex flex-md-row shadow-sm m-3">
+										<div class="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-center p-3">
+											<p class="mb-1">{{ user.email }}</p>
+											<p class="mb-1">
+												{% for role in user.roles %}
+													{% if role != 'ROLE_USER' %}
+														{{ role|replace({'ROLE_': ''}) }}
+													{% endif %}
+												{% endfor %}
+											</p>
+										</div>
+										<div class="d-flex justify-content-center m-3 py-3">
+											<a class="btn" href="{{ path('app_user_show', { id: user.id }) }}">Voir</a>
+										</div>
+									</div>
+								{% else %}
+									<p class="text-center m-2">
+										Aucun utilisateur trouvé.
+									</p>
+								{% endfor %}
 							</div>
 							<div class="card-footer bg-blue py-3">
 								<div class="text-center m-2">
@@ -58,11 +48,10 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
-				<div class="text-center m-5">
-					<a class="btn" href="{{ path('app_settings_index') }}">Retour aux paramétres</a>
-				</div>
+
 			</div>
 		</section>
 	</main>
