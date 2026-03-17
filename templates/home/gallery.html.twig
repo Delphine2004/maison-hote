@@ -6,12 +6,12 @@
 	<main class="pt-5">
 		<section class="container-fluid py-5">
 			<div class="container">
-				<h1 class="text-center text-gold m-2">Galerie</h1>
+				<h1 class="text-center text-gold m-5">Galerie</h1>
 
 				<div id="carousel-gallery" class="carousel slide w-75 mx-auto">
 					<div class="carousel-inner">
 						{% for picture in pictures %}
-							<div class="carousel-item {% if loop.first %}active{% endif %}">
+							<div class="carousel-item d-flex justify-content-center align-items-center {% if loop.first %}active{% endif %}">
 								<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="d-block w-100">
 							</div>
 						{% else %}

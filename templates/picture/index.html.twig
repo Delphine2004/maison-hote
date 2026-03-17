@@ -9,6 +9,7 @@
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10">
+
 						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
 							<h1 class="text-center m-3">Photos</h1>
 							<div class="text-center m-3">
@@ -16,9 +17,11 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="text-center m-3">
 						<a class="btn" href="{{ path('app_hotel_settings') }}">Retour aux paramétres</a>
 					</div>
+          
 				</div>
 			</div>
 		</section>
@@ -33,7 +36,7 @@
 
 								<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="card-img-top pictures-list "/>
 
-								<div class="card-body flex-fill bg-blue text-gold">
+								<div class="card-body bg-blue text-gold d-flex justify-content-center ">
 											{{include("picture/_delete_form.html.twig")}}
 								</div>
 

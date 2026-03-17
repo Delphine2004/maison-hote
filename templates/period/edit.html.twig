@@ -1,25 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block title %}Paramétrage - Modification
-	période
+		période
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
 		<section id="event-page" class="container-fluid py-5">
 			<div class="container">
 				<div class="row justify-content-center">
+
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4">
 							<h1 class="text-center text-gold m-5">Modification période</h1>
-							{{
-                            include("period/_form.html.twig", {
-                                button_label: "Modifier"
-                            })
-                        }}
+							{{include("period/_form.html.twig", {button_label: "Modifier"})}}
 						</div>
 					</div>
+
 					<div class="text-center m-5">
 						<a class="btn" href="{{ path('app_period_index') }}">Retour aux périodes</a>
 					</div>
+
 				</div>
 			</div>
 		</section>
