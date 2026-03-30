@@ -15,6 +15,10 @@ footer {
         color: colors.$bs-gold;
     }
 
+    ul {
+        margin: 0;
+    }
+
     @media (min-width: 768px) {
         min-height: variables.$footer-height-desktop;
     }
