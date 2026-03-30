@@ -91,6 +91,9 @@ footer a {
 footer i {
   color: #ba912c;
 }
+footer ul {
+  margin: 0;
+}
 @media (min-width: 768px) {
   footer {
     min-height: 190px;
@@ -122,27 +125,45 @@ label {
   height: 500px;
 }
 
-#home,
-#adress {
-  background-color: #f5f5dc;
+#hero h1 {
+  font-size: 2.8rem;
+}
+#hero img {
+  max-width: 300px;
+}
+@media (min-width: 576px) {
+  #hero img {
+    max-width: 600px;
+  }
+}
+@media (min-width: 768px) {
+  #hero img {
+    min-width: 400px;
+  }
 }
 
-.hero {
-  width: 650px;
+#home .logo {
+  max-width: 100px;
+  margin: 4rem;
 }
-
-.logo {
-  width: 100px;
-}
-
-.img-home img {
-  width: 400px;
-}
-
-.hero img,
-.img-home img,
-.logo img {
+#home .logo img {
   width: 100%;
+}
+#home .img-home {
+  max-width: 475px;
+}
+#home .img-home img {
+  width: 100%;
+}
+#home h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+#home h3 {
+  margin-bottom: 2rem;
+}
+#home p {
+  margin: 3rem auto;
 }
 
 #search-bar-room {
