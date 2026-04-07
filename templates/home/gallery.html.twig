@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}Les Parenthèses Dorées -
-			Galerie
+					Galerie
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
@@ -11,8 +11,10 @@
 				<div id="carousel-gallery" class="carousel slide w-75 mx-auto">
 					<div class="carousel-inner">
 						{% for picture in pictures %}
-							<div class="carousel-item d-flex justify-content-center align-items-center {% if loop.first %}active{% endif %}">
-								<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="d-block w-100">
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<div class="d-flex justify-content-center align-items-center">
+									<img src="{{ asset('uploads/pictures/' ~ picture.picture) }}" alt="image {{ picture.id }}" class="d-block w-100">
+								</div>
 							</div>
 						{% else %}
 							<div class="carousel-item active">
