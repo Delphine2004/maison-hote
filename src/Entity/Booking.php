@@ -95,12 +95,10 @@ class Booking
             return $this;
         }
 
-        $timezone = new \DateTimeZone('Europe/Paris');
-        $today = (new DateTimeImmutable('now', $timezone))->setTime(0, 0);
-
-
-        if ($startingDate < $today) {
-            throw new InvalidArgumentException("La date de début doit être dans le futur.");
+        if ($this->endingDate !== null && $this->endingDate < $startingDate) {
+            throw new InvalidArgumentException(
+                "La date de début doit être avant la date de fin."
+            );
         }
 
         $this->startingDate = $startingDate;
@@ -120,8 +118,10 @@ class Booking
             return $this;
         }
 
-        if ($endingDate <= $this->startingDate) {
-            throw new InvalidArgumentException("La date de fin doit être postérieure à la date du début.");
+        if ($this->startingDate !== null && $endingDate < $this->startingDate) {
+            throw new InvalidArgumentException(
+                "La date de fin doit être après la date de début."
+            );
         }
 
         $this->endingDate = $endingDate;
@@ -132,6 +132,11 @@ class Booking
     public function getTotalAmount(): float
     {
         return $this->totalAmountCents / 100;
+    }
+
+    public function getTotalAmountCents(): int
+    {
+        return $this->totalAmountCents;
     }
 
     public function setTotalAmount(float $amount): static
@@ -213,15 +218,34 @@ class Booking
         return $this;
     }
 
-    public function getBookingsUpdatedBy(): ?User
-    {
-        return $this->updatedBy;
-    }
 
-    public function setBookingsUpdatedBy(?User $updatedBy): static
+    public function calculateTotalAmount(): int
     {
-        $this->updatedBy = $updatedBy;
+        if (!$this->startingDate || !$this->endingDate || !$this->room) {
+            return 0;
+        }
 
-        return $this;
+        $total = 0;
+        $currentDate = $this->startingDate;
+
+        while ($currentDate < $this->endingDate) {
+
+            foreach ($this->room->getRates() as $rate) {
+
+                $period = $rate->getPeriod();
+
+                if (
+                    $period->getStartingDate() <= $currentDate &&
+                    $period->getEndingDate() > $currentDate
+                ) {
+                    $total += $rate->getAmount();
+                    break;
+                }
+            }
+
+            $currentDate = $currentDate->modify('+1 day');
+        }
+
+        return $total;
     }
 }
