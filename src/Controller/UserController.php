@@ -37,7 +37,7 @@ final class UserController extends AbstractController
         // Récupération des arrivées
         $checkIn = $bookingRepository->findCheckInsForDay($today);
 
-        return $this->render('booking/index.html.twig', [
+        return $this->render('booking/dashboard.html.twig', [
             'bookings' => $booking,
             'checkouts' => $checkOut,
             'checkins' => $checkIn,
