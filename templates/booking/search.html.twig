@@ -1,79 +1,8 @@
 {% extends 'base.html.twig' %}
-{% block title %}Espace utilisateur - Réservation
+{% block title %}Réservations - Rechercher
 {% endblock %}
 {% block body %}
 	<main class="pt-5">
-
-		<!-- Ajouter une réservation  -->
-		<section class="container-fluid pb-5">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8">
-
-						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
-								<h1 class="text-center m-3">Réservations</h1>
-							<div class="text-center m-4">
-								<a class="btn" href="{{ path('app_booking_new') }}">Ajouter une réservation</a>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Liste des nouvelles réservations -->
-		<section class="container-fluid pb-5">
-			<div class="container">
-				<!-- Liste -->
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8">
-
-						<div class="card shadow-sm border-gold my-5">
-							<div class="card-header bg-blue text-gold py-3">
-								<h2 class="text-center">
-									Réservations du jour
-								</h2>
-							</div>
-							<div class="card-body p-0">
-								<div class="text-center m-4">
-									<a href="{{ path('app_booking_statistics') }}" class="btn btn-sm">
-										Statistiques
-									</a>
-								</div>
-
-								{% for booking in bookings %}
-									<div class="card d-flex flex-md-row shadow-sm m-3">
-										<div class="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-center p-3">
-											<p class="mb-1">{{ booking.id }}</p>
-											<p class="mb-1">{{ booking.user.lastName }}
-												{{ booking.user.firstName }}</p>
-											<p class="mb-1">{{ booking.room.name }}</p>
-											<p class="mb-1">
-												{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
-												-
-												{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
-											</p>
-											<p class="mb-1">{{ booking.totalAmount }}
-												€
-											</p>
-										</div>
-										<div class="d-flex justify-content-center m-3 py-3">
-											<a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
-										</div>
-									</div>
-								{% else %}
-									<p class="text-center m-2">
-										Aucune nouvelle réservation pour le moment
-									</p>
-								{% endfor %}
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
 
 		<!-- Recherche de réservation -->
 		<section class="container-fluid pb-5">
@@ -90,7 +19,7 @@
 									<!-- Id -->
 									<div class="col-md-4">
 										<label class="form-label" for="booking-id">Référence</label>
-										<input class="form-control" type="number" name="bookingId" id="booking-id" min="1" step="1"/>
+										<input class="form-control" type="number" name="booking_id" id="booking-id" min="1" step="1"/>
 									</div>
 
 									<!-- Nom client -->
@@ -147,7 +76,30 @@
 
 					</div>
 				</div>
-				<div id="bookings-list" class="row justify-content-center align-items-center my-4"></div>
+				<div class="row justify-content-center align-items-center my-4">
+        <div class="col-12 col-md-10 col-lg-8">
+
+						{% for booking in bookings %}
+							<div class="card shadow-sm border-gold d-flex flex-column flex-md-row align-items-center p-1 m-1">
+								<div class="d-flex flex-column flex-md-row align-items-center flex-grow-1">
+									<p class="m-3">{{ booking.id }}</p>
+									<p class="m-3">{{ booking.user.lastName }}	{{ booking.user.firstName }}</p>
+                  <p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
+                  <p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
+								</div>
+								<div class="m-3">
+									<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Voir</a>
+                  <a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+								</div>
+							</div>
+						{% else %}
+							<p class="text-center m-2">
+								Aucune réservation ne correspond à la recherche.
+							</p>
+						{% endfor %}
+
+        </div>
+        </div>
 			</div>
 		</section>
 	</main>
