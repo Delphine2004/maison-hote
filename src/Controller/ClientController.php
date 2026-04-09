@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -39,6 +40,34 @@ final class ClientController extends AbstractController
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response {
+        $user = new User();
+        $user->setRoles([UserRole::CLIENT]);
+        $form = $this->createForm(UserType::class, $user, ['mode' => 'createClient']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = "PasswordToChange123";
+            $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+
+            $user->setPassword($hashedPassword);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/new_client.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

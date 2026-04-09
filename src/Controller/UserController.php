@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Enum\UserRole;
 use App\Form\UserType;
 use App\Repository\BookingRepository;
-use App\Repository\UserRepository;
 
 use DateTimeImmutable;
 
@@ -15,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
@@ -43,34 +41,6 @@ final class UserController extends AbstractController
             'bookings' => $booking,
             'checkouts' => $checkOut,
             'checkins' => $checkIn,
-        ]);
-    }
-
-    #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
-    ): Response {
-        $user = new User();
-        $user->setRoles([UserRole::CLIENT]);
-        $form = $this->createForm(UserType::class, $user, ['mode' => 'createClient']);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = "PasswordToChange123";
-            $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-
-            $user->setPassword($hashedPassword);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('user/new.html.twig', [
-            'form' => $form->createView(),
         ]);
     }
 

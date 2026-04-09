@@ -67,7 +67,7 @@ final class AdminController extends AbstractController
             return $this->redirectToRoute('app_staff_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('user/new_user.html.twig', [
             'form' => $form->createView(),
         ]);
     }
