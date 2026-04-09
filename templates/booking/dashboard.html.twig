@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+{% block title %}Espace utilisateur - Tableau de bord
+{% endblock %}
+{% block body %}
+	<main class="pt-5">
+		<h1 class="text-center m-5">Tableau de bord</h1>
+
+		<!-- Clients présents -->
+		<section class="container-fluid pb-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+
+						<div class="card shadow-sm border-gold">
+							<div class="card-header bg-blue text-gold py-3">
+								<h3 class="mb-0 text-center">Clients présents</h3>
+							</div>
+							<div class="card-body p-0">
+								{% for booking in bookings %}
+									<div class="card d-flex flex-md-row shadow-sm m-3">
+										<div class="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-center p-3">
+											<p class="mb-1">
+												{{ booking.id }}
+											</p>
+											<p class="mb-1">
+												{{ booking.user.lastName }}
+												{{ booking.user.firstName }}
+											</p>
+											<p class="mb-1">
+												{{ booking.room.name }}
+											</p>
+											<p class="mb-1">
+												{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+												-
+												{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
+											</p>
+											<p class="mb-1">
+												{{ booking.totalAmount }}
+											</p>
+										</div>
+										<div class="d-flex justify-content-center m-3 py-3">
+											<a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+										</div>
+									</div>
+								{% else %}
+									<p class="text-center m-2">
+										Aucun clients présents
+									</p>
+								{% endfor %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Départs du jour -->
+		<section class="container-fluid pb-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+
+						<div class="card shadow-sm border-gold">
+							<div class="card-header bg-blue text-gold py-3">
+								<h3 class="mb-0 text-center">Départs du jour</h3>
+							</div>
+							<div class="card-body p-0">
+								{% for booking in checkouts %}
+									<div class="card d-flex flex-md-row shadow-sm m-3">
+										<div class="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-center p-3">
+											<p class="mb-1">
+												{{ booking.id }}
+											</p>
+											<p class="mb-1">
+												{{ booking.user.lastName }}
+												{{ booking.user.firstName }}
+											</p>
+											<p class="mb-1">
+												{{ booking.room.name }}
+											</p>
+											<p class="mb-1">
+												{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+												-
+												{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
+											</p>
+											<p class="mb-1">
+												{{ booking.totalAmount }}
+											</p>
+
+										</div>
+										<div class="text-center m-3 py-3">{{ include("booking/_out_form.html.twig" )}}</div>
+									</div>
+								{% else %}
+									<p class="text-center m-2">
+										Aucun départ ce jour
+									</p>
+								{% endfor %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Arrivée du jour -->
+		<section class="container-fluid pb-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+
+						<div class="card shadow-sm border-gold">
+							<div class="card-header bg-blue text-gold py-3">
+								<h3 class="mb-0 text-center">Arrivées du jour</h3>
+							</div>
+							<div class="card-body p-0">
+								{% for booking in checkins %}
+									<div class="card d-flex flex-md-row shadow-sm m-3">
+										<div class="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-center p-3">
+											<p class="mb-1">
+												{{ booking.id }}
+											</p>
+											<p class="mb-1">
+												{{ booking.user.lastName }}
+												{{ booking.user.firstName }}
+											</p>
+											<p class="mb-1">
+												{{ booking.room.name }}
+											</p>
+											<p class="mb-1">
+												{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+												-
+												{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}
+											</p>
+											<p class="mb-1">
+												{{ booking.totalAmount }}
+											</p>
+
+										</div>
+										<div class="text-center m-3 py-3">{{ include("booking/_in_form.html.twig" )}}</div>
+									</div>
+								{% else %}
+									<p class="text-center m-2">
+										Aucun arrivée ce jour
+									</p>
+								{% endfor %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+{% endblock %}

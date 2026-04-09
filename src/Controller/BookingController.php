@@ -19,12 +19,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/booking')]
 final class BookingController extends AbstractController
 {
+
     #[Route('', name: 'app_booking_index', methods: ['GET'])]
     public function index(
         BookingRepository $bookingRepository
     ): Response {
+        return $this->render('booking/index.html.twig', [
+            'todayBookings' => $bookingRepository->findBookingsByFilters([new DateTimeImmutable('now')])
+        ]);
+    }
+
+    #[Route('/search', name: 'app_booking_search', methods: ['GET'])]
+    public function renderSearch(
+        Request $request,
+        BookingRepository $bookingRepository
+    ): Response {
+
+        $criteria = array_filter($request->query->all());
+        $bookings = [];
+
+        if (!empty($criteria)) {
+            $bookings = $bookingRepository->findBookingsByFilters($criteria);
+        }
+
         return $this->render('booking/search.html.twig', [
-            'bookings' => $bookingRepository->findBookingsByFilters([new DateTimeImmutable('now')]),
+            'bookings' => $bookings
         ]);
     }
 
@@ -51,7 +70,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/statistics', name: 'app_booking_statistics')]
-    public function renderSearch(): Response
+    public function renderStats(): Response
     {
         return $this->render('booking/statistics.html.twig');
     }
