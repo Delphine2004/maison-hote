@@ -26,15 +26,14 @@ class BookingRepository extends ServiceEntityRepository
         string $orderBy = 'DESC'
     ): array {
 
-
         $qb = $this->createQueryBuilder('b')
             ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r');
 
         // Booking Id
-        if (!empty($criteria['id'])) {
+        if (!empty($criteria['booking_id'])) {
             $qb->andWhere('b.id = :id')
-                ->setParameter('id', $criteria['id']);
+                ->setParameter('id', $criteria['booking_id']);
         }
 
         // Nom client
