@@ -79,16 +79,11 @@ class Room
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'room')]
     private Collection $bookings;
 
-    /**
-     * @var Collection<int, Rate>
-     */
-    #[ORM\OneToMany(targetEntity: Rate::class, mappedBy: 'room')]
-    private Collection $rates;
+
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->rates = new ArrayCollection();
     }
 
 
@@ -230,36 +225,6 @@ class Room
             // set the owning side to null (unless already changed)
             if ($booking->getRoom() === $this) {
                 $booking->setRoom(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Rate>
-     */
-    public function getRates(): Collection
-    {
-        return $this->rates;
-    }
-
-    public function addRate(Rate $rate): static
-    {
-        if (!$this->rates->contains($rate)) {
-            $this->rates->add($rate);
-            $rate->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRate(Rate $rate): static
-    {
-        if ($this->rates->removeElement($rate)) {
-            // set the owning side to null (unless already changed)
-            if ($rate->getRoom() === $this) {
-                $rate->setRoom(null);
             }
         }
 

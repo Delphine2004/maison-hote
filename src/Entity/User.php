@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Enum\UserRole;
 
 use App\Utils\RegexPatterns;
 
@@ -98,30 +97,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $roomsUpdated;
 
     /**
-     * @var Collection<int, Rate>
-     */
-    #[ORM\OneToMany(targetEntity: Rate::class, mappedBy: 'createdBy')]
-    private Collection $ratesCreated;
-
-    /**
-     * @var Collection<int, Rate>
-     */
-    #[ORM\OneToMany(targetEntity: Rate::class, mappedBy: 'updatedBy')]
-    private Collection $ratesUpdated;
-
-    /**
-     * @var Collection<int, Period>
-     */
-    #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'createdBy')]
-    private Collection $periodsCreated;
-
-    /**
-     * @var Collection<int, Period>
-     */
-    #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'updatedBy')]
-    private Collection $periodsUpdated;
-
-    /**
      * @var Collection<int, Booking>
      */
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'user')]
@@ -145,10 +120,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roomsCreated = new ArrayCollection();
         $this->roomsUpdated = new ArrayCollection();
-        $this->ratesCreated = new ArrayCollection();
-        $this->ratesUpdated = new ArrayCollection();
-        $this->periodsCreated = new ArrayCollection();
-        $this->periodsUpdated = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->bookingsCreatedBy = new ArrayCollection();
         $this->bookingsUpdatedBy = new ArrayCollection();
@@ -387,125 +358,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Rate>
-     */
-    public function getRatesCreated(): Collection
-    {
-        return $this->ratesCreated;
-    }
-
-    public function addRatesCreated(Rate $ratesCreated): static
-    {
-        if (!$this->ratesCreated->contains($ratesCreated)) {
-            $this->ratesCreated->add($ratesCreated);
-            $ratesCreated->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRatesCreated(Rate $ratesCreated): static
-    {
-        if ($this->ratesCreated->removeElement($ratesCreated)) {
-            // set the owning side to null (unless already changed)
-            if ($ratesCreated->getCreatedBy() === $this) {
-                $ratesCreated->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Rate>
-     */
-    public function getRatesUpdated(): Collection
-    {
-        return $this->ratesUpdated;
-    }
-
-    public function addRatesUpdated(Rate $ratesUpdated): static
-    {
-        if (!$this->ratesUpdated->contains($ratesUpdated)) {
-            $this->ratesUpdated->add($ratesUpdated);
-            $ratesUpdated->setUpdatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRatesUpdated(Rate $ratesUpdated): static
-    {
-        if ($this->ratesUpdated->removeElement($ratesUpdated)) {
-            // set the owning side to null (unless already changed)
-            if ($ratesUpdated->getUpdatedBy() === $this) {
-                $ratesUpdated->setUpdatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Period>
-     */
-    public function getPeriodsCreated(): Collection
-    {
-        return $this->periodsCreated;
-    }
-
-    public function addPeriodsCreated(Period $periodsCreated): static
-    {
-        if (!$this->periodsCreated->contains($periodsCreated)) {
-            $this->periodsCreated->add($periodsCreated);
-            $periodsCreated->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removePeriodsCreated(Period $periodsCreated): static
-    {
-        if ($this->periodsCreated->removeElement($periodsCreated)) {
-            // set the owning side to null (unless already changed)
-            if ($periodsCreated->getCreatedBy() === $this) {
-                $periodsCreated->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Period>
-     */
-    public function getPeriodsUpdated(): Collection
-    {
-        return $this->periodsUpdated;
-    }
-
-    public function addPeriodsUpdated(Period $periodsUpdated): static
-    {
-        if (!$this->periodsUpdated->contains($periodsUpdated)) {
-            $this->periodsUpdated->add($periodsUpdated);
-            $periodsUpdated->setUpdatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removePeriodsUpdated(Period $periodsUpdated): static
-    {
-        if ($this->periodsUpdated->removeElement($periodsUpdated)) {
-            // set the owning side to null (unless already changed)
-            if ($periodsUpdated->getUpdatedBy() === $this) {
-                $periodsUpdated->setUpdatedBy(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Booking>
