@@ -76,20 +76,22 @@
 
 					</div>
 				</div>
+        
 				<div class="row justify-content-center align-items-center my-4">
-        <div class="col-12 col-md-10 col-lg-8">
+					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for booking in bookings %}
 							<div class="card shadow-sm border-gold d-flex flex-column flex-md-row align-items-center p-1 m-1">
 								<div class="d-flex flex-column flex-md-row align-items-center flex-grow-1">
 									<p class="m-3">{{ booking.id }}</p>
-									<p class="m-3">{{ booking.user.lastName }}	{{ booking.user.firstName }}</p>
-                  <p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
-                  <p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
+									<p class="m-3">{{ booking.user.lastName }}
+										{{ booking.user.firstName }}</p>
+									<p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
+									<p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
 								</div>
 								<div class="m-3">
 									<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Voir</a>
-                  <a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+									<a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
 								</div>
 							</div>
 						{% else %}
@@ -98,8 +100,8 @@
 							</p>
 						{% endfor %}
 
-        </div>
-        </div>
+					</div>
+				</div>
 			</div>
 		</section>
 	</main>
