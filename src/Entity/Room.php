@@ -46,6 +46,12 @@ class Room
     #[ORM\Column(length: 50, unique: true)]
     private ?string $name = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
+    private ?string $rate = null;
+
+    #[ORM\Column]
+    private ?int $capacity = null;
+
     #[Assert\NotBlank(message: "La description est obligatoire.")]
     #[Assert\Regex(RegexPatterns::FREE_TEXT_REGEX)]
     #[Assert\Length(max: 255, maxMessage: "La description ne doit pas dépasser 255 caractères.")]
@@ -78,6 +84,8 @@ class Room
      */
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'room')]
     private Collection $bookings;
+
+
 
 
 
@@ -138,6 +146,30 @@ class Room
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getRate(): ?string
+    {
+        return $this->rate;
+    }
+
+    public function setRate(string $rate): static
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getCapacity(): ?int
+    {
+        return $this->capacity;
+    }
+
+    public function setCapacity(int $capacity): static
+    {
+        $this->capacity = $capacity;
 
         return $this;
     }
