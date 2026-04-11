@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Validator\Constraints\File;
 
 class RoomType extends AbstractType
@@ -31,6 +32,18 @@ class RoomType extends AbstractType
                 ->add('number', IntegerType::class, [
                     'label' => 'Numéro de la chambre',
                     'required' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('capacity', IntegerType::class, [
+                    'label' => 'Capacité de la chambre',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('rate', MoneyType::class, [
+                    'label' => 'Prix / nuit',
+                    'currency'    => 'EUR',
+                    'scale'       => 2,
+                    'required'    => true,
                     'attr' => ['class' => 'form-control',],
                 ])
                 ->add('picture', FileType::class, [
@@ -62,6 +75,18 @@ class RoomType extends AbstractType
                 ->add('name', TextType::class, [
                     'label' => 'Nom de la chambre',
                     'required' => false,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('capacity', IntegerType::class, [
+                    'label' => 'Capacité de la chambre',
+                    'required' => false,
+                    'attr' => ['class' => 'form-control',],
+                ])
+                ->add('rate', MoneyType::class, [
+                    'label' => 'Prix / nuit',
+                    'currency'    => 'EUR',
+                    'scale'       => 2,
+                    'required'    => false,
                     'attr' => ['class' => 'form-control',],
                 ])
                 ->add('picture', FileType::class, [
