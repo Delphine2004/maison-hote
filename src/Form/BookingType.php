@@ -29,15 +29,6 @@ class BookingType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('totalAmount', MoneyType::class, [
-                'label' => 'Montant total',
-                'currency'    => 'EUR',
-                'scale'       => 2,
-                'divisor'     => 100,  // Gestion automatique centimes - euros
-                'required'    => true,
-                'required' => true,
-                'attr' => ['class' => 'form-control'],
-            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Client',
