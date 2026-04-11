@@ -3,9 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Booking;
-use App\Entity\Rate;
 use App\Entity\Room;
-use App\Entity\Period;
 use App\Entity\User;
 use App\Enum\BookingStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
