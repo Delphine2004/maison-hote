@@ -2,10 +2,10 @@
 {% block title %}Réservations - Rechercher
 {% endblock %}
 {% block body %}
-	<main class="pt-5">
+	<main class="py-5">
 
 		<!-- Recherche de réservation -->
-		<section class="container-fluid pb-5">
+		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
@@ -81,7 +81,7 @@
 					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for booking in bookings %}
-							<div class="card shadow-sm border-gold d-flex flex-column flex-md-row align-items-center p-1 m-1">
+							<div class="card border-gold shadow-sm d-flex flex-column flex-md-row align-items-center p-1 m-1">
 								<div class="d-flex flex-column flex-md-row align-items-center flex-grow-1">
 									<p class="m-3">{{ booking.id }}</p>
 									<p class="m-3">{{ booking.user.lastName }}

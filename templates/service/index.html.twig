@@ -5,48 +5,65 @@
 
 {% block body %}
 
-	<main class="pt-5">
+	<main class="py-5">
 		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10">
-          
-						<div class="card bg-blue shadow-sm border-gold text-gold my-5 py-3">
-							<h1 class="text-center m-3">Services</h1>
-							<div class="text-center m-3">
-								<a class="btn" href="{{ path('app_service_new') }}">Ajouter un service</a>
+
+						<div class="card border-gold shadow-sm my-5">
+							<div class="card-header bg-blue text-gold py-3">
+								<h1 class="text-center m-3">Services</h1>
 							</div>
 
+							<div class="card-body p-5">
+								<div class="row justify-content-center g-3">
+
+									<div class="col-12 col-md-4">
+										<a class="btn w-100" href="{{ path('app_service_new') }}">Ajouter un service</a>
+									</div>
+
+								</div>
+							</div>
 						</div>
 					</div>
+
 					<div class="text-center m-3">
 						<a class="btn" href="{{ path('app_hotel_settings') }}">Retour aux paramétres</a>
 					</div>
+
 				</div>
 			</div>
 		</section>
 
-		<section class="container-fluid py-5">
+		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center g-4">
 
 					{% for service in services %}
-						<div class="col-12 col-md-5 my-4">
-							<div class="card shadow-sm border-gold h-100">
+						<div class="col-12 col-md-5">
+							<div class="card border-gold shadow-sm h-100 my-4">
 								<div class="card-header bg-blue text-gold py-3">
 									<h2 class="text-center text-gold m-3">{{ service.name }}</h2>
 								</div>
+
 								<div class="card-body ">
 									<p>{{ service.price }}</p>
 									<p>{{ service.description }}</p>
 								</div>
-								<div class="card-footer bg-blue">
-									<div class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3">
 
-										<a href="{{ path('app_service_edit', {'id': service.id}) }}" class="btn flex-fill">Modifier</a>
-										<div class="flex-fill">
-											{{include("service/_delete_form.html.twig")}}
+								<div class="card-footer bg-blue py-5">
+									<div class="row justify-content-evenly g-3">
+										<div class="col-12 col-md-4">
+											<a class="btn w-100" href="{{ path('app_service_edit', {'id': service.id}) }}" >Modifier</a>
 										</div>
+
+										<div class="col-12 col-md-4">
+											<div class="flex-fill">
+												{{include("service/_delete_form.html.twig")}}
+											</div>
+										</div>
+
 									</div>
 								</div>
 

@@ -3,20 +3,21 @@
 {% endblock %}
 {% block body %}
 	<main
-		class="pt-5">
+		class="py-5">
 
 		<!-- Ajouter ou rechercher une réservation  -->
-		<section class="container-fluid pb-5">
+		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card shadow-sm border-gold mt-5">
+						<div class="card border-gold shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center m-3">Réservations</h1>
 							</div>
 							<div class="card-body p-5">
-								<div class="row g-3">
+								<div class="row justify-content-center g-3">
+                
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{ path('app_booking_new') }}">Ajouter</a>
 									</div>
@@ -28,6 +29,7 @@
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{ path('app_booking_statistics') }}">Statistiques</a>
 									</div>
+
 								</div>
 							</div>
 						</div>
@@ -38,14 +40,14 @@
 		</section>
 
 		<!-- Liste des nouvelles réservations -->
-		<section class="container-fluid pb-5">
+		<section class="container-fluid">
 			<div
 				class="container">
 				<!-- Liste -->
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card shadow-sm border-gold my-5">
+						<div class="card border-gold shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h2 class="text-center">
 									Réservations du jour

@@ -1,97 +1,89 @@
-{% extends 'base.html.twig' %} {% block title %}Chambre{% endblock %} {% block
+{% extends 'base.html.twig' %}
+{% block title %}Chambre
+{% endblock %}
+{% block
 body %}
-<main class="pt-5">
-    <section class="container-fluid py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <div class="card shadow-sm border-gold">
-                        <div class="card-header bg-blue text-gold py-3">
-                            <h1 class="text-center m-3">
-                                Chambre : {{ room.name }}
-                            </h1>
-                        </div>
-                        <div class="card-body">
-                            <!-- Photo -->
-                            <div class="image-wrapper mx-auto mb-4">
-                                <img
-                                    src="{{ asset('uploads/rooms/' ~ room.picture) }}"
-                                    alt=" photo de {{ room.name }}"
-                                    class="img-fluid rounded-4"
-                                />
-                            </div>
+	<main class="py-5">
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
 
-                            <!-- Numéro et statut -->
-                            <div class="py-2 mb-3 border-bottom">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Numéro</strong>
-                                    <span>{{ room.number }}</span>
-                                </div>
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Statut</strong>
-                                    <span>{{ room.status.value }}</span>
-                                </div>
-                            </div>
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card border-gold shadow-sm my-5">
+							<div class="card-header bg-blue text-gold py-3">
+								<h1 class="text-center m-3">
+									Chambre :
+									{{ room.name }}
+								</h1>
+							</div>
 
-                            <!-- Description -->
-                            <div
-                                class="d-flex flex-column py-2 mb-3 border-bottom"
-                            >
-                                <strong>Description</strong>
-                                <p>{{ room.description }}</p>
-                            </div>
-                            <div class="py-2 mb-3">
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Création : </strong>
-                                    <span
-                                        >{{ room.createdAt ? room.createdAt|date('d/m/Y H:i:s') : '' }}
-                                    </span>
-                                </div>
-                                <div
-                                    class="d-flex flex-column flex-md-row justify-content-md-between py-2"
-                                >
-                                    <strong>Modification : </strong>
-                                    <span
-                                        >{{room.updatedAt ? room.updatedAt|date('d/m/Y H:i:s') : '' }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+							<div
+								class="card-body">
+								<!-- Photo -->
+								<div class="image-wrapper mx-auto mb-4">
+									<img src="{{ asset('uploads/rooms/' ~ room.picture) }}" alt=" photo de {{ room.name }}" class="img-fluid rounded-4"/>
+								</div>
 
-                        <div class="card-footer bg-blue">
-                            <div
-                                class="d-flex flex-column flex-md-row justify-content-center m-5 gap-3"
-                            >
-                                <a
-                                    class="btn flex-fill"
-                                    href="{{
-                                        path('app_room_edit', { id: room.id })
-                                    }}"
-                                >
-                                    Modifier
-                                </a>
+								<!-- Numéro et statut -->
+								<div class="py-2 mb-3 border-bottom">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Numéro :</strong>
+										<span>{{ room.number }}</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Capacité max :</strong>
+										<span>{{ room.capacity }}</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Tarif par nuit :</strong>
+										<span>{{ room.rate }}</span>
+									</div>
+								</div>
 
-                                <div class="flex-fill">
-                                    {{ include("room/_delete_form.html.twig") }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+								<!-- Description -->
+								<div class="d-flex flex-column py-2 mb-3 border-bottom">
+									<strong>Description</strong>
+									<p>{{ room.description }}</p>
+								</div>
+								<div class="py-2 mb-3">
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Création :
+										</strong>
+										<span>{{ room.createdAt ? room.createdAt|date('d/m/Y H:i:s') : '' }}
+										</span>
+									</div>
+									<div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+										<strong>Modification :
+										</strong>
+										<span>{{room.updatedAt ? room.updatedAt|date('d/m/Y H:i:s') : '' }}
+										</span>
+									</div>
+								</div>
+							</div>
 
-            <div class="text-center m-5">
-                <a class="btn" href="{{ path('app_hotel_settings') }}"
-                    >Retour aux paramétres</a
-                >
-            </div>
-        </div>
-    </section>
-</main>
+							<div class="card-footer bg-blue py-5">
+								<div
+									class="row justify-content-evenly g-3">
+									<!-- Bouton modifier informations -->
+									<div class="col-12 col-md-4">
+										<a class="btn w-100" href="{{path('app_room_edit', { id: room.id })}}">
+											Modifier
+										</a>
+									</div>
+									<!-- Bouton Supprimer-->
+									<div class="col-12 col-md-4">
+										<div class="flex-fill">{{ include("room/_delete_form.html.twig") }}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="text-center m-5">
+					<a class="btn" href="{{ path('app_hotel_settings') }}">Retour aux paramétres</a>
+				</div>
+			</div>
+		</section>
+	</main>
 {% endblock %}
