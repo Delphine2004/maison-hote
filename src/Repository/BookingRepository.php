@@ -37,9 +37,9 @@ class BookingRepository extends ServiceEntityRepository
         }
 
         // Nom client
-        if (!empty($criteria['lastName'])) {
-            $qb->andWhere('c.lastName LIKE :lastName')
-                ->setParameter('lastName', '%' . $criteria['lastName'] . '%');
+        if (!empty($criteria['last_name'])) {
+            $qb->andWhere('.lastName LIKE :lastName')
+                ->setParameter('lastName', '%' . $criteria['last_name'] . '%');
         }
 
         // Booking Statut
@@ -49,11 +49,15 @@ class BookingRepository extends ServiceEntityRepository
         }
 
         // Dates
-        $dateFields = ['startingDate', 'endingDate', 'createdAt'];
-        foreach ($dateFields as $field) {
-            if (!empty($criteria[$field])) {
+        $fieldMap = [
+            'starting_date' => 'startingDate',
+            'ending_date'   => 'endingDate',
+            'created_at'    => 'createdAt',
+        ];
+        foreach ($fieldMap as $key => $field) {
+            if (!empty($criteria[$key])) {
 
-                $date = $criteria[$field];
+                $date = $criteria[$key];
 
                 if (!$date instanceof \DateTime) {
                     $date = new \DateTime($date);
@@ -63,9 +67,9 @@ class BookingRepository extends ServiceEntityRepository
                 $endOfDay   = (clone $date)->setTime(23, 59, 59);
 
 
-                $qb->andWhere("b.$field BETWEEN :{$field}_start AND :{$field}_end")
-                    ->setParameter("{$field}_start", $startOfDay)
-                    ->setParameter("{$field}_end", $endOfDay);
+                $qb->andWhere("b.$field BETWEEN :{$key}_start AND :{$key}_end")
+                    ->setParameter("{$key}_start", $startOfDay)
+                    ->setParameter("{$key}_end", $endOfDay);
             }
         }
 
