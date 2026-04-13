@@ -2,8 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\SearchData;
-
+use App\DTO\SearchRoom;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,7 +32,7 @@ class SearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SearchData::class,
+            'data_class' => SearchRoom::class,
             'method' => 'GET',
         ]);
     }
