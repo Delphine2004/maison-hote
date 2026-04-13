@@ -217,35 +217,4 @@ class Booking
 
         return $this;
     }
-
-
-    public function calculateTotalAmount(): int
-    {
-        if (!$this->startingDate || !$this->endingDate || !$this->room) {
-            return 0;
-        }
-
-        $total = 0;
-        $currentDate = $this->startingDate;
-
-        while ($currentDate < $this->endingDate) {
-
-            foreach ($this->room->getRates() as $rate) {
-
-                $period = $rate->getPeriod();
-
-                if (
-                    $period->getStartingDate() <= $currentDate &&
-                    $period->getEndingDate() > $currentDate
-                ) {
-                    $total += $rate->getAmount();
-                    break;
-                }
-            }
-
-            $currentDate = $currentDate->modify('+1 day');
-        }
-
-        return $total;
-    }
 }
