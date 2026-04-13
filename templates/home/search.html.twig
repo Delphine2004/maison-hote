@@ -7,25 +7,8 @@
 		<section id="search-bar-room" class="container-fluid d-flex align-items-center py-5">
 			<div class="container">
 				<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5">
-					<form id="search-room-form" novalidate>
-						<div class="row g-3">
-							<div class="col-md-4">
-								<label class="form-label" for="starting-date">Date d'arrivée</label>
-								<input class="form-control w-100" id="starting-date" name="starting_date" type="date" required/>
-							</div>
-							<div class="col-md-4">
-								<label class="form-label" for="ending-date">Date de départ</label>
-								<input class="form-control w-100" id="ending-date" name="ending_date" type="date" required/>
-							</div>
-							<div class="col-md-4">
-								<label class="form-label invisible">Rechercher
-								</label>
-								<button class="btn w-100" type="submit" aria-label="Rechercher les disponibilités">
-									Rechercher
-								</button>
-							</div>
-						</div>
-					</form>
+					{{ include("home/_search.html.twig") }}
+
 				</div>
 			</div>
 		</section>
@@ -33,14 +16,15 @@
 			<div class="container">
 				<div class="row justify-content-center align-items-center my-4">
 					<div class="col-12 col-md-10 col-lg-8">
+
 						{% for room in rooms %}
 							<p>{{ room.number }}</p>
-              
 						{% else %}
 							<p class="text-center m-2">
-								Merci de séléctionner une période valide
+								Aucune chambre disponible pour cette période
 							</p>
 						{% endfor %}
+
 					</div>
 				</div>
 			</div>

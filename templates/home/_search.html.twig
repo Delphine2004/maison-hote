@@ -1,0 +1,23 @@
+{{ form_start(form, {'attr': {'novalidate':  true}}) }}
+<div class="row align-items-end justify-content-around">
+	<div class="col-md-4 mb-3">
+		{{ form_label(form.startingDate) }}
+		{{ form_widget(form.startingDate) }}
+	</div>
+
+	<div class="col-md-4 mb-3">
+		{{ form_label(form.endingDate) }}
+		{{ form_widget(form.endingDate) }}
+	</div>
+
+	<div class="col-md-3 mb-3">
+		<button class="btn w-100" type="submit">Rechercher</button>
+	</div>
+
+	<div class="col-12 text-gold">
+		{{ form_errors(form.startingDate) }}
+		{{ form_errors(form.endingDate) }}
+	</div>
+
+</div>
+{{ form_end(form) }}
