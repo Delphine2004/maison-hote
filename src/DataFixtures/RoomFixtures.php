@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Room;
-use App\Enum\RoomStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -62,7 +61,6 @@ class RoomFixtures extends Fixture
             $room->setCapacity($data['capacity']);
             $room->setDescription($data['description']);
             $room->setPicture($data['picture']);
-            $room->setStatus(RoomStatus::AVAILABLE);
 
             $manager->persist($room);
 

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Room;
-use App\Enum\RoomStatus;
 use App\Enum\UserRole;
 use App\Form\RoomType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +25,6 @@ final class RoomController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $room = new Room();
-        $room->setStatus(RoomStatus::AVAILABLE);
         $form = $this->createForm(RoomType::class, $room, ['mode' => 'create']);
         $form->handleRequest($request);
 

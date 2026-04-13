@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\RoomRepository;
 
-use App\Enum\RoomStatus;
 use App\Utils\RegexPatterns;
 
 use DateTimeImmutable;
@@ -63,10 +62,6 @@ class Room
     private ?string $picture = null;
 
 
-    #[Assert\NotNull]
-    #[ORM\Column(type: Types::STRING, length: 50, enumType: RoomStatus::class)]
-    private ?RoomStatus $status = null;
-
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
 
@@ -122,18 +117,6 @@ class Room
     {
 
         $this->number = $number;
-
-        return $this;
-    }
-
-    public function getStatus(): ?RoomStatus
-    {
-        return $this->status;
-    }
-
-    public function setStatus(RoomStatus $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }
