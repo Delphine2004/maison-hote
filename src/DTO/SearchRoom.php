@@ -11,6 +11,17 @@ class SearchRoom
     public ?DateTimeImmutable $startingDate = null;
     public ?DateTimeImmutable $endingDate = null;
 
+    public function getStartingDate(): ?DateTimeImmutable
+    {
+        return $this->startingDate;
+    }
+
+    public function getEndingDate(): ?DateTimeImmutable
+    {
+        return $this->endingDate;
+    }
+
+
     #[Assert\Callback]
     public function validate($context): void
     {
