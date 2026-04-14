@@ -37,7 +37,7 @@ final class HomeController extends AbstractController
         return $this->render('home/services.html.twig', ['services' => $services]);
     }
 
-    #[Route('/search', name: 'app_search', methods: ['GET', 'POST'])]
+    #[Route('/search', name: 'app_search_room', methods: ['GET', 'POST'])]
     public function renderSearch(
         Request $request,
         RoomRepository $roomRepository
@@ -59,10 +59,17 @@ final class HomeController extends AbstractController
             );
         }
 
-        return $this->render('home/search.html.twig', [
-            'form' => $form->createView(),
-            'rooms' => $rooms
-        ]);
+        if ($this->isGranted('ROLE_EMPLOYE')) {
+            return $this->render('booking/staff_search.html.twig', [
+                'form' => $form->createView(),
+                'rooms' => $rooms
+            ]);
+        } else {
+            return $this->render('home/search.html.twig', [
+                'form' => $form->createView(),
+                'rooms' => $rooms
+            ]);
+        }
     }
 
     #[Route('/faq', name: 'app_faq')]
