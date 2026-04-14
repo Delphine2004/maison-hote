@@ -1,0 +1,44 @@
+{{ form_start(form, {'attr': {'novalidate':  true}}) }}
+<div class="row g-3 mb-3 justify-content-around">
+	<div class="col-md-4">
+		{{ form_label(form.id) }}
+		{{ form_widget(form.id) }}
+		{{ form_errors(form.id) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_label(form.lastName) }}
+		{{ form_widget(form.lastName) }}
+		{{ form_errors(form.lastName) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_label(form.status) }}
+		{{ form_widget(form.status) }}
+		{{ form_errors(form.status) }}
+	</div>
+</div>
+
+<div class="row g-3 mb-3 justify-content-around">
+	<div class="col-md-4">
+		{{ form_label(form.startingDate) }}
+		{{ form_widget(form.startingDate) }}
+		{{ form_errors(form.startingDate) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_label(form.endingDate) }}
+		{{ form_widget(form.endingDate) }}
+		{{ form_errors(form.endingDate) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_label(form.createdAt) }}
+		{{ form_widget(form.createdAt) }}
+		{{ form_errors(form.createdAt) }}
+	</div>
+</div>
+
+<div class="row g-3 mb-3 justify-content-around">
+	<div class="col-md-4">
+		<button class="btn w-100" type="submit">Rechercher</button>
+	</div>
+</div>
+
+{{ form_end(form) }}
