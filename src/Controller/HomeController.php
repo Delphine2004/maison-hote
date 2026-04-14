@@ -6,7 +6,7 @@ use App\Repository\PictureRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\RoomRepository;
 
-use App\Form\SearchType;
+use App\Form\SearchRoomType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +42,7 @@ final class HomeController extends AbstractController
         Request $request,
         RoomRepository $roomRepository
     ): Response {
-        $form = $this->createForm(SearchType::class);
+        $form = $this->createForm(SearchRoomType::class);
         $form->handleRequest($request);
 
         $rooms = [];
@@ -60,12 +60,12 @@ final class HomeController extends AbstractController
         }
 
         if ($this->isGranted('ROLE_EMPLOYE')) {
-            return $this->render('booking/staff_search.html.twig', [
+            return $this->render('booking/staff_search_room.html.twig', [
                 'form' => $form->createView(),
                 'rooms' => $rooms
             ]);
         } else {
-            return $this->render('home/search.html.twig', [
+            return $this->render('home/search_room.html.twig', [
                 'form' => $form->createView(),
                 'rooms' => $rooms
             ]);

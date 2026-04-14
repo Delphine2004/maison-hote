@@ -7,6 +7,8 @@ use App\Enum\UserRole;
 use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
+
+use App\Form\SearchBookingType;
 use DateTimeImmutable;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,24 +27,31 @@ final class BookingController extends AbstractController
         BookingRepository $bookingRepository
     ): Response {
         return $this->render('booking/index.html.twig', [
-            'todayBookings' => $bookingRepository->findBookingsByFilters([new DateTimeImmutable('now')])
+            'todayBookings' => $bookingRepository->findTodayBookings()
         ]);
     }
 
-    #[Route('/search', name: 'app_booking_search', methods: ['GET'])]
+    #[Route('/search', name: 'app_booking_search', methods: ['GET', 'POST'])]
     public function renderSearch(
         Request $request,
         BookingRepository $bookingRepository
     ): Response {
 
-        $criteria = array_filter($request->query->all());
+        $form = $this->createForm(SearchBookingType::class);
+        $form->handleRequest($request);
+
         $bookings = [];
 
-        if (!empty($criteria)) {
-            $bookings = $bookingRepository->findBookingsByFilters($criteria);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $bookings = $bookingRepository->findBookingsByFilters(
+                $data
+            );
         }
 
         return $this->render('booking/search.html.twig', [
+            'form' => $form->createView(),
             'bookings' => $bookings
         ]);
     }

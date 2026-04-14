@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Form\UserType;
+use App\Form\SearchClientType;
 
 use App\Repository\UserRepository;
 use App\Repository\BookingRepository;
@@ -24,22 +25,28 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class ClientController extends AbstractController
 {
 
-    #[Route('/search', name: 'app_client_index', methods: ['GET'])]
+    #[Route('/search', name: 'app_client_index', methods: ['GET', 'POST'])]
     #[IsGranted(UserRole::EMPLOYE->value)]
     public function index(
         Request $request,
         UserRepository $userRepository
     ): Response {
-        $criteria = array_filter($request->query->all());
+        $form = $this->createForm(SearchClientType::class);
+        $form->handleRequest($request);
 
         $users = [];
 
-        if (!empty($criteria)) {
-            $users = $userRepository->findClientByFilters($criteria);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $users = $userRepository->findClientByFilters(
+                $data
+            );
         }
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'form' => $form->createView(),
+            'users' => $users
         ]);
     }
 
