@@ -114,6 +114,7 @@ block body %}
 												</strong>
 												{{ booking.totalAmount }}
 											</p>
+                      <p class="mb-1">{{ booking.status.value }} </p>
 											<a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
 										</div>
 									</div>
