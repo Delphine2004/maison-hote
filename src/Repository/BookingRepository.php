@@ -38,7 +38,7 @@ class BookingRepository extends ServiceEntityRepository
 
         // Nom client
         if (!empty($criteria['last_name'])) {
-            $qb->andWhere('.lastName LIKE :lastName')
+            $qb->andWhere('u.lastName LIKE :lastName')
                 ->setParameter('lastName', '%' . $criteria['last_name'] . '%');
         }
 
@@ -89,10 +89,8 @@ class BookingRepository extends ServiceEntityRepository
             ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
             ->andWhere('b.user = :userId')
-            ->andWhere('b.status = :status')
-            ->andWhere('b.endingDate < :start')
+            ->andWhere('b.endingDate >= :start')
             ->setParameter('userId', $userId)
-            ->setParameter('status', BookingStatus::CONFIRMED->value)
             ->setParameter('start', $start)
             ->orderBy('b.startingDate', 'ASC')
             ->getQuery()
