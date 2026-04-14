@@ -22,7 +22,7 @@
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{ path('app_client_new') }}">Ajouter un client</a>
 									</div>
-                  
+
 								</div>
 							</div>
 
@@ -40,35 +40,7 @@
 
 						<div class="card bg-blue shadow-sm border-gold text-gold p-3 my-5">
 							<h3 class="text-center mb-4">Rechercher</h3>
-
-							<form method="GET" action="{{ path('app_client_index') }}">
-								<div
-									class="row g-3 mb-3 d-flex justify-content-around">
-									<!-- Id -->
-									<div class="col-md-4">
-										<label class="form-label" for="client-id">Référence</label>
-										<input class="form-control" type="number" name="user_id" id="client-id" min="1" step="1"/>
-									</div>
-
-									<!-- Nom client -->
-									<div class="col-md-4">
-										<label class="form-label" for="last-name">Nom</label>
-										<input class="form-control" type="text" name="last_name" id="last-name" minlength="2" maxlength="100"/>
-									</div>
-
-									<!-- Email client -->
-									<div class="col-md-4">
-										<label class="form-label" for="email">Email</label>
-										<input class="form-control" type="email" name="email" id="email"/>
-									</div>
-								</div>
-
-								<div class="text-center">
-									<button type="submit" class="btn">
-										Rechercher
-									</button>
-								</div>
-							</form>
+							{{ include("user/_search_client.html.twig") }}
 						</div>
 					</div>
 				</div>

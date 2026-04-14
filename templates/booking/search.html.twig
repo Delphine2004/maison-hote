@@ -2,7 +2,8 @@
 {% block title %}Réservations - Rechercher
 {% endblock %}
 {% block body %}
-	<main class="py-5">
+	<main
+		class="py-5">
 
 		<!-- Recherche de réservation -->
 		<section class="container-fluid">
@@ -12,66 +13,7 @@
 
 						<div class="card bg-blue shadow-sm border-gold text-gold p-3 my-5">
 							<h3 class="text-center mb-4">Rechercher</h3>
-
-							<form id="search-booking-form">
-								<div
-									class="row g-3 mb-3 justify-content-around">
-									<!-- Id -->
-									<div class="col-md-4">
-										<label class="form-label" for="booking-id">Référence</label>
-										<input class="form-control" type="number" name="booking_id" id="booking-id" min="1" step="1"/>
-									</div>
-
-									<!-- Nom client -->
-									<div class="col-md-4">
-										<label class="form-label" for="last-name">Nom</label>
-										<input class="form-control" type="text" name="last_name" id="last-name" minlength="2" maxlength="100"/>
-									</div>
-
-									<!-- Statut de réservation -->
-									<div class="col-md-4">
-										<label class="form-label" for="status">Statut</label>
-										<select class="form-select" name="status" id="status">
-											<option selected value="">
-												Sélectionner un statut
-											</option>
-											<option value="Confirmee">
-												Confirmée
-											</option>
-											<option value="Present">Present</option>
-											<option value="Finalisee">
-												Finalisée
-											</option>
-											<option value="Annulee">Annulée</option>
-										</select>
-									</div>
-								</div>
-								<div
-									class="row g-3 mb-3 justify-content-around">
-									<!-- Date arrivée -->
-									<div class="col-md-4">
-										<label class="form-label" for="arrival-date">Date d'arrivée</label>
-										<input class="form-control" type="date" name="starting_date" id="arrival-date"/>
-									</div>
-
-									<!-- Date départ -->
-									<div class="col-md-4">
-										<label class="form-label" for="departure-date">Date de départ</label>
-										<input class="form-control" type="date" name="ending_date" id="departure-date"/>
-									</div>
-
-									<!-- Date création -->
-									<div class="col-md-4">
-										<label class="form-label" for="creation-date">Date de création</label>
-										<input class="form-control" type="date" name="created_at" id="creation-date"/>
-									</div>
-								</div>
-								<div class="text-center">
-									<button type="submit" class="btn">
-										Rechercher
-									</button>
-								</div>
-							</form>
+							{{ include("booking/_search_booking.html.twig") }}
 						</div>
 
 					</div>
@@ -88,7 +30,8 @@
 										{{ booking.user.firstName }}</p>
 									<p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
 									<p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
-                  <p class="mb-1">{{ booking.status.value }} </p>
+									<p class="mb-1">{{ booking.status.value }}
+									</p>
 								</div>
 								<div class="m-3">
 									<a class="btn" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
