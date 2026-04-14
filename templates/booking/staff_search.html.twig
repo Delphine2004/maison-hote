@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}Rechercher
+{% endblock %}
+{% block body %}
+	<main class="py-5">
+		<section class="container-fluid d-flex align-items-center py-5">
+			<div class="container">
+				<h1 class="text-center">Séléctionner une période</h1>
+				<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5">
+					{{ include("home/_search.html.twig") }}
+				</div>
+			</div>
+		</section>
+		<section class="container-fluid py-5">
+			<div class="container">
+				<div class="row justify-content-center align-items-center my-4">
+					<div class="col-12 col-md-10 col-lg-8">
+
+						{% for room in rooms %}
+							<p>{{ room.number }}</p>
+						{% else %}
+							<p class="text-center m-2">
+								Aucune chambre disponible pour cette période
+							</p>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<main>
+		{% endblock %}
