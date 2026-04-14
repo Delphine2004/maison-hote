@@ -88,10 +88,10 @@
 										{{ booking.user.firstName }}</p>
 									<p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
 									<p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
+                  <p class="mb-1">{{ booking.status.value }} </p>
 								</div>
 								<div class="m-3">
-									<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Voir</a>
-									<a class="btn" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+									<a class="btn" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
 								</div>
 							</div>
 						{% else %}
