@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Booking;
+use App\DTO\SearchBooking;
 use App\Enum\BookingStatus;
 
 use DateTimeImmutable;
@@ -21,7 +22,7 @@ class BookingRepository extends ServiceEntityRepository
     }
 
     public function findBookingsByFilters(
-        ?array $criteria,
+        ?SearchBooking $criteria,
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {
@@ -31,46 +32,55 @@ class BookingRepository extends ServiceEntityRepository
             ->leftJoin('b.room', 'r')->addSelect('r');
 
         // Booking Id
-        if (!empty($criteria['booking_id'])) {
+        if ($criteria->getBookingId()) {
             $qb->andWhere('b.id = :id')
-                ->setParameter('id', $criteria['booking_id']);
+                ->setParameter('id', $criteria->getBookingId());
         }
 
         // Nom client
-        if (!empty($criteria['last_name'])) {
+        if ($criteria->getLastName()) {
             $qb->andWhere('u.lastName LIKE :lastName')
-                ->setParameter('lastName', '%' . $criteria['last_name'] . '%');
+                ->setParameter('lastName', '%' . $criteria->getLastName() . '%');
         }
 
         // Booking Statut
-        if (!empty($criteria['status'])) {
+        if ($criteria->getStatus()) {
             $qb->andWhere('b.status = :status')
-                ->setParameter('status', $criteria['status']);
+                ->setParameter('status', $criteria->getStatus()->value);
         }
 
         // Dates
-        $fieldMap = [
-            'starting_date' => 'startingDate',
-            'ending_date'   => 'endingDate',
-            'created_at'    => 'createdAt',
-        ];
-        foreach ($fieldMap as $key => $field) {
-            if (!empty($criteria[$key])) {
+        if ($criteria->getStartingDate()) {
+            $date = $criteria->getStartingDate();
 
-                $date = $criteria[$key];
+            $start = (clone $date)->setTime(0, 0, 0);
+            $end   = (clone $date)->setTime(23, 59, 59);
 
-                if (!$date instanceof \DateTime) {
-                    $date = new \DateTime($date);
-                }
+            $qb->andWhere('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
+                ->setParameter('startDateStart', $start)
+                ->setParameter('startDateEnd', $end);
+        }
 
-                $startOfDay = (clone $date)->setTime(0, 0, 0);
-                $endOfDay   = (clone $date)->setTime(23, 59, 59);
+        if ($criteria->getEndingDate()) {
+            $date = $criteria->getEndingDate();
 
+            $start = (clone $date)->setTime(0, 0, 0);
+            $end   = (clone $date)->setTime(23, 59, 59);
 
-                $qb->andWhere("b.$field BETWEEN :{$key}_start AND :{$key}_end")
-                    ->setParameter("{$key}_start", $startOfDay)
-                    ->setParameter("{$key}_end", $endOfDay);
-            }
+            $qb->andWhere('b.endingDate BETWEEN :endDateStart AND :endDateEnd')
+                ->setParameter('endDateStart', $start)
+                ->setParameter('endDateEnd', $end);
+        }
+
+        if ($criteria->getCreatedAt()) {
+            $date = $criteria->getCreatedAt();
+
+            $start = (clone $date)->setTime(0, 0, 0);
+            $end   = (clone $date)->setTime(23, 59, 59);
+
+            $qb->andWhere('b.createdAt BETWEEN :createdAtStart AND :createdAtEnd')
+                ->setParameter('createdAtStart', $start)
+                ->setParameter('createdAtEnd', $end);
         }
 
         return $qb->orderBy('b.id',  $orderBy)
@@ -79,10 +89,24 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findTodayBookings(): array
+    {
+        $today = new DateTimeImmutable('today');
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.user', 'u')->addSelect('u')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+
+            ->andWhere('b.startingDate >= :today')
+            ->setParameter('today', $today)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findUpcomingBookingsByClient(
         int $userId,
         DateTimeImmutable $day
-    ) {
+    ): array {
         $start = $day->setTime(0, 0, 0);
 
         return $this->createQueryBuilder('b')
@@ -100,7 +124,7 @@ class BookingRepository extends ServiceEntityRepository
     public function findPastBookingsByClient(
         int $userId,
         DateTimeImmutable $day
-    ) {
+    ): array {
         $end = $day->setTime(23, 59, 59);
 
         return $this->createQueryBuilder('b')

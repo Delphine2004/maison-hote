@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\DTO\SearchClient;
 use App\Enum\UserRole;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,26 +20,27 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findClientByFilters(
-        ?array $criteria,
+        ?SearchClient $criteria,
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {
-        $qb = $this->createQueryBuilder('u')
-            ->select('DISTINCT u', 'b')
-            ->leftJoin('u.bookings', 'b');
+        $qb = $this->createQueryBuilder('u');
 
-        if (!empty($criteria['user_id'])) {
+        if ($criteria->getUserId()) {
             $qb->andWhere('u.id = :id')
-                ->setParameter('id', $criteria['user_id']);
+                ->setParameter('id', $criteria->getUserId());
         }
-        if (!empty($criteria['last_name'])) {
+
+        if ($criteria->getLastName()) {
             $qb->andWhere('u.lastName LIKE :lastName')
-                ->setParameter('lastName', '%' . $criteria['last_name'] . '%');
+                ->setParameter('lastName', '%' . $criteria->getLastName() . '%');
         }
-        if (!empty($criteria['email'])) {
+
+        if ($criteria->getEmail()) {
             $qb->andWhere('u.email LIKE :email')
-                ->setParameter('email', '%' . $criteria['email'] . '%');
+                ->setParameter('email', '%' . $criteria->getEmail() . '%');
         }
+
         // filtre clients
         $qb->andWhere('u.roles LIKE :role')
             ->setParameter('role', '%ROLE_CLIENT%');
