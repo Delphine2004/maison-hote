@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Room;
+use App\DTO\SearchRoom;
 use App\Enum\BookingStatus;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -26,11 +27,16 @@ class RoomRepository extends ServiceEntityRepository
     }
 
     public function findRoomsByPeriod(
-        DateTimeImmutable $start,
-        DateTimeImmutable $end,
+        ?SearchRoom $criteria,
     ): array {
 
         $bookingStatus = BookingStatus::CONFIRMED;
+        $startDate = $criteria->getStartingDate();
+        $endDate = $criteria->getEndingDate();
+
+        $start = (clone $startDate)->setTime(0, 0, 0);
+        $end   = (clone $endDate)->setTime(23, 59, 59);
+
 
         // r = room - b = booking
         return $this->createQueryBuilder('r')

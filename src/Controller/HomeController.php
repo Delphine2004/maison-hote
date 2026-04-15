@@ -50,13 +50,7 @@ final class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $startDate = $data->startingDate;
-            $endDate   = $data->endingDate;
-
-            $rooms = $roomRepository->findRoomsByPeriod(
-                $startDate,
-                $endDate
-            );
+            $rooms = $roomRepository->findRoomsByPeriod($data);
         }
 
         if ($this->isGranted('ROLE_EMPLOYE')) {
