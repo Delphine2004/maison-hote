@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Room;
+
 use App\Enum\UserRole;
 
 use App\Form\UserType;
@@ -17,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -50,6 +53,61 @@ final class ClientController extends AbstractController
             'users' => $users
         ]);
     }
+
+    #[Route('/addClient/{roomId}', name: 'app_search_client_to_booking', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function addClientToBooking(
+        int $roomId,
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
+    ): Response {
+
+        $period = $session->get('period');
+
+        // sécurité
+        if (
+            !$period ||
+            !$period->getStartingDate() ||
+            !$period->getEndingDate()
+        ) {
+            $session->remove('period');
+            return $this->redirectToRoute('app_search_room');
+        }
+
+        // récupérer la room depuis la BDD
+        $room = $entityManager->getRepository(Room::class)->find($roomId);
+
+        if (!$room) {
+            throw $this->createNotFoundException('Chambre introuvable.');
+        }
+
+
+        $form = $this->createForm(SearchClientType::class);
+        $form->handleRequest($request);
+
+        $users = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $users = $userRepository->findClientByFilters(
+                $data
+            );
+
+            $session->set('user', $data);
+        }
+
+        return $this->render('user/search_client.html.twig', [
+            'form' => $form->createView(),
+            'period' => $period,
+            'room' => $room,
+            'users' => $users
+        ]);
+    }
+
+
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
     public function new(
