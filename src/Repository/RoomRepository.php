@@ -41,7 +41,7 @@ class RoomRepository extends ServiceEntityRepository
         // r = room - b = booking
         return $this->createQueryBuilder('r')
             ->select([
-                'r.id AS room_id',
+                'r.id',
                 'r.number',
                 'r.name',
                 'r.rate',
