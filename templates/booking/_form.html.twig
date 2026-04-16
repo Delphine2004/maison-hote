@@ -1,25 +1,13 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
-<div class="mb-4">
-    {{ form_label(form.startingDate) }}
-    {{ form_widget(form.startingDate) }}
-    {{ form_errors(form.startingDate) }}
-</div>
-<div class="mb-4">
-    {{ form_label(form.endingDate) }}
-    {{ form_widget(form.endingDate) }}
-    {{ form_errors(form.endingDate) }}
-</div>
-<div class="mb-4">
-    {{ form_label(form.user) }}
-    {{ form_widget(form.user) }}
-    {{ form_errors(form.user) }}
-</div>
-<div class="mb-4">
-    {{ form_label(form.room) }}
-    {{ form_widget(form.room) }}
-    {{ form_errors(form.room) }}
+<div class="mb-4 form-check text-gold">
+	{{ form_widget(form.bookingConsent, {'attr': {'class': 'form-check-input'}}) }}
+	<label class="form-check-label">
+		J'accepte le traitement de mes données conformément à la
+		<a href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
+	</label>
+	{{ form_errors(form.bookingConsent) }}
 </div>
 <div class="text-center m-2">
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+	<button class="btn">{{ button_label|default('Réserver') }}</button>
 </div>
 {{ form_end(form) }}
