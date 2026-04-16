@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}Rechercher client
+{% endblock %}
+{% block body %}
+	<main
+		class="py-5">
+		<!-- Récapitulatif -->
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<h1>Réservation</h1>
+						<p>Période :
+							{{ period.startingDate ? period.startingDate|date('d/m/Y') : ''}}
+							-
+							{{ period.endingDate ? period.endingDate|date('d/m/Y') : '' }}</p>
+
+						<p>Chambre :
+							{{ room.name }}</p>
+						<p>Prix par nuit :
+							{{ room.rate }}
+						</p>
+
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Client -->
+	<section class="container-fluid">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-12 col-md-10 col-lg-8">
+					<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5">
+
+						<h1 class="text-center text-gold m-5">Client</h1>
+
+						<div>
+							<a class="btn" target="_blank" href="{{ path('app_client_new')}}">Ajouter un client</a>
+						</div>
+
+						{{ include("user/_search_client.html.twig") }}
+					</div>
+					<div class="col-12 col-md-10 col-lg-8">
+
+						{% for user in users %}
+							<p>{{ user.firstName }} {{ user.lastName }}</p>
+							<a class="btn" target="_blank" href="{{ path('app_booking_new_by_staff', { roomId: room.id, userId: user.id })}}">Choisir
+							</a>
+
+						{% else %}
+							<p class="text-center m-2">
+								Aucun client ne correspond à la recherche
+							</p>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>{% endblock %}
