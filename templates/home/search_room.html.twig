@@ -22,7 +22,7 @@
 							<p>{{ room.name }}</p>
 							<p>Nombre de nuit:{{ room.nights }}</p>
 							<p>{{ room.total_price }}</p>
-							<a class="btn" target="_blank" href="{{ path('app_booking_new_by_client', { id: room.id } ) }}">Choisir
+							<a class="btn" target="_blank" href="{{ path('app_booking_new_by_client', { roomId: room.id } ) }}">Choisir
 							</a>
 						{% else %}
 							<p class="text-center m-2">
