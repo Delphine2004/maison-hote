@@ -129,6 +129,25 @@ class Booking
         return $this;
     }
 
+    public function calculateTotalAmount(): static
+    {
+        if (!$this->room || !$this->startingDate || !$this->endingDate) {
+            throw new \LogicException('Impossible de calculer le montant sans room et dates.');
+        }
+
+        $nights = $this->startingDate->diff($this->endingDate)->days;
+
+        if ($nights <= 0) {
+            throw new \LogicException('Le nombre de nuits doit être supérieur à 0.');
+        }
+
+        $pricePerNight = (float) $this->room->getRate(); // caster car en string en bdd
+
+        $this->totalAmountCents = (int) round($nights * $pricePerNight * 100);
+
+        return $this;
+    }
+
     public function getTotalAmount(): float
     {
         return $this->totalAmountCents / 100;
@@ -191,8 +210,6 @@ class Booking
 
         return $this;
     }
-
-
 
     public function getCreatedBy(): ?User
     {

@@ -91,9 +91,6 @@ final class BookingController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-
-        $booking = new Booking();
-
         // traitement réservation
         $booking = new Booking();
         $booking->setRoom($room);
@@ -101,6 +98,8 @@ final class BookingController extends AbstractController
         $booking->setStatus(BookingStatus::CONFIRMED);
         $booking->setStartingDate($period->getStartingDate());
         $booking->setEndingDate($period->getEndingDate());
+
+        $booking->calculateTotalAmount();
 
         $entityManager->persist($booking);
         $entityManager->flush();
