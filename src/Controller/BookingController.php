@@ -3,19 +3,26 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\Room;
+use App\Entity\User;
+
 use App\Enum\UserRole;
 use App\Enum\BookingStatus;
+
 use App\Form\BookingType;
+use App\Form\SearchBookingType;
+
+
 use App\Repository\BookingRepository;
 
-use App\Form\SearchBookingType;
-use DateTimeImmutable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/booking')]
@@ -56,27 +63,98 @@ final class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_booking_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request $request,
-        EntityManagerInterface $entityManager
+    #[Route('/newByStaff/{roomId}/{userId}', name: 'app_booking_new_by_staff', methods: ['GET', 'POST'])]
+    public function newByStaff(
+        int $roomId,
+        int $userId,
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
     ): Response {
+
+        $period = $session->get('period');
+
+        // sécurité
+        if (
+            !$period ||
+            !$period->getStartingDate() ||
+            !$period->getEndingDate()
+        ) {
+            $session->remove('period');
+            return $this->redirectToRoute('app_search_room');
+        }
+
+        // Récupérations
+        $room = $entityManager->getRepository(Room::class)->find($roomId);
+        $user = $entityManager->getRepository(User::class)->find($userId);
+
+        if (!$room || !$user) {
+            throw $this->createNotFoundException();
+        }
+
+
         $booking = new Booking();
-        $form = $this->createForm(BookingType::class, $booking);
+
+        // traitement réservation
+        $booking = new Booking();
+        $booking->setRoom($room);
+        $booking->setUser($user);
+        $booking->setStatus(BookingStatus::CONFIRMED);
+        $booking->setStartingDate($period->getStartingDate());
+        $booking->setEndingDate($period->getEndingDate());
+
+        $entityManager->persist($booking);
+        $entityManager->flush();
+
+        $session->remove('period');
+
+
+        return $this->redirectToRoute('app_booking_show', [
+            'id' => $booking->getId()
+        ]);
+    }
+
+    #[Route('/new', name: 'app_booking_new_by_client', methods: ['GET', 'POST'])]
+    public function newByClient(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
+    ): Response {
+
+        $user = $this->getUser();
+
+        // si pas authentifié
+        if (!$user) {
+            // ----> redirection vers page connexion
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        // traitement réservation
+        $form = $this->createForm(BookingType::class); // modifier le type pour uniquement nom à rechercher ou à ajouter
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $dataStep1 = $session->get('form_step1');
+            $dataStep2 = $form->getData();
+
+            // fusion des données
+            $data = array_merge($dataStep1, $dataStep2);
+
+            $booking = new Booking($data);
             $entityManager->persist($booking);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+            // nettoyage session
+            $session->remove('form_step1');
+            return $this->redirectToRoute('app_booking_show', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('booking/new.html.twig', [
-            'booking' => $booking,
-            'form' => $form,
+
+        return $this->render('booking/new_by_client.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/statistics', name: 'app_booking_statistics')]
     public function renderStats(): Response
