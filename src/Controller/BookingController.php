@@ -112,8 +112,9 @@ final class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_booking_new_by_client', methods: ['GET', 'POST'])]
+    #[Route('/new/{roomId}', name: 'app_booking_new_by_client', methods: ['GET', 'POST'])]
     public function newByClient(
+        int $roomId,
         Request $request,
         EntityManagerInterface $entityManager,
         SessionInterface $session
@@ -127,25 +128,51 @@ final class BookingController extends AbstractController
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
+        $period = $session->get('period');
+
+        // sécurité
+        if (
+            !$period ||
+            !$period->getStartingDate() ||
+            !$period->getEndingDate()
+        ) {
+            $session->remove('period');
+            return $this->redirectToRoute('app_search_room');
+        }
+
+        // Récupérations
+        $room = $entityManager->getRepository(Room::class)->find($roomId);
+
+
+        if (!$room) {
+            throw $this->createNotFoundException();
+        }
+
+
         // traitement réservation
         $form = $this->createForm(BookingType::class); // modifier le type pour uniquement nom à rechercher ou à ajouter
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $dataStep1 = $session->get('form_step1');
-            $dataStep2 = $form->getData();
+            $booking = new Booking();
+            $booking->setRoom($room);
+            $booking->setUser($user);
+            $booking->setStatus(BookingStatus::CONFIRMED);
+            $booking->setStartingDate($period->getStartingDate());
+            $booking->setEndingDate($period->getEndingDate());
 
-            // fusion des données
-            $data = array_merge($dataStep1, $dataStep2);
+            $booking->calculateTotalAmount();
 
-            $booking = new Booking($data);
+
             $entityManager->persist($booking);
             $entityManager->flush();
 
             // nettoyage session
-            $session->remove('form_step1');
-            return $this->redirectToRoute('app_booking_show', [], Response::HTTP_SEE_OTHER);
+            $session->remove('period');
+            return $this->redirectToRoute('app_booking_show', [
+                'id' => $booking->getId()
+            ]);
         }
 
 
