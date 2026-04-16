@@ -18,12 +18,14 @@
 					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for room in rooms %}
+							<p>{{ room.id }}</p>
 							<p>{{ room.number }}</p>
 							<p>{{ room.name }}</p>
 							<p>Nombre de nuit:{{ room.nights }}</p>
 							<p>{{ room.total_price }}</p>
-              <a class="btn"  target="_blank" href="">Sélectionner </a>
-              
+							<a class="btn" target="_blank" href="{{ path('app_search_client_to_booking', { roomId: room.id })}}">Choisir
+							</a>
+
 						{% else %}
 							<p class="text-center m-2">
 								Aucune chambre disponible pour cette période

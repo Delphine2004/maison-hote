@@ -11,7 +11,7 @@
 				</div>
 			</div>
 		</section>
-    
+
 		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center align-items-center my-4">
@@ -19,10 +19,11 @@
 
 						{% for room in rooms %}
 							<p>{{ room.number }}</p>
-              <p>{{ room.name }}</p>
-              <p>Nombre de nuit:{{ room.nights }}</p>
-              <p>{{ room.total_price }}</p>
-              <a class="btn"  target="_blank" href="">Sélectionner </a>
+							<p>{{ room.name }}</p>
+							<p>Nombre de nuit:{{ room.nights }}</p>
+							<p>{{ room.total_price }}</p>
+							<a class="btn" target="_blank" href="{{ path('app_booking_new_by_client', { id: room.id } ) }}">Choisir
+							</a>
 						{% else %}
 							<p class="text-center m-2">
 								Aucune chambre disponible pour cette période
