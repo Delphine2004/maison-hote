@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class HomeController extends AbstractController
 {
@@ -40,7 +41,8 @@ final class HomeController extends AbstractController
     #[Route('/search', name: 'app_search_room', methods: ['GET', 'POST'])]
     public function renderSearch(
         Request $request,
-        RoomRepository $roomRepository
+        RoomRepository $roomRepository,
+        SessionInterface $session
     ): Response {
         $form = $this->createForm(SearchRoomType::class);
         $form->handleRequest($request);
@@ -51,6 +53,8 @@ final class HomeController extends AbstractController
             $data = $form->getData();
 
             $rooms = $roomRepository->findRoomsByPeriod($data);
+
+            $session->set('period', $data);
         }
 
         if ($this->isGranted('ROLE_EMPLOYE')) {
