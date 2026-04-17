@@ -129,7 +129,7 @@ label {
   font-size: 2.8rem;
 }
 #hero img {
-  max-width: 300px;
+  max-width: 350px;
 }
 @media (min-width: 576px) {
   #hero img {
@@ -144,7 +144,7 @@ label {
 
 #home .logo {
   max-width: 100px;
-  margin: 4rem;
+  margin: 1rem;
 }
 #home .logo img {
   width: 100%;

@@ -4,22 +4,22 @@
 endblock %}
 {% block body %}
 	<main class="py-5">
-		<section id="hero" class="container-fluid">
+		<section id="hero" class="container-fluid my-5">
 			<div class="container">
-				<div class="row justify-content-between align-items-center">
+				<div class="row justify-content-between align-items-center my-3">
 					<!-- Image -->
 					<div class="col-12 col-md-7 d-flex justify-content-center">
 						<img class="rounded-2" src="{{ asset('assets/img/main.jpg') }}" alt="Photo maison d'hôte les parenthèses dorées"/>
 					</div>
 					<!-- Titre, slogan et bouton -->
-					<div class="col-12 col-md-5">
+					<div class="col-12 col-md-5 my-5">
 						<div class="d-flex flex-column">
-							<h1 class="text-center my-5">Les parenthèses dorées</h1>
+							<h1 class="text-center my-3">Les parenthèses dorées</h1>
 							<p class="text-center">
 								Suspendez le temps, vivez l'instant
 							</p>
 						</div>
-						<div class="text-center mt-5">
+						<div class="text-center mt-3">
 							<a class="btn" href="{{ path('app_search_room') }}">Réserver</a>
 						</div>
 					</div>
@@ -27,9 +27,9 @@ endblock %}
 			</div>
 		</section>
 
-		<section id="home" class="container-fluid">
+		<section id="home" class="container-fluid my-5">
 			<div class="container">
-				<div class="row justify-content-center">
+				<div class="row justify-content-center py-5">
         <!-- Titre -->
 					<div class="col-12 col-md-8">
 						<h2 class="text-center">Qui sommes nous?</h2>
@@ -45,7 +45,6 @@ endblock %}
 						<img class="logo img-fluid rounded" src="{{ asset('assets/img/logo/logo.webp') }}" alt="logo maison d'hôte les parenthèses dorées"/>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="container">
@@ -66,7 +65,7 @@ endblock %}
 					</div>
           <!-- Bouton -->
           <div class="col-12 d-flex justify-content-center order-3 mt-4">
-            <a href="" class="btn">Nos services</a></div>
+            <a href="{{ path('app_services') }}" class="btn">Nos services</a></div>
 				</div>
 
 				<div class="row justify-content-center align-items-center py-5">
