@@ -44,6 +44,8 @@ class RoomRepository extends ServiceEntityRepository
                 'r.id',
                 'r.number',
                 'r.name',
+                'r.description',
+                'r.picture',
                 'r.rate',
                 'DATE_DIFF(:dateEnd, :dateStart) AS nights',
                 '(DATE_DIFF(:dateEnd, :dateStart) * r.rate) AS total_price'
