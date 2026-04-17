@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %}Les Parenthèses Dorées -
-							Inscription
+								Inscription
 {% endblock %}
 {% block body %}
 	<main class="py-5">
-		<section class="container-fluid">
+		<section class="container-fluid my-5">
 			<div class="container">
+
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5">
-							<h1 class="text-center m-5">Inscription</h1>
+
+						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
+							<h1 class="text-center text-gold m-3">Inscription</h1>
 
 							{{ form_errors(registrationForm) }}
 
@@ -65,10 +67,11 @@
 							</div>
 
 							<button type="submit" class="btn">S'inscrire</button>
-							{{ form_end(registrationForm) }}</div>
+							{{ form_end(registrationForm) }}
+            </div>
+
 					</div>
 				</div>
-
 
 			</div>
 		</section>

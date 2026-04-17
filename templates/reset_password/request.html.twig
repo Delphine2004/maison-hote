@@ -5,32 +5,34 @@
 
 {% block body %}
 	<main class="py-5">
-		<section id="login" class="container-fluid">
+		<section id="login" class="container-fluid my-5">
 			<div class="container">
+
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
+
 						{% for flash_error in app.flashes('reset_password_error') %}
 							<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 						{% endfor %}
-						
-						<div class="bg-blue border-gold card shadow-sm d-flex justify-content-evenly p-4">
-							<h1 class="text-center text-gold m-3">Réinitialisation du mot de passe</h1>
+
+						<div class="bg-blue text-gold border-gold card shadow-sm p-4 my-4">
+							<h1 class="text-center m-3">Réinitialisation du mot de passe</h1>
 							<div class="text-center m-3">
-								<p class="text-gold">
-									Entrez votre adresse email pour recevoir un lien de réinitialisation.
-								</p>
+								<p>Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
 							</div>
-
-							{{ form_start(requestForm) }}
-							{{ form_row(requestForm.email) }}
-
+							<div class="m-3">
+								{{ form_start(requestForm) }}
+								{{ form_row(requestForm.email) }}
+							</div>
 							<div class="text-center m-3">
 								<button class="btn">Recevoir l'email</button>
 							</div>
 							{{ form_end(requestForm) }}
 						</div>
+
 					</div>
 				</div>
+
 			</div>
 		</section>
 	</main>

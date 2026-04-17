@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block title %}Les Parenthèses Dorées -
-	Connexion
+		Connexion
 {% endblock %}
 {% block body %}
 	<main class="py-5">
-		<section id="event-page" class="container-fluid">
+		<section class="container-fluid my-5">
 			<div class="container">
+
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="bg-blue border-gold card shadow-sm p-4 mb-4">
+
+						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
 							<h1 class="text-center text-gold m-3">Connexion</h1>
 							<form method="post">
 								{% if error %}
@@ -41,8 +43,10 @@
 								<a href="{{ path('app_register') }}">Pas encore de compte?</a>
 							</div>
 						</div>
+            
 					</div>
 				</div>
+
 			</div>
 		</section>
 	</main>
