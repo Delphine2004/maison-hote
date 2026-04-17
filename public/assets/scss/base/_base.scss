@@ -9,19 +9,19 @@ body {
     font-family: fonts.$font-secondary;
     font-size: fonts.$font-size-base;
     line-height: 1.4;
-    background-color: colors.$bs-beige;
-    color: colors.$bs-brown;
+    background-color: colors.$beige;
+    color: colors.$brown;
 }
 
 header,
 footer {
     flex-shrink: 0; /* Empêche le header/footer de rétrécir */
-    background-color: colors.$bs-darkblue;
-    color: colors.$bs-gold;
+    background-color: colors.$darkblue;
+    color: colors.$gold;
 }
 
 a {
-    color: colors.$bs-gold;
+    color: colors.$gold;
 }
 
 main {
@@ -36,13 +36,17 @@ h3 {
 }
 
 .bg-blue {
-    background-color: colors.$bs-darkblue;
+    background-color: colors.$darkblue;
 }
 
 .border-gold {
-    border: 2px solid colors.$bs-gold;
+    border: 2px solid colors.$gold;
 }
 
 .text-gold {
-    color: colors.$bs-gold;
+    color: colors.$gold;
+}
+
+.text-beige {
+    color: colors.$beige;
 }

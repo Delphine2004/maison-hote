@@ -4,11 +4,11 @@
 
 .navbar {
     min-height: variables.$header-height-mobile;
-    background-color: colors.$bs-darkblue;
-    color: colors.$bs-gold;
+    background-color: colors.$darkblue;
+    color: colors.$gold;
 
     a {
-        color: colors.$bs-gold;
+        color: colors.$gold;
     }
 
     .navbar-brand .logo {
