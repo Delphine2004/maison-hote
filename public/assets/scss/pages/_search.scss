@@ -5,9 +5,4 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-
-    @media (min-width: 992px) {
-        min-height: 60vh;
-    }
 }

@@ -10,18 +10,20 @@
 		{{ form_widget(form.endingDate) }}
 	</div>
 
-	<div class="col-12 col-md-3 mb-3">
+	<div class="col-12 col-md-2 mb-3">
 		<button class="btn w-100" type="submit">Rechercher</button>
 	</div>
+</div>
 
-	<div class="col-12 text-gold">
+<div class="row align-items-end justify-content-around">
+	<div class="col-12 col-md-8 text-gold">
 		{{ form_errors(form.startingDate) }}
 		{{ form_errors(form.endingDate) }}
 	</div>
-	<div class="col-12 text-gold">
-		<a class="btn btn-sm" href="{{ path('app_search_room') }}">
-			Reset
-		</a>
+	<div class="col-12 col-md-2 mb-3">
+		<div class="text-center text-gold">
+			<a href="{{ path('app_search_room') }}">Réinitialiser</a>
+		</div>
 	</div>
 </div>
 {{ form_end(form) }}
