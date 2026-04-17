@@ -1,11 +1,27 @@
-
-
 .pictures-list {
     height: 300px;
     width: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
-#carousel-gallery .carousel-inner {
-    height: 500px;
+#carousel-gallery {
+    .carousel-inner {
+        height: 240px;
+
+        @media (min-width: 768px) {
+            height: 500px;
+        }
+
+        .carousel-item {
+            height: 100%;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
 }
