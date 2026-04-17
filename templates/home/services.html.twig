@@ -1,16 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block title %}Les Parenthèses Dorées -
-	Services
+		Services
 {% endblock %}
 {% block body %}
 	<main class="py-5">
 		<section class="container-fluid">
 			<div class="container">
-				<h1 class="text-center text-gold m-5">Services</h1>
+
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 ">
+						<h1 class="text-center text-gold m-3 m-md-5">Services</h1>
+					</div>
+				</div>
+
 				<div class="row justify-content-center g-4">
 					{% for service in services %}
 						<div class="col-12 col-md-5 ">
-							<div class="card border-gold shadow-sm h-100 my-4">
+							<div class="card border-gold shadow-sm my-4">
 								<div class="card-header bg-blue text-gold py-3">
 									<h2 class="text-center text-gold m-3">{{ service.name }}</h2>
 								</div>
