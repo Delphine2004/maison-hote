@@ -38,7 +38,7 @@ final class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'app_booking_search', methods: ['GET', 'POST'])]
+    #[Route('/search', name: 'app_search_booking', methods: ['GET', 'POST'])]
     public function renderSearch(
         Request $request,
         BookingRepository $bookingRepository

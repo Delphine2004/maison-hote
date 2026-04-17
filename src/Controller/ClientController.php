@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class ClientController extends AbstractController
 {
 
-    #[Route('/search', name: 'app_client_index', methods: ['GET', 'POST'])]
+    #[Route('/search', name: 'app_search_client', methods: ['GET', 'POST'])]
     #[IsGranted(UserRole::EMPLOYE->value)]
     public function index(
         Request $request,
@@ -219,7 +219,7 @@ final class ClientController extends AbstractController
         }
 
         if ($this->isGranted('ROLE_EMPLOYE')) {
-            return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_search_client', [], Response::HTTP_SEE_OTHER);
         } else {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         };
