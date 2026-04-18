@@ -144,6 +144,16 @@ label {
   object-position: center;
 }
 
+.search-room {
+  height: 250px;
+}
+.search-room img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 #hero h1 {
   font-size: 2.8rem;
 }
