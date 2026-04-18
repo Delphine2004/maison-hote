@@ -60,12 +60,14 @@ final class HomeController extends AbstractController
         if ($this->isGranted('ROLE_EMPLOYE')) {
             return $this->render('booking/staff_search_room.html.twig', [
                 'form' => $form->createView(),
-                'rooms' => $rooms
+                'rooms' => $rooms,
+                'data' => $data ?? null
             ]);
         } else {
             return $this->render('home/search_room.html.twig', [
                 'form' => $form->createView(),
-                'rooms' => $rooms
+                'rooms' => $rooms,
+                'data' => $data ?? null
             ]);
         }
     }
