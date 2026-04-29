@@ -1,21 +1,32 @@
 {% extends 'base.html.twig' %}
-{% block title %}Les Parenthèses Dorées -Paramétrages
-{% endblock %}
-{% block body %}
-	<main class="py-5">
-		<section class="container-fluid">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8">
 
+{% block title %}Les Parenthèses Dorées - Paramétrages
+{% endblock %}
+
+{% block body %}
+
+	<main class="py-5">
+
+		<section class="container-fluid my-5">
+			<div class="container">
+
+				<div class="row justify-content-center">
+
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="text-center m-3">
+							<a class="btn" href="{{ path('app_settings_index') }}">Retour aux paramétres</a>
+						</div>
+
+					</div>
+
+					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card border-gold shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center m-3">Informations établissement</h1>
 							</div>
 
 							<div class="card-body p-5">
-								<div class="row justify-content-center g-3">
-
+								<div class="row justify-content-around g-5">
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{path('app_service_index')}}">
 											Services
@@ -27,33 +38,55 @@
 											Photos
 										</a>
 									</div>
+
 								</div>
 
 							</div>
 						</div>
+					</div>
 
-						<div class="text-center m-3">
-							<a class="btn" href="{{ path('app_settings_index') }}">Retour aux paramétres</a>
-						</div>
+				</div>
 
+			</div>
+		</section>
+
+		<section class="container-fluid my-5">
+			<div class="container">
+
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card border-gold shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h2 class="text-center m-3">Chambres</h2>
 							</div>
+
 							<div class="card-body p-0">
+								<div class="row flex-column justify-content-center align-items-center">
+									<div class="col-12 col-md-4">
+										<div class="text-center m-3">
+											<a class="btn btn-sm" href="{{ path('app_room_new') }}">Ajouter une chambre</a>
+										</div>
+									</div>
+									<div class="col-12 "></div>
+
+
+								</div>
+
 								{% for room in rooms %}
-									<div class="card d-flex flex-row justify-content-between shadow-sm m-3">
-										<div class="card-body d-flex flex-row justify-content-between align-items-center p-3">
+									<div class="card border-gold d-flex flex-row flex-wrap align-items-center shadow-sm m-3">
+										<div class="card-body d-flex flex-row flex-wrap justify-content-between align-items-center p-3">
 											<p class="m-0">
-												#{{ room.number }} - {{ room.name }}
+												#{{ room.number }}
+												-
+												{{ room.name }}
 											</p>
 											<p class="m-0">
 												{{ room.rate }}
 											</p>
 										</div>
 
-										<div class="d-flex flex-row justify-content-center align-items-center p-3">
-											<a href="{{ path('app_room_show', { id: room.id }) }}" class="btn w-100">
+										<div class="d-flex justify-content-center align-items-center p-3">
+											<a class="btn w-100" href="{{ path('app_room_show', { id: room.id }) }}">
 												Voir
 											</a>
 										</div>
@@ -64,15 +97,8 @@
 									</p>
 								{% endfor %}
 							</div>
-							<div class="card-footer bg-blue py-5">
-								<div class="row justify-content-evenly g-3">
-									<div class="col-12 col-md-4">
-										<a class="btn w-100" href="{{ path('app_room_new') }}">Ajouter une chambre</a>
-									</div>
-								</div>
-							</div>
-						</div>
 
+						</div>
 					</div>
 				</div>
 
