@@ -1,3 +1,5 @@
+@use "../utils/colors";
+
 .pictures-list {
     height: 300px;
     width: 100%;
@@ -29,11 +31,18 @@
 
 .search-room {
     height: 250px;
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+        height: 500px;
+    }
 
     img {
         height: 100%;
         width: 100%;
         object-fit: cover;
         object-position: center;
+        border: colors.$border-gold;
+        border-radius: colors.$border-radius;
     }
 }
