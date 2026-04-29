@@ -5,6 +5,8 @@
     width: 100%;
     object-fit: cover;
     object-position: center;
+    border-top-left-radius: colors.$border-radius;
+    border-top-right-radius: colors.$border-radius;
 }
 
 #carousel-gallery {
