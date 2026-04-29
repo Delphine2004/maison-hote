@@ -50,6 +50,7 @@ h3 {
 
 .border-gold {
   border: 2px solid #ba912c;
+  border-radius: 1rem;
 }
 
 .text-gold {
@@ -70,6 +71,9 @@ h3 {
 }
 .navbar a {
   color: #f5f5dc;
+}
+.navbar a:hover {
+  color: #ba912c;
 }
 .navbar .navbar-brand .logo {
   height: 40px;
@@ -149,12 +153,20 @@ label {
 
 .search-room {
   height: 250px;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .search-room {
+    height: 500px;
+  }
 }
 .search-room img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   object-position: center;
+  border: 2px solid #ba912c;
+  border-radius: 1rem;
 }
 
 #hero h1 {
