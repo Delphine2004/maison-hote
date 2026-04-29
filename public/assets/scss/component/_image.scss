@@ -8,20 +8,21 @@
 #carousel-gallery {
     .carousel-inner {
         height: 240px;
+        overflow: hidden;
 
         @media (min-width: 768px) {
-            height: 600px;
+            height: 700px;
         }
 
         .carousel-item {
             height: 100%;
-        }
 
-        img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
         }
     }
 }

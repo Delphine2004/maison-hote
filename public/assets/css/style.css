@@ -130,16 +130,17 @@ label {
 
 #carousel-gallery .carousel-inner {
   height: 240px;
+  overflow: hidden;
 }
 @media (min-width: 768px) {
   #carousel-gallery .carousel-inner {
-    height: 600px;
+    height: 700px;
   }
 }
 #carousel-gallery .carousel-inner .carousel-item {
   height: 100%;
 }
-#carousel-gallery .carousel-inner img {
+#carousel-gallery .carousel-inner .carousel-item img {
   height: 100%;
   width: 100%;
   object-fit: cover;
