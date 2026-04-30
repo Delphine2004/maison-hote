@@ -54,3 +54,11 @@ h3 {
 .text-brown {
     color: colors.$brown;
 }
+
+.custom-size {
+    width: 100%;
+
+    @media (min-width: 768px) {
+        width: unset;
+    }
+}
