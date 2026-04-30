@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Réservations - Rechercher
+{% block title %}Rechercher réservations
 {% endblock %}
 {% block body %}
 	<main
@@ -8,35 +8,56 @@
 		<!-- Recherche de réservation -->
 		<section class="container-fluid">
 			<div class="container">
+
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card bg-blue shadow-sm border-gold text-gold p-3 my-5">
-							<h3 class="text-center mb-4">Rechercher</h3>
+						<div class="card bg-blue border-gold text-gold shadow-sm p-3 my-5">
+							<h1 class="text-center mb-4">Rechercher</h1>
 							{{ include("booking/_search_booking.html.twig") }}
 						</div>
 
 					</div>
 				</div>
+			</div>
+		</section>
+
+		<section class="container-fluid">
+			<div class="container">
 
 				<div class="row justify-content-center align-items-center my-4">
 					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for booking in bookings %}
-							<div class="card border-gold shadow-sm d-flex flex-column flex-md-row align-items-center p-1 m-1">
-								<div class="d-flex flex-column flex-md-row align-items-center flex-grow-1">
-									<p class="m-3">{{ booking.id }}</p>
-									<p class="m-3">{{ booking.user.lastName }}
-										{{ booking.user.firstName }}</p>
-									<p class="m-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}</p>
-									<p class="m-3">{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
-									<p class="mb-1">{{ booking.status.value }}
-									</p>
-								</div>
-								<div class="m-3">
-									<a class="btn" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+							<div class="card flex-column flex-md-row align-items-center border-gold shadow-sm my-2">
+
+								<div class="row justify-content-center align-items-center w-100 g-3">
+									<div class="col-12 col-md-9">
+
+										<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+											<div class="d-flex flex-column justify-content-between custom-size">
+												<p class="fw-bold text-center text-md-start my-3">{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : ''}}
+													-
+													{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}</p>
+												<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
+													{{ booking.user.firstName }}</p>
+											</div>
+											<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
+												<p class="my-3">{{ booking.id }}</p>
+												<p class="my-3">{{ booking.status.value }}
+												</p>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="col-12 col-md-2 text-center my-3">
+										<a class="btn w-100" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+									</div>
+
 								</div>
 							</div>
+
 						{% else %}
 							<p class="text-center m-2">
 								Aucune réservation ne correspond à la recherche.
@@ -45,6 +66,7 @@
 
 					</div>
 				</div>
+        
 			</div>
 		</section>
 	</main>
