@@ -188,7 +188,7 @@ label {
 }
 @media (min-width: 576px) {
   #hero img {
-    max-width: 600px;
+    max-width: 550px;
   }
 }
 @media (min-width: 768px) {
