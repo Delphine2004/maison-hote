@@ -21,6 +21,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             // Faire des réservations passées, en cours, en départ, en arrivée et à venir
             // Modifier les dates, les prix et les réferences users (de 1 à 6)
 
+            // Les arrivées
             [
                 'startingDate' => $today,
                 'endingDate'   => $today->modify('+5 days'),
@@ -37,7 +38,52 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
             ],
+            [
+                'startingDate' => $today,
+                'endingDate'   => $today->modify('+3 days'),
+                'totalAmount'  => 300.00, // en euros
+                'status'       => BookingStatus::CONFIRMED,
+                'user'         => $this->getReference('client_2', User::class),
+                'room'         => $this->getReference('room_3', Room::class),
+            ],
 
+            // Les départs du jour
+            [
+                'startingDate' => $today->modify('-2 days'),
+                'endingDate'   => $today,
+                'totalAmount'  => 450.00, // en euros
+                'status'       => BookingStatus::IN,
+                'user'         => $this->getReference('client_3', User::class),
+                'room'         => $this->getReference('room_1', Room::class),
+            ],
+            [
+                'startingDate' => $today->modify('-2 days'),
+                'endingDate'   => $today,
+                'totalAmount'  => 450.00, // en euros
+                'status'       => BookingStatus::CANCELLED,
+                'user'         => $this->getReference('client_3', User::class),
+                'room'         => $this->getReference('room_2', Room::class),
+            ],
+            [
+                'startingDate' => $today->modify('-2 days'),
+                'endingDate'   => $today,
+                'totalAmount'  => 450.00, // en euros
+                'status'       => BookingStatus::IN,
+                'user'         => $this->getReference('client_4', User::class),
+                'room'         => $this->getReference('room_2', Room::class),
+            ],
+
+            // Les clients présents
+            [
+                'startingDate' => $today->modify('-3 days'),
+                'endingDate'   => $today->modify('+1 days'),
+                'totalAmount'  => 450.00, // en euros
+                'status'       => BookingStatus::IN,
+                'user'         => $this->getReference('client_5', User::class),
+                'room'         => $this->getReference('room_4', Room::class),
+            ],
+
+            // Les réservations en historique
             [
                 'startingDate' => $today->modify('-5 days'),
                 'endingDate'   => $today->modify('-3 days'),
@@ -54,56 +100,33 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
             ],
+
+            // Les réservations à venir
             [
-                'startingDate' => $today->modify('5 days'),
-                'endingDate'   => $today->modify('8 days'),
+                'startingDate' => $today->modify('+5 days'),
+                'endingDate'   => $today->modify('+8 days'),
                 'totalAmount'  => 500.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_1', Room::class),
             ],
-
             [
-                'startingDate' => $today->modify('6 days'),
-                'endingDate'   => $today->modify('10 days'),
+                'startingDate' => $today->modify('+6 days'),
+                'endingDate'   => $today->modify('+10 days'),
                 'totalAmount'  => 500.00, // en euros
                 'status'       => BookingStatus::CANCELLED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_5', Room::class),
-            ],
-            //--------------------------------
-            [
-                'startingDate' => $today,
-                'endingDate'   => $today->modify('+3 days'),
-                'totalAmount'  => 300.00, // en euros
-                'status'       => BookingStatus::CONFIRMED,
-                'user'         => $this->getReference('client_2', User::class),
-                'room'         => $this->getReference('room_2', Room::class),
-            ],
-            [
-                'startingDate' => $today->modify('-2 days'),
-                'endingDate'   => $today,
-                'totalAmount'  => 450.00, // en euros
-                'status'       => BookingStatus::IN,
-                'user'         => $this->getReference('client_3', User::class),
-                'room'         => $this->getReference('room_3', Room::class),
-            ],
-            [
-                'startingDate' => $today->modify('-3 days'),
-                'endingDate'   => $today->modify('+1 days'),
-                'totalAmount'  => 450.00, // en euros
-                'status'       => BookingStatus::IN,
-                'user'         => $this->getReference('client_4', User::class),
-                'room'         => $this->getReference('room_4', Room::class),
             ],
             [
                 'startingDate' => $today->modify('+2 days'),
                 'endingDate'   => $today->modify('+5 days'),
                 'totalAmount'  => 450.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
-                'user'         => $this->getReference('client_5', User::class),
+                'user'         => $this->getReference('client_6', User::class),
                 'room'         => $this->getReference('room_5', Room::class),
-            ]
+            ],
+
         ];
 
         foreach ($bookingData as $data) {
