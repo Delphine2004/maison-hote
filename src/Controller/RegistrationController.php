@@ -7,17 +7,24 @@ use App\Enum\UserRole;
 
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        MailerInterface $mailer,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = new User();
         $user->setRoles([UserRole::CLIENT]);
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -33,7 +40,18 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
+            // Envoi de l'email de confirmation
+            $email = (new TemplatedEmail())
+                ->from(new Address('dfumex2004@gmail.com', 'Les parenthèses dorées'))
+                ->to((string) $user->getEmail())
+                ->subject('Confirmation de votre inscription')
+                ->htmlTemplate('registration/email.html.twig')
+                ->context([
+                    'user' => $user,
+                ]);
+
+            $mailer->send($email);
+
 
             return $this->redirectToRoute('app_login');
         }
