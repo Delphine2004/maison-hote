@@ -1,8 +1,8 @@
-# Les parenthéses dorées
+# Les parenthèses dorées
 
 ## 1. Description du projet
 
-"Les parenthéses dorées" est une application web développée avec Symfony permettant la gestion d'une maison d'hôte.
+"Les Parenthèses Dorées" est une application web développée avec Symfony permettant la gestion complète d'une maison d’hôtes : réservation en ligne, gestion des clients, des chambres et des services, avec une interface adaptée à chaque rôle (client, employé, administrateur).
 
 ---
 
@@ -45,7 +45,7 @@
 
 ### **Base de données**
 
-- **MySQL** : Relations entre utilisateurs et chambres
+- **MySQL** : gestion des entités principales (utilisateurs, chambres, réservations, services).
 
 ---
 
@@ -72,13 +72,14 @@
 
 ### Visiteur
 
-- Consulter la page d'accueil, la galerie photo et les services disponibles
-- Rechercher une chambre disponible
+- Consulter la page d'accueil, la galerie photo et les services proposés
+- Rechercher une chambre disponible selon une période choisie
 
 ### Client
 
-- Reserver une chambre
-- Gérer ses reservations
+- Réserver une chambre
+- Gérer ses réservations
+- Gérer ses informations
 
 ### Employé
 
@@ -90,7 +91,7 @@
 
 - Gérer les utilisateurs
 - Gérer les photos de la galerie
-- Gérer les services proposés par l'établissement
+- Gérer les services
 - Gérer les chambres
 
 ---
@@ -157,23 +158,33 @@ MailHog accessible : http://localhost:8025
 
 (Adapter les ports en fonction du fichier .env. si modifiés)
 
-### Comptes de test - A MODIFIER APRES
+### 6. Comptes de test
 
 Après exécution des fixtures, les comptes suivants sont disponibles :
 
 - Administrateur  
-  Email : admin@association.fr  
-  Mot de passe : `admin123\*`
+  Email : admin@guesthouse.fr  
 
 - Employé  
-  Email : staff@association.fr  
-  Mot de passe : `staff123\*`
+  Email : staff@guesthouse.fr  
 
+- Clients  
+  Email: batman@batman.com, superman@dailyplanet.com, ironman@starkindustries.com, spiderman@bugle.com, hermione@poudlard.com, bond007@mi6.co.uk
+
+  Mots de passe : `Azertyuiop12\*`  
+(Les mots de passes sont identiques pour tous les comptes. Ceci n'est évidemment pas une bonne pratique.)
 ---
+## 8. Améliorations futures
 
-## 8. Auteur
+- Amélioration de l’expérience utilisateur avec Symfony UX (interactions dynamiques sans rechargement de page)
+- Mise en place d’un système d’avis clients via MongoDB pour gérer des données non structurées
+- Tableau de bord statistiques
+
+
+## 9. Auteur
 
 Projet développé par Delphine FUMEX
 
 - GitHub : https://github.com/Delphine2004
 - LinkedIn : https://www.linkedin.com/in/delphine-fumex/
+- Portfolio: https://delphinefumex.com
