@@ -107,9 +107,8 @@ final class ClientController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,

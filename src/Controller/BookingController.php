@@ -33,6 +33,7 @@ final class BookingController extends AbstractController
 {
 
     #[Route('', name: 'app_booking_index', methods: ['GET'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function index(
         BookingRepository $bookingRepository
     ): Response {
@@ -42,6 +43,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/search', name: 'app_search_booking', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function renderSearch(
         Request $request,
         BookingRepository $bookingRepository
@@ -67,6 +69,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/newByStaff/{roomId}/{userId}', name: 'app_booking_new_by_staff', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function newByStaff(
         int $roomId,
         int $userId,
@@ -134,6 +137,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/new/{roomId}', name: 'app_booking_new_by_client', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::CLIENT->value)]
     public function newByClient(
         int $roomId,
         Request $request,
@@ -223,14 +227,15 @@ final class BookingController extends AbstractController
         ]);
     }
 
-
     #[Route('/statistics', name: 'app_booking_statistics')]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function renderStats(): Response
     {
         return $this->render('booking/statistics.html.twig');
     }
 
     #[Route('/{id}', name: 'app_booking_show', methods: ['GET'])]
+    #[IsGranted(UserRole::CLIENT->value)]
     public function show(
         Booking $booking
     ): Response {
@@ -240,6 +245,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/{id}/cancel', name: 'app_booking_cancel', methods: ['POST'])]
+    #[IsGranted(UserRole::CLIENT->value)]
     public function cancel(
         Request $request,
         Booking $booking,
@@ -292,6 +298,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/{id}/checkin', name: 'app_booking_checkin', methods: ['POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function checkin(
         Request $request,
         Booking $booking,
@@ -311,6 +318,7 @@ final class BookingController extends AbstractController
     }
 
     #[Route('/{id}/checkout', name: 'app_booking_checkout', methods: ['POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function checkout(
         Request $request,
         Booking $booking,
