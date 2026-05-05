@@ -169,7 +169,7 @@ Après exécution des fixtures, les comptes suivants sont disponibles :
   Email : staff@guesthouse.fr  
 
 - Clients  
-  Email: batman@batman.com, superman@dailyplanet.com, ironman@starkindustries.com, spiderman@bugle.com, hermione@poudlard.com, bond007@mi6.co.uk
+  Emails: batman@batman.com, superman@dailyplanet.com, ironman@starkindustries.com, spiderman@bugle.com, hermione@poudlard.com, bond007@mi6.co.uk
 
   Mots de passe : `Azertyuiop12\*`  
 (Les mots de passes sont identiques pour tous les comptes. Ceci n'est évidemment pas une bonne pratique.)
