@@ -42,14 +42,14 @@
 									</div>
 
 									<!-- Récapitulatif / btn -->
-									<div class="row flex-row justify-content-between align-items-center border-gold p-2">
+									<div class="row flex-row justify-content-center align-items-center border-gold p-2">
 										<div class="col-12 col-md-5 p-4">
 											<p class="text-beige my-3">Date d'arrivée : {{ data.startingDate ? data.startingDate|date('d/m/Y') : '' }}</p>
                       <p class="text-beige my-3">Date de départ : {{ data.endingDate ? data.endingDate|date('d/m/Y') : '' }}</p>
                       <p class="text-beige my-3">Prix par nuit :
-												{{ room.rate }}</p>
+												{{ room.rate }}€</p>
 											<p class="text-beige my-3">Total séjour :
-												{{ room.total_price }}</p>
+												{{ room.total_price }}€</p>
 										</div>
 										<div class="col-12 col-md-5 text-center ">
 											<a class="btn my-2" target="_blank" href="{{ path('app_booking_new_by_client', { roomId: room.id } ) }}">Choisir
