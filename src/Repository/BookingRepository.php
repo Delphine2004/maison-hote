@@ -99,6 +99,7 @@ class BookingRepository extends ServiceEntityRepository
 
             ->andWhere('b.startingDate >= :today')
             ->setParameter('today', $today)
+            ->orderBy('b.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
