@@ -28,15 +28,17 @@ class ResetPasswordController extends AbstractController
     public function __construct(
         private ResetPasswordHelperInterface $resetPasswordHelper,
         private EntityManagerInterface $entityManager,
-    ) {
-    }
+    ) {}
 
     /**
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
-    {
+    public function request(
+        Request $request,
+        MailerInterface $mailer,
+        TranslatorInterface $translator
+    ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
@@ -44,7 +46,10 @@ class ResetPasswordController extends AbstractController
             /** @var string $email */
             $email = $form->get('email')->getData();
 
-            return $this->processSendingPasswordResetEmail($email, $mailer, $translator
+            return $this->processSendingPasswordResetEmail(
+                $email,
+                $mailer,
+                $translator
             );
         }
 
@@ -129,8 +134,10 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
-    {
+    private function processSendingPasswordResetEmail(
+        string $emailFormData,
+        MailerInterface $mailer,
+    ): RedirectResponse {
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
         ]);
@@ -157,14 +164,13 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('dfumex2004@gmail.com', 'guesthouse'))
+            ->from(new Address('dfumex2004@gmail.com', 'Les parenthèses dorées'))
             ->to((string) $user->getEmail())
-            ->subject('Your password reset request')
+            ->subject('Votre demande de réinitiliation de mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
-            ])
-        ;
+            ]);
 
         $mailer->send($email);
 
