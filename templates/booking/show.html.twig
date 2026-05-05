@@ -35,12 +35,11 @@ block body %}
 										<strong>Nom :</strong>
 										<span>{{ booking.user.lastName }}</span>
 									</div>
-                  <!-- Rajouter condition pour affichage bouton -->
-                  {% if is_granted('ROLE_EMPLOYE') %}
-                  <div class="d-flex justify-content-md-end py-2" >
-                  <a class="btn" target="_blank" href="{{ path('app_client_show', { id: booking.user.id }) }}">Voir client</a>
-                  </div>
-                  {% endif %}
+									{% if is_granted('ROLE_EMPLOYE') %}
+										<div class="d-flex justify-content-md-end py-2">
+											<a class="btn" target="_blank" href="{{ path('app_client_show', { id: booking.user.id }) }}">Voir client</a>
+										</div>
+									{% endif %}
 								</div>
 								<!-- Chambre et période -->
 								<div class="py-2 mb-3 border-bottom">
@@ -71,22 +70,37 @@ block body %}
 								</div>
 							</div>
 
-							{% if booking.status.value != 'Annulee' %}
-								<div class="card-footer bg-blue py-5">
-									<div class="row justify-content-evenly g-3">
-										<div class="col-12 col-md-4">
+
+							<div class="card-footer bg-blue py-5">
+
+								{% for message in app.flashes('success') %}
+									<div class="alert alert-success">
+										{{ message }}
+									</div>
+								{% endfor %}
+
+								<div class="row justify-content-evenly g-3">
+									<div class="col-12 col-md-4">
+
+										{% if booking.status.value != 'Annulee' %}
 											<div class="flex-fill">
-												{{include("booking/_cancel_form.html.twig")}}
+												{{ include("booking/_cancel_form.html.twig") }}
 											</div>
-										</div>
+										{% endif %}
+
 									</div>
 								</div>
-							{% endif %}
+							</div>
+
 
 						</div>
 					</div>
 				</div>
-
+				{% if is_granted('ROLE_EMPLOYE') %}
+					<div class="text-center m-5">
+						<a class="btn" href="{{ path('app_booking_index') }}">Retour aux paramétres</a>
+					</div>
+				{% endif %}
 			</div>
 		</section>
 	</main>
