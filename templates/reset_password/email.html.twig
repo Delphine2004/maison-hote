@@ -1,8 +1,13 @@
-<h1>Bonjour</h1>
+<h1 style="padding: 20px; color: #ba912c; font-family: sans-serif">Bonjour</h1>
 
-<p>Pour réinitiliser votre mot de passe, veuillez cliquer sur le lien suivant.</p>
 
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+<p style="padding: 20px; color: #1e3a5f; font-family: sans-serif; padding: 16px">Pour réinitiliser votre mot de passe, veuillez cliquer sur le lien suivant.
+<br>
 
-<p>Ce lien est valide {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+	<a style="font-weight:bold" href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+	<br>
+	Ce lien est valide
+	{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+</p>
 
+<p style="padding: 20px; color: #1e3a5f; font-family: sans-serif; padding: 16px">L'équipe des Parenthéses Dorées.</p>
