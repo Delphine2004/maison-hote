@@ -1,51 +1,179 @@
-# Symfony Docker
+# Les parenthéses dorées
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+## 1. Description du projet
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+"Les parenthéses dorées" est une application web développée avec Symfony permettant la gestion d'une maison d'hôte.
 
-## Getting Started
+---
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up --wait` to set up and start a fresh Symfony project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+## 2. Technologies utilisées
 
-## Features
+### **Front-End**
 
-- Production, development and CI ready
-- Just 1 service by default
-- Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://frankenphp.dev/docs/worker/)
-- [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-- Automatic HTTPS (in dev and prod)
-- HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-- Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-- [Vulcain](https://vulcain.rocks) support
-- Native [XDebug](docs/xdebug.md) integration
-- Super-readable configuration
+- HTML5
+- CSS3 & Sass
+- Bootstrap
+- Approche mobile-first
 
-**Enjoy!**
+### **Back-End**
 
-## Docs
+#### Langage & Framework
 
-1. [Options available](docs/options.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
+- PHP 8
+- Symfony 8
 
-## License
+#### Gestion des données
 
-Symfony Docker is available under the MIT License.
+- Doctrine ORM
+- Doctrine Migrations
 
-## Credits
+#### Sécurité
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+- Symfony Security
+- SymfonyCasts Reset Password Bundle
+- Protection CSRF
+
+#### Templates & formulaires
+
+- Twig
+- Symfony Form
+- Symfony Validator
+
+#### Services supplémentaires
+
+- Symfony Mailer
+
+### **Base de données**
+
+- **MySQL** : Relations entre utilisateurs et chambres
+
+---
+
+## 3. Environnement de travail
+
+- IDE : VS Code avec extensions PHP Intelephense et Prettier.
+- Serveur local : Docker.
+- Versionning : Git & GitHub.
+
+---
+
+## 4. Sécurité
+
+- Authentification via Symfony Security
+- Gestion des rôles (Visiteur, Employé, Administrateur)
+- Hashage automatique des mots de passe via le composant Security
+- Système sécurisé de réinitialisation de mot de passe (SymfonyCasts Reset Password)
+- Protection CSRF sur les formulaires
+- Validation des données avec Symfony Validator
+
+---
+
+## 5. Fonctionnalités principales
+
+### Visiteur
+
+- Consulter la page d'accueil, la galerie photo et les services disponibles
+- Rechercher une chambre disponible
+
+### Client
+
+- Reserver une chambre
+- Gérer ses reservations
+
+### Employé
+
+- Gérer les clients
+- Gérer les réservations
+
+
+### Administrateur
+
+- Gérer les utilisateurs
+- Gérer les photos de la galerie
+- Gérer les services proposés par l'établissement
+- Gérer les chambres
+
+---
+
+## 6. Aperçu de l'application
+
+### Page d’accueil
+
+![Accueil](docs/screenshots/home.jpg)
+
+### Page de recherche de chambre disponible
+
+![Résultat de recherche](docs/screenshots/result.jpg)
+
+## 7. Installation
+
+### 1. Cloner le dépôt :
+
+```bash
+ git clone https://github.com/Delphine2004/guesthouse.git
+ cd guesthouse
+```
+
+### 2. Copier le fichier d’exemple des variables d’environnement :
+
+```bash
+cp .env.example .env
+```
+
+Modifier les mots de passe dans le fichier .env si nécessaire.
+
+### 3. Construire et lancer les conteneurs :
+
+```bash
+docker compose up -d --build
+```
+
+
+### 4. Créer la base de donnée :
+
+Rentrer dans le conteneur php
+
+```bash
+docker compose exec php bash
+```
+
+Exécuter les migrations
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+### 5. Générer les données :
+
+Toujours dans le conteneur php
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+L’application accessible : http://localhost:8090
+
+MailHog accessible : http://localhost:8025
+
+(Adapter les ports en fonction du fichier .env. si modifiés)
+
+### Comptes de test - A MODIFIER APRES
+
+Après exécution des fixtures, les comptes suivants sont disponibles :
+
+- Administrateur  
+  Email : admin@association.fr  
+  Mot de passe : `admin123\*`
+
+- Employé  
+  Email : staff@association.fr  
+  Mot de passe : `staff123\*`
+
+---
+
+## 8. Auteur
+
+Projet développé par Delphine FUMEX
+
+- GitHub : https://github.com/Delphine2004
+- LinkedIn : https://www.linkedin.com/in/delphine-fumex/
