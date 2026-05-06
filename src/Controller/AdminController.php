@@ -31,7 +31,7 @@ final class AdminController extends AbstractController
         RoomRepository $roomRepository
     ): Response {
         // Récupération des chambres
-        $rooms = $roomRepository->findAllRoom();
+        $rooms = $roomRepository->findAllRooms();
         return $this->render('admin/settings_hotel.html.twig', ['rooms' => $rooms,]);
     }
 

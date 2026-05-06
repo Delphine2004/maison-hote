@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Room;
 use App\DTO\SearchRoom;
 use App\Enum\BookingStatus;
-use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,7 +20,7 @@ class RoomRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllRoom(): array
+    public function findAllRooms(): array
     {
         return $this->findAll();
     }
