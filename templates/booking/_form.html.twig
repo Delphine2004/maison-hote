@@ -3,7 +3,7 @@
 	{{ form_widget(form.bookingConsent, {'attr': {'class': 'form-check-input'}}) }}
 	<label class="form-check-label">
 		J'accepte le traitement de mes données conformément à la
-		<a href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
+		<a class="fw-bold" href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
 	</label>
 	{{ form_errors(form.bookingConsent) }}
 </div>
