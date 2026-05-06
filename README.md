@@ -171,7 +171,7 @@ Après exécution des fixtures, les comptes suivants sont disponibles :
 - Clients  
   Emails: batman@batman.com, superman@dailyplanet.com, ironman@starkindustries.com, spiderman@bugle.com, hermione@poudlard.com, bond007@mi6.co.uk
 
-  Mots de passe : `Azertyuiop12\*`  
+  Mots de passe : `Azertyuiop12*`  
 (Les mots de passes sont identiques pour tous les comptes. Ceci n'est évidemment pas une bonne pratique.)
 ---
 ## 8. Améliorations futures
