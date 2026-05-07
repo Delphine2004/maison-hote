@@ -50,7 +50,7 @@ h3 {
 
 .border-gold {
   border: 2px solid #ba912c;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
 }
 
 .text-gold {
@@ -139,8 +139,8 @@ label {
   width: 100%;
   object-fit: cover;
   object-position: center;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
 }
 
 #carousel-gallery .carousel-inner {
@@ -177,7 +177,12 @@ label {
   object-fit: cover;
   object-position: center;
   border: 2px solid #ba912c;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
+}
+
+.card {
+  border: 2px solid #ba912c;
+  border-radius: 0.4rem;
 }
 
 #hero h1 {
