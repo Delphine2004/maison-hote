@@ -15,6 +15,15 @@
 						</div>
 
 					</div>
+					{% for label, messages in app.flashes %}
+						<div class="col-12 col-md-10">
+							{% for message in messages %}
+								<p class="fw-bold text-center  m-3 alert alert-{{ label }}">
+									{{ message }}
+								</p>
+							{% endfor %}
+						</div>
+					{% endfor %}
 				</div>
 
 			</div>
@@ -44,9 +53,11 @@
 									<!-- Récapitulatif / btn -->
 									<div class="row flex-row justify-content-center align-items-center border-gold p-2">
 										<div class="col-12 col-md-5 p-4">
-											<p class="text-beige my-3">Date d'arrivée : {{ data.startingDate ? data.startingDate|date('d/m/Y') : '' }}</p>
-                      <p class="text-beige my-3">Date de départ : {{ data.endingDate ? data.endingDate|date('d/m/Y') : '' }}</p>
-                      <p class="text-beige my-3">Prix par nuit :
+											<p class="text-beige my-3">Date d'arrivée :
+												{{ data.startingDate ? data.startingDate|date('d/m/Y') : '' }}</p>
+											<p class="text-beige my-3">Date de départ :
+												{{ data.endingDate ? data.endingDate|date('d/m/Y') : '' }}</p>
+											<p class="text-beige my-3">Prix par nuit :
 												{{ room.rate }}€</p>
 											<p class="text-beige my-3">Total séjour :
 												{{ room.total_price }}€</p>
