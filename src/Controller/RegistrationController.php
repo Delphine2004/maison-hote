@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
 
             $mailer->send($email);
 
-
+            $this->addFlash('success', 'Merci de vous connecter.');
             return $this->redirectToRoute('app_login');
         }
 

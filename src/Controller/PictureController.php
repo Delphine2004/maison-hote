@@ -47,6 +47,7 @@ final class PictureController extends AbstractController
             $entityManager->persist($picture);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Photo ajoutée avec succés.');
             return $this->redirectToRoute('app_picture_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -63,7 +64,7 @@ final class PictureController extends AbstractController
             $entityManager->remove($picture);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Photo supprimée avec succés.');
         return $this->redirectToRoute('app_picture_index', [], Response::HTTP_SEE_OTHER);
     }
 }

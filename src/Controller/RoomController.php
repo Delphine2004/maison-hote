@@ -58,6 +58,7 @@ final class RoomController extends AbstractController
 
             $entityManager->flush();
 
+            $this->addFlash('success', 'Chambre modifiée avec succés.');
             return $this->redirectToRoute('app_settings_index', [], Response::HTTP_SEE_OTHER);
         }
 

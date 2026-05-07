@@ -87,6 +87,7 @@ final class BookingController extends AbstractController
             !$period->getEndingDate()
         ) {
             $session->remove('period');
+            $this->addFlash('sucess', 'Un erreur s\'est produite.');
             return $this->redirectToRoute('app_search_room');
         }
 
@@ -130,7 +131,6 @@ final class BookingController extends AbstractController
         } catch (\Exception $e) {
         }
         $this->addFlash('success', 'Réservation confirmée.');
-
         return $this->redirectToRoute('app_booking_show', [
             'id' => $booking->getId()
         ]);
@@ -150,7 +150,7 @@ final class BookingController extends AbstractController
 
         // si pas authentifié
         if (!$user) {
-            // ----> redirection vers page connexion
+            $this->addFlash('sucess', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -163,6 +163,7 @@ final class BookingController extends AbstractController
             !$period->getEndingDate()
         ) {
             $session->remove('period');
+            $this->addFlash('sucess', 'Un erreur s\'est produite.');
             return $this->redirectToRoute('app_search_room');
         }
 
@@ -215,7 +216,6 @@ final class BookingController extends AbstractController
             } catch (\Exception $e) {
             }
             $this->addFlash('success', 'Réservation confirmée.');
-
             return $this->redirectToRoute('app_booking_show', [
                 'id' => $booking->getId()
             ]);
@@ -262,12 +262,24 @@ final class BookingController extends AbstractController
 
         // Vérification que l'utilisateur est connecté
         if (!$userConnected) {
-            throw $this->createAccessDeniedException();
+            $this->addFlash('sucess', 'Vous devez être connecté.');
+            return $this->redirectToRoute('app_booking_show', [
+                'id' => $booking->getId()
+            ]);
         }
 
         // Vérification que l'utilisateur connécté est bien celui qui detient la réservation ou est autorisé
         if ($booking->getUser() !== $userConnected && !$this->isGranted('ROLE_EMPLOYE')) {
-            throw $this->createAccessDeniedException();
+            $this->addFlash('sucess', 'Vous devez être connecté.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Vérification que la réservation n'est pas "presente"
+        if ($booking->getStatus() === BookingStatus::IN->value) {
+            $this->addFlash('sucess', 'Vous n\'êtes pas autorisé à annuler la réservation.');
+            return $this->redirectToRoute('app_booking_show', [
+                'id' => $booking->getId()
+            ]);
         }
 
 
@@ -314,6 +326,7 @@ final class BookingController extends AbstractController
 
         $entityManager->flush();
 
+        $this->addFlash('success', 'Arrivée confirmée.');
         return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -334,6 +347,7 @@ final class BookingController extends AbstractController
 
         $entityManager->flush();
 
+        $this->addFlash('success', 'Départ confirmé.');
         return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

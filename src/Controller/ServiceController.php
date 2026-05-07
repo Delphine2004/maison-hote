@@ -37,7 +37,7 @@ final class ServiceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($service);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Service ajouté avec succés.');
             return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,7 +55,7 @@ final class ServiceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'Service modifié avec succés.');
             return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,7 +75,7 @@ final class ServiceController extends AbstractController
             $entityManager->remove($service);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Service supprimé avec succés.');
         return $this->redirectToRoute('app_service_index', [], Response::HTTP_SEE_OTHER);
     }
 }
