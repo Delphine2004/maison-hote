@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Booking;
+use App\Entity\User;
 use App\DTO\SearchBooking;
 use App\Enum\BookingStatus;
 
@@ -89,26 +90,29 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findTodayBookings(): array
+    public function hasCurrentReservation(User $user): bool
     {
-        $today = new DateTimeImmutable('today');
+        $now = new DateTimeImmutable();
 
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.user', 'u')->addSelect('u')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-
-            ->andWhere('b.startingDate >= :today')
-            ->setParameter('today', $today)
-            ->orderBy('b.id', 'DESC')
+        return (bool) $this->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->where('b.user = :user')
+            ->andWhere(':now BETWEEN b.startingDate AND b.endingDate')
+            ->andWhere('b.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('now', $now)
+            ->setParameter('status', BookingStatus::IN->value)
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
     }
 
+
+
     public function findUpcomingBookingsByClient(
-        int $userId,
-        DateTimeImmutable $day
+        int $userId
     ): array {
-        $start = $day->setTime(0, 0, 0);
+        $today = new DateTimeImmutable('today');
+        $start = $today->setTime(0, 0, 0);
 
         return $this->createQueryBuilder('b')
             ->leftJoin('b.user', 'u')->addSelect('u')
@@ -123,10 +127,10 @@ class BookingRepository extends ServiceEntityRepository
     }
 
     public function findPastBookingsByClient(
-        int $userId,
-        DateTimeImmutable $day
+        int $userId
     ): array {
-        $end = $day->setTime(23, 59, 59);
+        $today = new DateTimeImmutable('today');
+        $end = $today->setTime(23, 59, 59);
 
         return $this->createQueryBuilder('b')
             ->leftJoin('b.user', 'u')->addSelect('u')
@@ -136,6 +140,21 @@ class BookingRepository extends ServiceEntityRepository
             ->setParameter('userId', $userId)
             ->setParameter('end', $end)
             ->orderBy('b.startingDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function findTodayBookings(): array
+    {
+        $today = new DateTimeImmutable('today');
+
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.user', 'u')->addSelect('u')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.startingDate >= :today')
+            ->setParameter('today', $today)
+            ->orderBy('b.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -150,7 +169,6 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     public function findCheckOutsForDay(
         DateTimeImmutable $day
