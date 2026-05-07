@@ -9,7 +9,7 @@ block body %}
 				<div class="row justify-content-center">
 
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card border-gold shadow-sm my-5">
+						<div class="card shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center text-gold m-3">
 									Réservation
@@ -73,16 +73,19 @@ block body %}
 
 							<div class="card-footer bg-blue py-5">
 
-								{% for message in app.flashes('success') %}
-									<div class="alert alert-success">
-										{{ message }}
-									</div>
-								{% endfor %}
-
 								<div class="row justify-content-evenly g-3">
-									<div class="col-12 col-md-4">
+									{% for label, messages in app.flashes %}
+										<div class="col-12 col-md-10">
+											{% for message in messages %}
+												<p class=" fw-bold text-center m-3 alert alert-{{ label }}">
+													{{ message }}
+												</p>
+											{% endfor %}
+										</div>
+									{% endfor %}
 
-										{% if booking.status.value != 'Annulee' %}
+									<div class="col-12 col-md-4">
+										{% if booking.status.value not in ['Annulee', 'Present'] %}
 											<div class="flex-fill">
 												{{ include("booking/_cancel_form.html.twig") }}
 											</div>
@@ -100,7 +103,7 @@ block body %}
 					<div class="text-center m-5">
 						<a class="btn" href="{{ path('app_booking_index') }}">Retour aux réservations</a>
 					</div>
-					{% else %}
+				{% else %}
 					<div class="text-center m-5">
 						<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Retour sur le compte</a>
 					</div>

@@ -18,7 +18,7 @@
 					</div>
 
 					<div class="col-12 col-md-10">
-						<div class="card border-gold shadow-sm my-5">
+						<div class="card shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center m-3">Services</h1>
 							</div>
@@ -30,6 +30,15 @@
 										<a class="btn w-100" href="{{ path('app_service_new') }}">Ajouter un service</a>
 									</div>
 
+									{% for label, messages in app.flashes %}
+										<div class="col-12 col-md-10">
+											{% for message in messages %}
+												<p class="fw-bold text-center  m-3 alert alert-{{ label }}">
+													{{ message }}
+												</p>
+											{% endfor %}
+										</div>
+									{% endfor %}
 								</div>
 							</div>
 						</div>
@@ -45,7 +54,7 @@
 				<div class="row justify-content-center g-4">
 					{% for service in services %}
 						<div class="col-12 col-md-5">
-							<div class="card border-gold shadow-sm h-100">
+							<div class="card shadow-sm h-100">
 								<div class="card-header bg-blue text-gold py-3">
 									<h2 class="text-center text-gold m-3">{{ service.name }}</h2>
 								</div>
@@ -74,7 +83,7 @@
 						</div>
 					{% else %}
 						<div class="col-12">
-							<div class="card border-gold shadow-sm my-4">
+							<div class="card shadow-sm my-4">
 								<p class="text-center">Aucun service enregistré</p>
 							</div>
 						</div>

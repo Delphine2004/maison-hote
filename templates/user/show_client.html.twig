@@ -11,7 +11,7 @@ block body %}
 
 					<!-- Informations compte -->
 					<div class="col-12 col-md-10 col-lg-8">
-						<div class="card border-gold shadow-sm my-5">
+						<div class="card shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center text-gold m-3">Compte</h1>
 							</div>
@@ -65,8 +65,16 @@ block body %}
 							</div>
 
 							<div class="card-footer bg-blue py-5">
-								<div
-									class="row justify-content-evenly g-3">
+								<div class="row justify-content-evenly g-3">
+									{% for label, messages in app.flashes %}
+										<div class="col-12 col-md-10">
+											{% for message in messages %}
+												<p class="fw-bold text-center text-beige  m-3 alert alert-{{ label }}">
+													{{ message }}
+												</p>
+											{% endfor %}
+										</div>
+									{% endfor %}
 									<!-- Bouton modifier informations -->
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{ path('app_client_edit', { id: user.id }) }}">Modifier</a>
@@ -84,7 +92,7 @@ block body %}
 
 					<!-- Informations réservations -->
 					<div class="col-12 col-md-10 col-lg-8 m-4">
-						<div class="card border-gold shadow-sm">
+						<div class="card shadow-sm">
 							<div class="card-header bg-blue text-gold py-3">
 								<h2 class="text-center m-2">Réservation à venir</h2>
 							</div>

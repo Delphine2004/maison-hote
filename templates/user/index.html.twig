@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Espace utilisateur - Client
 {% endblock %}
+
 {% block body %}
+
 	<main
 		class="py-5">
 
@@ -11,7 +14,7 @@
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card border-gold shadow-sm my-5">
+						<div class="card shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
 								<h1 class="text-center m-3">Clients</h1>
 							</div>
@@ -23,7 +26,17 @@
 										<a class="btn w-100" href="{{ path('app_client_new') }}">Ajouter un client</a>
 									</div>
 
+									{% for label, messages in app.flashes %}
+										<div class="col-12 col-md-10">
+											{% for message in messages %}
+												<p class="fw-bold text-center  m-3 alert alert-{{ label }}">
+													{{ message }}
+												</p>
+											{% endfor %}
+										</div>
+									{% endfor %}
 								</div>
+
 							</div>
 
 						</div>
@@ -49,12 +62,12 @@
 					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for user in users %}
-							<div class="card border-gold shadow-sm d-flex flex-column flex-md-row align-items-center p-1 m-1">
+							<div class="card shadow-sm d-flex flex-column flex-md-row align-items-center p-1 m-1">
 								<div class="d-flex flex-column flex-md-row justify-content-between align-items-center flex-grow-1 m-3">
 									<p class="my-3">{{ user.id }}</p>
 									<p class="my-3">{{ user.lastName }}
 										{{ user.firstName }}</p>
-                    <p class="my-3">{{ user.email }}</p>
+									<p class="my-3">{{ user.email }}</p>
 								</div>
 								<div class="m-3">
 									<a class="btn" target="_blank" href="{{ path('app_client_show', { id: user.id }) }}">Voir</a>

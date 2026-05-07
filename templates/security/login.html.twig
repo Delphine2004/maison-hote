@@ -8,6 +8,15 @@
 			<div class="container">
 
 				<div class="row justify-content-center">
+					{% for label, messages in app.flashes %}
+						<div class="col-12 col-md-10 col-lg-8">
+							{% for message in messages %}
+								<p class="fw-bold text-center m-3 alert alert-{{ label }}">
+									{{ message }}
+								</p>
+							{% endfor %}
+						</div>
+					{% endfor %}
 					<div class="col-12 col-md-10 col-lg-8">
 
 						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
@@ -43,7 +52,7 @@
 								<a href="{{ path('app_register') }}">Pas encore de compte?</a>
 							</div>
 						</div>
-            
+
 					</div>
 				</div>
 

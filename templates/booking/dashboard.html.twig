@@ -3,28 +3,164 @@
 {% endblock %}
 {% block body %}
 	<main class="py-5">
-		<h1 class="text-center m-5">Tableau de bord</h1>
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card shadow-sm mt-5">
+							<h1 class="text-brown text-center m-5">Tableau de bord</h1>
 
-		<!-- Clients présents -->
+							{% for label, messages in app.flashes %}
+								{% for message in messages %}
+									<p class="fw-bold text-center  m-3 alert alert-{{ label }}">
+										{{ message }}
+									</p>
+								{% endfor %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+			<!-- Clients présents -->
+			<section class="container-fluid">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-10 col-lg-8">
+
+							<div class="card shadow-sm mt-5">
+								<div class="card-header bg-blue text-gold py-3">
+									<h3 class="mb-0 text-center">Clients présents</h3>
+								</div>
+
+								<div class="card-body p-0">
+									{% for booking in bookings %}
+										<div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
+											<div class="row justify-content-center align-items-center w-100 g-3">
+
+												<div class="col-12 col-md-9">
+													<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+
+														<div class="d-flex flex-column justify-content-between custom-size">
+															<p class="fw-bold text-center text-md-start my-3">
+																{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+																-
+																{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</p>
+															<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
+																{{ booking.user.firstName }}</p>
+
+														</div>
+														<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
+															<p class="my-3">{{ booking.room.name }}</p>
+															<p class="my-3">{{ booking.totalAmount }}€</p>
+														</div>
+														<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
+															<p class="my-3">Ref :
+																{{ booking.id }}</p>
+														</div>
+													</div>
+												</div>
+
+												<div class="col-12 col-md-2 text-center my-3">
+													<a class="btn w-100" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
+												</div>
+
+											</div>
+										</div>
+									{% else %}
+										<p class="text-center m-2">
+											Aucun clients présents
+										</p>
+									{% endfor %}
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Départs du jour -->
+			<section class="container-fluid">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-10 col-lg-8">
+
+							<div class="card shadow-sm mt-5">
+								<div class="card-header bg-blue text-gold py-3">
+									<h3 class="mb-0 text-center">Départs du jour</h3>
+								</div>
+
+								<div class="card-body p-0">
+									{% for booking in checkouts %}
+										<div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
+											<div class="row justify-content-center align-items-center w-100 g-3">
+
+												<div class="col-12 col-md-9">
+													<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+
+														<div class="d-flex flex-column justify-content-between custom-size">
+															<p class="fw-bold text-center text-md-start my-3">
+																{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
+																-
+																{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</p>
+															<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
+																{{ booking.user.firstName }}</p>
+														</div>
+
+														<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
+															<p class="my-3">{{ booking.room.name }}</p>
+															<p class="my-3">{{ booking.totalAmount }}€</p>
+														</div>
+
+														<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
+															<p class="my-3">Ref :{{ booking.id }}</p>
+														</div>
+
+													</div>
+												</div>
+
+												<div class="col-12 col-md-2 text-center my-3">
+													<div class="text-center py-3">{{ include("booking/_out_form.html.twig" )}}</div>
+												</div>
+											</div>
+										</div>
+									{% else %}
+										<p class="text-center m-2">
+											Aucun départ ce jour
+										</p>
+									{% endfor %}
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Arrivée du jour -->
 		<section class="container-fluid">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card border-gold shadow-sm mt-5">
+						<div class="card shadow-sm my-5">
 							<div class="card-header bg-blue text-gold py-3">
-								<h3 class="mb-0 text-center">Clients présents</h3>
+								<h3 class="mb-0 text-center">Arrivées du jour</h3>
 							</div>
-
 							<div class="card-body p-0">
-								{% for booking in bookings %}
+								{% for booking in checkins %}
 									<div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
 										<div class="row justify-content-center align-items-center w-100 g-3">
 
 											<div class="col-12 col-md-9">
 												<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
 
-													<div class="d-flex flex-column justify-content-between custom-size">
+													<div class="d-flex flex-column justify-content-between  custom-size">
 														<p class="fw-bold text-center text-md-start my-3">
 															{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
 															-
@@ -36,149 +172,31 @@
 													<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
 														<p class="my-3">{{ booking.room.name }}</p>
 														<p class="my-3">{{ booking.totalAmount }}€</p>
+
 													</div>
 													<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
 														<p class="my-3">Ref :
 															{{ booking.id }}</p>
+
+
 													</div>
 												</div>
 											</div>
-
 											<div class="col-12 col-md-2 text-center my-3">
-												<a class="btn w-100" target="_blank" href="{{ path('app_booking_show', { id: booking.id }) }}">Voir</a>
-											</div>
-
-										</div>
-									</div>
-								{% else %}
-									<p class="text-center m-2">
-										Aucun clients présents
-									</p>
-								{% endfor %}
-							</div>
-
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Départs du jour -->
-		<section class="container-fluid">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8">
-
-						<div class="card border-gold shadow-sm mt-5">
-							<div class="card-header bg-blue text-gold py-3">
-								<h3 class="mb-0 text-center">Départs du jour</h3>
-							</div>
-
-							<div class="card-body p-0">
-								{% for booking in checkouts %}
-									<div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
-										<div class="row justify-content-center align-items-center w-100 g-3">
-
-											<div class="col-12 col-md-9">
-												<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
-
-													<div class="d-flex flex-column justify-content-between custom-size">
-														<p class="fw-bold text-center text-md-start my-3">
-															{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
-															-
-															{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</p>
-														<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
-															{{ booking.user.firstName }}</p>
-													</div>
-
-													<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
-														<p class="my-3">{{ booking.room.name }}</p>
-														<p class="my-3">{{ booking.totalAmount }}€</p>
-													</div>
-
-													<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
-														<p class="my-3">Ref :{{ booking.id }}</p>
-													</div>
-
-												</div>
-											</div>
-
-											<div class="col-12 col-md-2 text-center my-3">
-												<div class="text-center py-3">{{ include("booking/_out_form.html.twig" )}}</div>
+												<div class="text-center py-3">{{ include("booking/_in_form.html.twig" )}}</div>
 											</div>
 										</div>
 									</div>
 								{% else %}
 									<p class="text-center m-2">
-										Aucun départ ce jour
+										Aucun arrivée ce jour
 									</p>
 								{% endfor %}
+
 							</div>
-
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Arrivée du jour -->
-	<section class="container-fluid">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-12 col-md-10 col-lg-8">
-
-					<div class="card border-gold shadow-sm my-5">
-						<div class="card-header bg-blue text-gold py-3">
-							<h3 class="mb-0 text-center">Arrivées du jour</h3>
-						</div>
-						<div class="card-body p-0">
-							{% for booking in checkins %}
-								<div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
-									<div class="row justify-content-center align-items-center w-100 g-3">
-
-										<div class="col-12 col-md-9">
-											<div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
-
-												<div class="d-flex flex-column justify-content-between  custom-size">
-													<p class="fw-bold text-center text-md-start my-3">
-														{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
-														-
-														{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</p>
-													<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
-														{{ booking.user.firstName }}</p>
-
-												</div>
-												<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
-													<p class="my-3">{{ booking.room.name }}</p>
-													<p class="my-3">{{ booking.totalAmount }}€</p>
-
-												</div>
-												<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
-													<p class="my-3">Ref :
-														{{ booking.id }}</p>
-
-
-												</div>
-											</div>
-										</div>
-										<div class="col-12 col-md-2 text-center my-3">
-											<div class="text-center py-3">{{ include("booking/_in_form.html.twig" )}}</div>
-										</div>
-									</div>
-								</div>
-							{% else %}
-								<p class="text-center m-2">
-									Aucun arrivée ce jour
-								</p>
-							{% endfor %}
-
 						</div>
 					</div>
 				</div>
-			</div>
-		</section>
-	</main>
-{% endblock %}
+			</section>
+		</main>
+	{% endblock %}
