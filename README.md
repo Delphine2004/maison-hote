@@ -108,14 +108,13 @@
 
 ## 7. Installation
 
-### 1. Cloner le dépôt :
+### 1. Cloner le dépôt dans un dossier:
 
 ```bash
- git clone https://github.com/Delphine2004/guesthouse.git
- cd guesthouse
+ git clone https://github.com/Delphine2004/maison-hote.git
 ```
 
-### 2. Copier le fichier d’exemple des variables d’environnement :
+### 2. Se déplacer dans le dossier puis copier le fichier d’exemple des variables d’environnement :
 
 ```bash
 cp .env.example .env
