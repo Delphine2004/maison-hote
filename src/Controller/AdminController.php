@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+
 use App\Enum\UserRole;
+
 use App\Form\UserType;
+
 use App\Repository\UserRepository;
 use App\Repository\RoomRepository;
-use App\Repository\PeriodRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +23,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(UserRole::ADMIN->value)]
 final class AdminController extends AbstractController
 {
+
+    private UserPasswordHasherInterface $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
     #[Route('', name: 'app_settings_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -39,7 +50,7 @@ final class AdminController extends AbstractController
     public function renderStaff(UserRepository $userRepository): Response
     {
         // Récupération des utilisateurs
-        $users = $userRepository->findUsersWithoutRoles([UserRole::ADMIN->value, UserRole::CLIENT->value]);
+        $users = $userRepository->findUsersWithoutRoles([UserRole::ADMIN->value, UserRole::CLIENT->value, UserRole::ANONYMIZED->value]);
         return $this->render('admin/settings_staff.html.twig', ['users' => $users]);
     }
 
@@ -64,6 +75,7 @@ final class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Utilisateur ajouté avec succés.');
             return $this->redirectToRoute('app_staff_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -72,9 +84,12 @@ final class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit_by_admin', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    #[Route('/staff/{id}/edit', name: 'app_user_edit_by_admin', methods: ['GET', 'POST'])]
+    public function edit(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->getUser() === $user) {
             $mode = 'updateAdmin';
         } else {
@@ -87,7 +102,8 @@ final class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_dashboard', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Modification(s) réalisées avec succés.');
+            return $this->redirectToRoute('app_staff_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -96,17 +112,36 @@ final class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/staff/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('/staff/{id}/delete', name: 'app_user_delete', methods: ['POST'])]
     public function delete(
         Request $request,
         User $user,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
+
+        // Vérification que la requête est valide
+        if (!$this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 
+        $userConnected = $this->getUser();
+
+        // Vérification que l'utilisateur est connecté
+        if (!$userConnected) {
+            $this->addFlash('sucess', 'Vous devez être connecté.');
+            return $this->redirectToRoute('app_login');
+        }
+
+
+        $user->setEmail('anonyme_' . $user->getId() . '@example.com');
+        $user->setLogin('anonyme' . $user->getId());
+        $user->setRoles([UserRole::ANONYMIZED]);
+        $hashedPassword = $this->hasher->hashPassword($user, 'Anonymised12*');
+        $user->setPassword($hashedPassword);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Utilisateur supprimé.');
         return $this->redirectToRoute('app_staff_index', [], Response::HTTP_SEE_OTHER);
     }
 }
