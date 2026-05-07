@@ -1,0 +1,6 @@
+@use "../utils/colors";
+
+.card {
+    border: colors.$border-gold;
+    border-radius: colors.$border-radius;
+}
