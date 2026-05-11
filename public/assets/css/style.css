@@ -30,7 +30,7 @@ footer {
 }
 
 a {
-  color: #ba912c;
+  text-decoration: none;
 }
 
 main {
@@ -103,12 +103,16 @@ footer {
   background-color: #1e3a5f;
   color: #ba912c;
 }
-footer a {
-  color: #ba912c;
-  text-decoration: none;
+footer i {
+  font-size: 2rem;
 }
+footer a,
 footer i {
   color: #ba912c;
+}
+footer a:hover,
+footer i:hover {
+  color: #f5f5dc;
 }
 footer ul {
   margin: 0;
