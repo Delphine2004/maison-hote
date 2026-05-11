@@ -6,13 +6,18 @@ footer {
     background-color: colors.$darkblue;
     color: colors.$gold;
 
-    a {
-        color: colors.$gold;
-        text-decoration: none;
+    i {
+        font-size: 2rem;
     }
 
+    a,
     i {
         color: colors.$gold;
+    }
+
+    a:hover,
+    i:hover {
+        color: colors.$beige;
     }
 
     ul {
