@@ -84,14 +84,21 @@ block body %}
 										</div>
 									{% endfor %}
 
-									<div class="col-12 col-md-4">
-										{% if booking.status.value not in ['Annulee', 'Present'] %}
+									{% if booking.status.value not in ['Annulee', 'Finalisee', 'Hors Service'] %}
+										<div class="col-12 col-md-4">
+											<a class="btn w-100" href="{{path('app_booking_edit', { id: booking.id })}}">
+												Modifier les dates
+											</a>
+										</div>
+									{% endif %}
+									{% if booking.status.value not in ['Annulee', 'Present'] %}
+										<div class="col-12 col-md-4">
 											<div class="flex-fill">
 												{{ include("booking/_cancel_form.html.twig") }}
 											</div>
-										{% endif %}
+										</div>
+									{% endif %}
 
-									</div>
 								</div>
 							</div>
 
