@@ -206,7 +206,15 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
+    public function findOutOfOrder(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->leftJoin('b.room', 'r')->addSelect('r')
+            ->andWhere('b.status = :status')
+            ->setParameter('status', BookingStatus::OUTOFORDER->value)
+            ->getQuery()
+            ->getResult();
+    }
 
     public function sumTotalAmountByCreationPeriod(
         DateTimeImmutable $start,
