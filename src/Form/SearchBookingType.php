@@ -56,7 +56,7 @@ class SearchBookingType extends AbstractType
                 'label' => 'Date de création',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
-            ]);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
