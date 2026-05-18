@@ -1,12 +1,12 @@
 <form
     method="post"
-    action="{{ path('app_booking_checkout', { id: booking.id }) }}"
+    action="{{ path('app_unblock', { id: outOfOrder.id }) }}"
     onsubmit="return confirm('Confirmez vous le déblocage?');"
 >
     <input
         type="hidden"
         name="_token"
-        value="{{ csrf_token('unblock' ~ booking.id) }}"
+        value="{{ csrf_token('unblock' ~  outOfOrder.id) }}"
     />
     <button class="btn w-100">Débloquer</button>
 </form>
