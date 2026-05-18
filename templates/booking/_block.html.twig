@@ -1,0 +1,24 @@
+{{ form_start(form, {'attr': {'novalidate':  true}}) }}
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.startingDate) }}
+	{{ form_widget(form.startingDate) }}
+	{{ form_errors(form.startingDate) }}
+</div>
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.endingDate) }}
+	{{ form_widget(form.endingDate) }}
+	{{ form_errors(form.endingDate) }}
+</div>
+
+<div class="mb-4 text-gold">
+	{{ form_label(form.room) }}
+	{{ form_widget(form.room) }}
+	{{ form_errors(form.room) }}
+</div>
+
+<div class="text-center m-2">
+	<button class="btn">{{ button_label|default('Bloquer') }}</button>
+</div>
+{{ form_end(form) }}
