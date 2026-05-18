@@ -71,8 +71,8 @@
 															{{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
 															-
 															{{ booking.endingDate ? booking.endingDate|date('d/m/Y') : '' }}</p>
-														<p class="fw-bold text-center text-md-start my-3">{{ booking.user.lastName }}
-															{{ booking.user.firstName }}</p>
+														<p class="fw-bold text-center text-md-start my-3">{{ booking.user?.lastName ?? '' }}
+															{{ booking.user?.firstName ?? ''}}</p>
 
 													</div>
 													<div class="d-flex flex-row flex-md-column justify-content-between custom-size">
