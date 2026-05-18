@@ -19,6 +19,7 @@ use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -39,6 +40,81 @@ final class BookingController extends AbstractController
     ): Response {
         return $this->render('booking/index.html.twig', [
             'todayBookings' => $bookingRepository->findTodayBookings()
+        ]);
+    }
+
+    #[Route('/blocked', name: 'app_blocked_list', methods: ['GET'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function renderBlockedList(
+        BookingRepository $bookingRepository
+    ): Response {
+        return $this->render('booking/blocked_list.html.twig', [
+            'outOfOrders' => $bookingRepository->findOutOfOrder()
+        ]);
+    }
+
+    #[Route('/{id}/unblock', name: 'app_unblock', methods: ['POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function unblockRoom(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (!$this->isCsrfTokenValid('unblock' . $booking->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $entityManager->remove($booking);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Chambre débloquée');
+        return $this->redirectToRoute('app_blocked_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/block', name: 'app_block_room', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function blockRoom(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        BookingRepository $bookingRepository,
+    ): Response {
+        $booking = new Booking();
+        $booking->setStatus(BookingStatus::OUTOFORDER);
+        $form = $this->createForm(BookingType::class, $booking, ['mode' => 'blockRoom']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $conflicts = $bookingRepository->findOverlappingBookings(
+                $booking->getRoom(),
+                $booking->getStartingDate(),
+                $booking->getEndingDate()
+            );
+
+            if ($conflicts) {
+                $form->addError(
+                    new FormError(
+                        'Cette chambre possède déjà une réservation sur cette période.'
+                    )
+                );
+
+                return $this->render('booking/block_room.html.twig', [
+                    'booking' => $booking,
+                    'form' => $form->createView(),
+                ]);
+            }
+
+
+            $entityManager->persist($booking);
+            $entityManager->flush();
+            $this->addFlash('success', 'Chambre bloquée avec succés.');
+            return $this->redirectToRoute('app_blocked_list', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('booking/block_room.html.twig', [
+            'booking' => $booking,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -146,17 +222,19 @@ final class BookingController extends AbstractController
         SessionInterface $session
     ): Response {
 
+        // Récupération utilisateur connecté
         $user = $this->getUser();
 
-        // si pas authentifié
+        // Vérification si authentifié
         if (!$user) {
             $this->addFlash('sucess', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
+        // Récupération période
         $period = $session->get('period');
 
-        // sécurité
+        // Vérification si données
         if (
             !$period ||
             !$period->getStartingDate() ||
@@ -167,22 +245,23 @@ final class BookingController extends AbstractController
             return $this->redirectToRoute('app_search_room');
         }
 
-        // Récupérations
+        // Récupération chambre
         $room = $entityManager->getRepository(Room::class)->find($roomId);
 
-
+        // Vérification
         if (!$room) {
             throw $this->createNotFoundException();
         }
 
+        // Création de l'objet réservation
+        $booking = new Booking();
 
-        // traitement réservation
-        $form = $this->createForm(BookingType::class); // modifier le type pour uniquement nom à rechercher ou à ajouter
+        // Traitement réservation
+        $form = $this->createForm(BookingType::class, $booking, ['mode' => 'createBooking']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $booking = new Booking();
             $booking->setRoom($room);
             $booking->setUser($user);
             $booking->setStatus(BookingStatus::CONFIRMED);
@@ -241,6 +320,28 @@ final class BookingController extends AbstractController
     ): Response {
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_booking_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
+    public function edit(
+        Request $request,
+        Booking $booking,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(BookingType::class, $booking);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Réservation modifiée avec succés.');
+            return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('booking/edit.html.twig', [
+            'booking' => $booking,
+            'form' => $form,
         ]);
     }
 
