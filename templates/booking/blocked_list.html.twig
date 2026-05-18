@@ -46,7 +46,7 @@
 											<div class="card d-flex flex-row flex-wrap align-items-center shadow-sm m-3">
 												<div class="card-body d-flex flex-row flex-wrap justify-content-between align-items-center p-3">
 													<p class="m-0">{{ outOfOrder.room.name }}</p>
-													<p class="m-0">du {{ outOfOrder.startingDate ? outOfOrder.endingDate|date('d/m/Y') : '' }} au {{ outOfOrder.endingDate ? outOfOrder.endingDate|date('d/m/Y') : ''}}</p>
+													<p class="m-0">du {{ outOfOrder.startingDate ? outOfOrder.startingDate|date('d/m/Y') : '' }} au {{ outOfOrder.endingDate ? outOfOrder.endingDate|date('d/m/Y') : ''}}</p>
 												</div>
 												<div class="d-flex justify-content-center align-items-center p-3">
 													<div class="text-center py-3">{{ include("booking/_unblock.html.twig" )}}</div>
