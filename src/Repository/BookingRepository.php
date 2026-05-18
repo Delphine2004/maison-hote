@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Booking;
 use App\Entity\User;
+use App\Entity\Room;
 use App\DTO\SearchBooking;
 use App\Enum\BookingStatus;
 
@@ -106,7 +107,21 @@ class BookingRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-
+    public function findOverlappingBookings(
+        Room $room,
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): array {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.room = :room')
+            ->andWhere('b.startingDate < :end')
+            ->andWhere('b.endingDate > :start')
+            ->setParameter('room', $room)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findUpcomingBookingsByClient(
         int $userId
