@@ -46,6 +46,15 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
                 'user'         => $this->getReference('client_2', User::class),
                 'room'         => $this->getReference('room_3', Room::class),
             ],
+            // Chambre HS
+            [
+                'startingDate' => $today,
+                'endingDate'   => $today->modify('+2 days'),
+                'totalAmount'  => 0.00, // en euros
+                'status'       => BookingStatus::OUTOFORDER,
+                'user'         => null,
+                'room'         => $this->getReference('room_5', Room::class),
+            ],
 
             // Les départs du jour
             [
