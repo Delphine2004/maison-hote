@@ -14,17 +14,17 @@
 							{{include("user/_form.html.twig", {button_label: "Modifier"})}}
 						</div>
 					</div>
-
-					{% if is_granted('ROLE_EMPLOYE') and app.user.id == user.id %}
-						<div class="text-center m-5">
-							<a class="btn" href="{{ path('app_user_show', { id: user.id }) }}">Retour sur le compte</a>
-						</div>
-					{% else %}
-						<div class="text-center m-5">
-							<a class="btn" href="{{ path('app_client_show', { id: user.id }) }}">Retour sur le compte</a>
-						</div>
-					{% endif %}
-
+					<div class="col-12 col-md-10 col-lg-8">
+						{% if is_granted('ROLE_EMPLOYE') and app.user.id == user.id %}
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_user_show', { id: user.id }) }}">Retour sur le compte</a>
+							</div>
+						{% else %}
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_client_show', { id: user.id }) }}">Retour sur le compte</a>
+							</div>
+						{% endif %}
+					</div>
 				</div>
 			</section>
 		</main>

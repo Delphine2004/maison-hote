@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}Paramétrage - Modification
-		chambre
+			chambre
 {% endblock %}
 {% block body %}
 	<main class="py-5">
@@ -14,9 +14,10 @@
 							{{include("room/_form.html.twig", {button_label: "Modifier"})}}
 						</div>
 					</div>
-
-					<div class="text-center m-5">
-						<a class="btn" href="{{ path('app_room_show', { id: room.id }) }}">Retour sur la chambre</a>
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="text-center m-3">
+							<a class="btn" href="{{ path('app_room_show', { id: room.id }) }}">Retour sur la chambre</a>
+						</div>
 					</div>
 
 				</div>

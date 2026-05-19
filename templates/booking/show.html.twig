@@ -105,16 +105,19 @@ block body %}
 
 						</div>
 					</div>
+					<div class="col-12 col-md-10 col-lg-8">
+						{% if is_granted('ROLE_EMPLOYE') %}
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_booking_index') }}">Retour aux réservations</a>
+							</div>
+						{% else %}
+							<div class="text-center m-3">
+								<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Retour sur le compte</a>
+							</div>
+						{% endif %}
+					</div>
+
 				</div>
-				{% if is_granted('ROLE_EMPLOYE') %}
-					<div class="text-center m-5">
-						<a class="btn" href="{{ path('app_booking_index') }}">Retour aux réservations</a>
-					</div>
-				{% else %}
-					<div class="text-center m-5">
-						<a class="btn" href="{{ path('app_client_show', { id: booking.user.id }) }}">Retour sur le compte</a>
-					</div>
-				{% endif %}
 			</div>
 		</section>
 	</main>
