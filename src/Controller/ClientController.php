@@ -140,7 +140,7 @@ final class ClientController extends AbstractController
             return $this->redirectToRoute('app_client_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/_form.html.twig', [
+        return $this->render('user/new_client.html.twig', [
             'form' => $form->createView(),
         ]);
     }
