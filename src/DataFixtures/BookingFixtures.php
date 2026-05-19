@@ -25,7 +25,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today,
                 'endingDate'   => $today->modify('+5 days'),
-                'totalAmount'  => 500.00, // en euros
+                'totalAmount'  => 400.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_1', Room::class),
@@ -33,7 +33,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today,
                 'endingDate'   => $today->modify('+5 days'),
-                'totalAmount'  => 600.00, // en euros
+                'totalAmount'  => 425.00, // en euros
                 'status'       => BookingStatus::CANCELLED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
@@ -41,7 +41,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today,
                 'endingDate'   => $today->modify('+3 days'),
-                'totalAmount'  => 300.00, // en euros
+                'totalAmount'  => 270.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_2', User::class),
                 'room'         => $this->getReference('room_3', Room::class),
@@ -60,7 +60,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-2 days'),
                 'endingDate'   => $today,
-                'totalAmount'  => 450.00, // en euros
+                'totalAmount'  => 160.00, // en euros
                 'status'       => BookingStatus::IN,
                 'user'         => $this->getReference('client_3', User::class),
                 'room'         => $this->getReference('room_1', Room::class),
@@ -68,7 +68,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-2 days'),
                 'endingDate'   => $today,
-                'totalAmount'  => 450.00, // en euros
+                'totalAmount'  => 170.00, // en euros
                 'status'       => BookingStatus::CANCELLED,
                 'user'         => $this->getReference('client_3', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
@@ -76,7 +76,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-2 days'),
                 'endingDate'   => $today,
-                'totalAmount'  => 450.00, // en euros
+                'totalAmount'  => 170.00, // en euros
                 'status'       => BookingStatus::IN,
                 'user'         => $this->getReference('client_4', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
@@ -86,7 +86,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-3 days'),
                 'endingDate'   => $today->modify('+1 days'),
-                'totalAmount'  => 450.00, // en euros
+                'totalAmount'  => 380.00, // en euros
                 'status'       => BookingStatus::IN,
                 'user'         => $this->getReference('client_5', User::class),
                 'room'         => $this->getReference('room_4', Room::class),
@@ -96,7 +96,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-5 days'),
                 'endingDate'   => $today->modify('-3 days'),
-                'totalAmount'  => 500.00, // en euros
+                'totalAmount'  => 180.00, // en euros
                 'status'       => BookingStatus::FINALIZED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_3', Room::class),
@@ -104,7 +104,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('-5 days'),
                 'endingDate'   => $today->modify('-2 days'),
-                'totalAmount'  => 500.00, // en euros
+                'totalAmount'  => 255.00, // en euros
                 'status'       => BookingStatus::CANCELLED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_2', Room::class),
@@ -114,7 +114,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('+5 days'),
                 'endingDate'   => $today->modify('+8 days'),
-                'totalAmount'  => 500.00, // en euros
+                'totalAmount'  => 240.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_1', Room::class),
@@ -122,7 +122,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('+6 days'),
                 'endingDate'   => $today->modify('+10 days'),
-                'totalAmount'  => 500.00, // en euros
+                'totalAmount'  => 400.00, // en euros
                 'status'       => BookingStatus::CANCELLED,
                 'user'         => $this->getReference('client_1', User::class),
                 'room'         => $this->getReference('room_5', Room::class),
@@ -130,7 +130,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('+2 days'),
                 'endingDate'   => $today->modify('+5 days'),
-                'totalAmount'  => 450.00, // en euros
+                'totalAmount'  => 3000.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_6', User::class),
                 'room'         => $this->getReference('room_5', Room::class),
