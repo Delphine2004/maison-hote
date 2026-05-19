@@ -14,14 +14,30 @@
 						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
 							<h1 class="text-center text-gold m-3">Réinitialiser votre mot de passe</h1>
 							{{ form_start(resetForm) }}
-							<div class="row g-3 mb-3 justify-content-center">
-								<div class="col-md-10 mb-4">
-									{{ form_row(resetForm.plainPassword) }}
+
+							<div class="row g-3 justify-content-center my-4">
+								<div class="col-12 mb-4">
+									{{ form_label(resetForm.plainPassword.first) }}
+									{{ form_widget(resetForm.plainPassword.first, {
+                    attr: {class: 'form-control' } }) }}
+									{{ form_errors(resetForm.plainPassword.first) }}
+								</div>
+								<div class="col-12 mb-4">
+									{{ form_label(resetForm.plainPassword.second) }}
+									{{ form_widget(resetForm.plainPassword.second, {
+                    attr: {class: 'form-control' } }) }}
+									{{ form_errors(resetForm.plainPassword.second) }}
+								</div>
+								<div class="col-12 mb-4">
+									<div class="text-center m-2">
+										<button class="btn">Réinitialiser le mot de passe</button>
+									</div>
+								</div>
+								<div class="col-12 text-gold mb-4">
+									{{ form_errors(resetForm) }}
 								</div>
 							</div>
-							<div class="text-center m-2">
-								<button class="btn">Réinitialiser le mot de passe</button>
-							</div>
+
 							{{ form_end(resetForm) }}
 						</div>
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}Les Parenthèses Dorées -
-								Inscription
+																Inscription
 {% endblock %}
 {% block body %}
 	<main class="py-5">
@@ -10,65 +10,93 @@
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
+						<div class="bg-blue border-gold card text-gold shadow-sm p-4 my-4">
 							<h1 class="text-center text-gold m-3">Inscription</h1>
 
-							{{ form_errors(registrationForm) }}
-
 							{{ form_start(registrationForm) }}
+							<div class="row g-3 justify-content-around my-3">
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.firstName) }}
+									{{ form_widget(registrationForm.firstName, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.firstName) }}
+								</div>
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.lastName) }}
+									{{ form_widget(registrationForm.lastName, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.lastName) }}
+								</div>
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.email) }}
+									{{ form_widget(registrationForm.email, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.email) }}
+								</div>
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.phone) }}
+									{{ form_widget(registrationForm.phone, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.phone) }}
+								</div>
+							</div>
+							<div class="row g-3 justify-content-around my-3">
+								<div class="col-12 mb-3">
+									{{ form_label(registrationForm.address) }}
+									{{ form_widget(registrationForm.address, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.address) }}
+								</div>
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.zipCode) }}
+									{{ form_widget(registrationForm.zipCode, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.zipCode) }}
+								</div>
+								<div class="col-12 col-md-6 mb-3">
+									{{ form_label(registrationForm.city) }}
+									{{ form_widget(registrationForm.city, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.city) }}
+								</div>
+							</div>
+							<div class="row g-3 justify-content-around my-3">
+								<div class="col-12 mb-3">
+									{{ form_label(registrationForm.password.first) }}
+									{{ form_widget(registrationForm.password.first, {
+                   attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.password.first) }}
+								</div>
+								<div class="col-12 mb-3">
+									{{ form_label(registrationForm.password.second) }}
+									{{ form_widget(registrationForm.password.second, {
+                  attr: {class: 'form-control' } }) }}
+									{{ form_errors(registrationForm.password.second) }}
+								</div>
+							</div>
+							<div class="row g-3 justify-content-around my-3">
+								<div class="col-12 mb-3">
+									<div class="mb-4 form-check text-gold">
+										{{ form_widget(registrationForm.rgpdConsent, {'attr': {'class': 'form-check-input'}}) }}
+										<label class="form-check-label">
+											J'accepte le traitement de mes données conformément à la
+											<a class="fw-bold" href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
+										</label>
+										{{ form_errors(registrationForm.rgpdConsent) }}
+									</div>
+								</div>
+							</div>
+							<div class="row g-3 justify-content-around my-3">
+								<div class="col-12 col-md-4 mb-3">
+									<button type="submit" class="btn w-100">S'inscrire</button>
+								</div>
 
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.firstName) }}
-								{{ form_widget(registrationForm.firstName) }}
-								{{ form_errors(registrationForm.firstName) }}
+								<div class="col-12 text-gold mb-3">
+									{{ form_errors(registrationForm) }}
+								</div>
+								{{ form_end(registrationForm) }}
 							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.lastName) }}
-								{{ form_widget(registrationForm.lastName) }}
-								{{ form_errors(registrationForm.lastName) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.email) }}
-								{{ form_widget(registrationForm.email) }}
-								{{ form_errors(registrationForm.email) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.phone) }}
-								{{ form_widget(registrationForm.phone) }}
-								{{ form_errors(registrationForm.phone) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.address) }}
-								{{ form_widget(registrationForm.address) }}
-								{{ form_errors(registrationForm.address) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.zipCode) }}
-								{{ form_widget(registrationForm.zipCode) }}
-								{{ form_errors(registrationForm.zipCode) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.city) }}
-								{{ form_widget(registrationForm.city) }}
-								{{ form_errors(registrationForm.city) }}
-							</div>
-							<div class="mb-4 text-gold">
-								{{ form_label(registrationForm.password) }}
-								{{ form_widget(registrationForm.password) }}
-								{{ form_errors(registrationForm.password) }}
-							</div>
-							<div class="mb-4 form-check text-gold">
-								{{ form_widget(registrationForm.rgpdConsent, {'attr': {'class': 'form-check-input'}}) }}
-								<label class="form-check-label">
-									J'accepte le traitement de mes données conformément à la
-									<a class="fw-bold" href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
-								</label>
-								{{ form_errors(registrationForm.rgpdConsent) }}
-							</div>
-
-							<button type="submit" class="btn">S'inscrire</button>
-							{{ form_end(registrationForm) }}
-            </div>
+						</div>
 
 					</div>
 				</div>
