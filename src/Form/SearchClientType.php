@@ -19,17 +19,14 @@ class SearchClientType extends AbstractType
             ->add('id', TextType::class, [
                 'label' => 'Référence',
                 'required' => false,
-                'attr' => ['class' => 'form-control',],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => false,
-                'attr' => ['class' => 'form-control',],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => false,
-                'attr' => ['class' => 'form-control',],
             ])
         ;
     }

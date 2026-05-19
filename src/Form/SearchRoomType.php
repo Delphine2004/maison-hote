@@ -18,14 +18,12 @@ class SearchRoomType extends AbstractType
                 'input' => 'datetime_immutable',
                 'label' => 'Arrivée',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('endingDate', DateType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'label' => 'Départ',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ]);
     }
 

@@ -20,11 +20,9 @@ class ChangePasswordFormType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'attr' => ['class' => 'form-control'],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
-                    'attr' => ['class' => 'form-control'],
                 ],
                 'label' => false,
                 'required' => true,

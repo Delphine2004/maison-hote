@@ -21,12 +21,10 @@ class SearchBookingType extends AbstractType
             ->add('id', TextType::class, [
                 'label' => 'Référence',
                 'required' => false,
-                'attr' => ['class' => 'form-control',],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom du client',
                 'required' => false,
-                'attr' => ['class' => 'form-control',],
             ])
             ->add('status', EnumType::class, [
                 'class' => BookingStatus::class,
@@ -34,28 +32,24 @@ class SearchBookingType extends AbstractType
                 'choice_label' => fn(BookingStatus $choice) => $choice->value,
                 'placeholder' => 'Choisir un statut',
                 'required' => false,
-                'attr' => ['class' => 'form-select',],
             ])
             ->add('startingDate', DateType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'label' => 'Date d\'arrivée',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('endingDate', DateType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'label' => 'Date de départ',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('createdAt', DateType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'label' => 'Date de création',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ]);
     }
 

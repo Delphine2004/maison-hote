@@ -18,7 +18,6 @@ class PictureType extends AbstractType
                 'label' => 'Photo',
                 'mapped' => false,
                 'required' => true,
-                'attr' => ['class' => 'form-control',],
                 'constraints' => [
                     new File([
                         'maxSize' => '10M',

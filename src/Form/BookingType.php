@@ -41,21 +41,18 @@ class BookingType extends AbstractType
                     'placeholder' => 'Choisir une chambre',
                     'label' => 'Chambre',
                     'required' => false,
-                    'attr' => ['class' => 'form-select'],
                 ])
                 ->add('startingDate', DateType::class, [
                     'widget' => 'single_text',
                     'input' => 'datetime_immutable',
                     'label' => 'Date d\'arrivée',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('endingDate', DateType::class, [
                     'widget' => 'single_text',
                     'input' => 'datetime_immutable',
                     'label' => 'Date de départ',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ]);
         }
 
@@ -67,7 +64,6 @@ class BookingType extends AbstractType
                     'required' => false,
                     'widget' => 'single_text',
                     'html5' => true,
-                    'attr' => ['class' => 'form-control',],
                 ]);
         }
         // Raccourcir réservation en cours

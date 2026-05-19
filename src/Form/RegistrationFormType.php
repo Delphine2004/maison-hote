@@ -25,50 +25,38 @@ class RegistrationFormType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse e-mail',
                 'required' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'exemple@email.com'
-                ],
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('address', TextType::class, [
                 'label' => 'Adresse',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('zipCode', TextType::class, [
                 'label' => 'Code postal',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'attr' => ['class' => 'form-control'],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
-                    'attr' => ['class' => 'form-control'],
                 ],
                 'label' => false,
                 'required' => true,

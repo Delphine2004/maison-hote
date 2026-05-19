@@ -21,20 +21,14 @@ class ServiceType extends AbstractType
                 ->add('name', TextType::class, [
                     'label' => 'Nom du service',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('price', TextType::class, [
                     'label' => 'Prix du service',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('description', TextareaType::class, [
                     'label' => 'Description du service',
                     'required' => true,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'rows' => 5
-                    ],
                 ])
             ;
         }
@@ -44,20 +38,14 @@ class ServiceType extends AbstractType
                 ->add('name', TextType::class, [
                     'label' => 'Nom du service',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('price', TextType::class, [
                     'label' => 'Prix du service',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('description', TextareaType::class, [
                     'label' => 'Description du service',
                     'required' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'rows' => 5
-                    ],
                 ])
             ;
         }
