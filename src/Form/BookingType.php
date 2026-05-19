@@ -56,19 +56,22 @@ class BookingType extends AbstractType
                 ]);
         }
 
-        // Modification réservation à venir
-        if ($mode === 'updateUpComingBooking') {
+        // Modification des dates
+        if ($mode === 'updateBookingPeriod') {
             $builder
-                ->add('date', DateType::class, [
-                    'label' => 'Date de l\'événement',
-                    'required' => false,
+                ->add('startingDate', DateType::class, [
                     'widget' => 'single_text',
-                    'html5' => true,
+                    'input' => 'datetime_immutable',
+                    'label' => 'Nouvel date d\'arrivée',
+                    'required' => false,
+                ])
+                ->add('endingDate', DateType::class, [
+                    'widget' => 'single_text',
+                    'input' => 'datetime_immutable',
+                    'label' => 'Nouvelle date de départ',
+                    'required' => false,
                 ]);
         }
-        // Raccourcir réservation en cours
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
