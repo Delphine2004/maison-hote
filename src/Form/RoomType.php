@@ -22,78 +22,27 @@ class RoomType extends AbstractType
     ): void {
 
         $mode = $options['mode'];
-        if ($mode === 'create') {
-            $builder
-                ->add('name', TextType::class, [
-                    'label' => 'Nom de la chambre',
-                    'required' => true,
-                    'attr' => ['class' => 'form-control',],
-                ])
-                ->add('number', IntegerType::class, [
-                    'label' => 'Numéro de la chambre',
-                    'required' => true,
-                    'attr' => ['class' => 'form-control',],
-                ])
-                ->add('capacity', IntegerType::class, [
-                    'label' => 'Capacité de la chambre',
-                    'required' => true,
-                    'attr' => ['class' => 'form-control',],
-                ])
-                ->add('rate', MoneyType::class, [
-                    'label' => 'Prix / nuit',
-                    'currency'    => 'EUR',
-                    'scale'       => 2,
-                    'required'    => true,
-                    'attr' => ['class' => 'form-control',],
-                ])
-                ->add('picture', FileType::class, [
-                    'label' => 'Photo',
-                    'mapped' => false,
-                    'required' => true,
-                    'attr' => ['class' => 'form-control',],
-                    'constraints' => [
-                        new File([
-                            'maxSize' => '10M',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                                'image/webp',
-                            ],
-                            'mimeTypesMessage' => 'Merci d’uploader une image valide (jpeg, png, webp)',
-                        ])
-                    ],
-                ])
-                ->add('description', TextareaType::class, [
-                    'label' => 'Description de la chambre',
-                    'required' => true,
-                    'attr' => ['class' => 'form-control',],
-                ]);
-        }
 
         if ($mode === 'update') {
             $builder
                 ->add('name', TextType::class, [
                     'label' => 'Nom de la chambre',
                     'required' => false,
-                    'attr' => ['class' => 'form-control',],
                 ])
                 ->add('capacity', IntegerType::class, [
                     'label' => 'Capacité de la chambre',
                     'required' => false,
-                    'attr' => ['class' => 'form-control',],
                 ])
                 ->add('rate', MoneyType::class, [
                     'label' => 'Prix / nuit',
                     'currency'    => 'EUR',
                     'scale'       => 2,
                     'required'    => false,
-                    'attr' => ['class' => 'form-control',],
                 ])
                 ->add('picture', FileType::class, [
                     'label' => 'Photo',
                     'mapped' => false,
                     'required' => false,
-                    'attr' => ['class' => 'form-control',],
                     'constraints' => [
                         new File([
                             'maxSize' => '10M',
@@ -109,7 +58,6 @@ class RoomType extends AbstractType
                 ->add('description', TextareaType::class, [
                     'label' => 'Description de la chambre',
                     'required' => false,
-                    'attr' => ['class' => 'form-control',],
                 ]);
         }
     }
@@ -118,7 +66,7 @@ class RoomType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Room::class,
-            'mode' => 'create', // valeur par défaut
+            'mode' => null,
             'csrf_protection' => true,
         ]);
     }
