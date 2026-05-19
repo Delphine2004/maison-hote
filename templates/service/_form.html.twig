@@ -1,24 +1,31 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
+<div class="row g-3 justify-content-around mb-3">
+	<div class="col-12 col-md-6 mb-3">
+		{{ form_label(form.name) }}
+		{{ form_widget(form.name) }}
+		{{ form_errors(form.name) }}
+	</div>
 
-<div class="mb-4 text-gold">
-	{{ form_label(form.name) }}
-	{{ form_widget(form.name) }}
-	{{ form_errors(form.name) }}
+	<div class="col-12 col-md-6 mb-3">
+		{{ form_label(form.price) }}
+		{{ form_widget(form.price) }}
+		{{ form_errors(form.price) }}
+	</div>
+
+	<div class="col-12 mb-3">
+		{{ form_label(form.description) }}
+		{{ form_widget(form.description) }}
+		{{ form_errors(form.description) }}
+	</div>
 </div>
 
-<div class="mb-4 text-gold">
-	{{ form_label(form.price) }}
-	{{ form_widget(form.price) }}
-	{{ form_errors(form.price) }}
-</div>
+<div class="row g-3 justify-content-around mb-3">
+	<div class="col-12 col-md-4 mb-3">
+		<button class="btn w-100">{{ button_label|default('Enregistrer') }}</button>
+	</div>
 
-<div class="mb-4 text-gold">
-	{{ form_label(form.description) }}
-	{{ form_widget(form.description) }}
-	{{ form_errors(form.description) }}
-</div>
-
-<div class="text-center m-2">
-	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+	<div class="col-12 text-gold mb-3">
+		{{ form_errors(form) }}
+	</div>
 </div>
 {{ form_end(form) }}
