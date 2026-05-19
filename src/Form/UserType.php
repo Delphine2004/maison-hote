@@ -23,31 +23,24 @@ class UserType extends AbstractType
 
         $mode = $options['mode'];
 
-        // Pour l'admin: création d'utilisateur
+        // Création pour l'admin: création d'utilisateur
         if ($mode === 'createUser') {
             $builder
                 ->add('login', TextType::class, [
                     'label' => 'Nom utilisateur',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => true,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@email.com'
-                    ],
                 ])
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [
                         'label' => 'Mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'second_options' => [
                         'label' => 'Confirmer le mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'label' => false,
                     'required' => true,
@@ -67,47 +60,37 @@ class UserType extends AbstractType
             ;
         }
 
-        // Pour l'employé
+        // Création pour l'employé
         if ($mode === 'createClient') {
             $builder
 
                 ->add('firstName', TextType::class, [
                     'label' => 'Prénom',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('lastName', TextType::class, [
                     'label' => 'Nom',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => true,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@email.com'
-                    ],
                 ])
                 ->add('phone', TextType::class, [
                     'label' => 'Téléphone',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('address', TextType::class, [
                     'label' => 'Adresse',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('zipCode', TextType::class, [
                     'label' => 'Code postal',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('city', TextType::class, [
                     'label' => 'Ville',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
             ;
         }
@@ -118,15 +101,10 @@ class UserType extends AbstractType
                 ->add('login', TextType::class, [
                     'label' => 'Nom utilisateur',
                     'required' => true,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@exemple.com'
-                    ],
                 ]);
         }
 
@@ -136,20 +114,14 @@ class UserType extends AbstractType
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@email.com'
-                    ],
                 ])
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [
                         'label' => 'Mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'second_options' => [
                         'label' => 'Confirmer le mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'label' => false,
                     'required' => true,
@@ -176,11 +148,9 @@ class UserType extends AbstractType
                     'type' => PasswordType::class,
                     'first_options' => [
                         'label' => 'Mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'second_options' => [
                         'label' => 'Confirmer le mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'label' => false,
                     'required' => true,
@@ -205,50 +175,38 @@ class UserType extends AbstractType
                 ->add('firstName', TextType::class, [
                     'label' => 'Prénom',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('lastName', TextType::class, [
                     'label' => 'Nom',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('phone', TextType::class, [
                     'label' => 'Téléphone',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('address', TextType::class, [
                     'label' => 'Adresse',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('zipCode', TextType::class, [
                     'label' => 'Code postal',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('city', TextType::class, [
                     'label' => 'Ville',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => true,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@email.com'
-                    ],
                 ])
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [
                         'label' => 'Mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'second_options' => [
                         'label' => 'Confirmer le mot de passe',
-                        'attr' => ['class' => 'form-control'],
                     ],
                     'label' => false,
                     'required' => true,
@@ -272,40 +230,30 @@ class UserType extends AbstractType
                 ->add('firstName', TextType::class, [
                     'label' => 'Prénom',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('lastName', TextType::class, [
                     'label' => 'Nom',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('phone', TextType::class, [
                     'label' => 'Téléphone',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('address', TextType::class, [
                     'label' => 'Adresse',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('zipCode', TextType::class, [
                     'label' => 'Code postal',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('city', TextType::class, [
                     'label' => 'Ville',
                     'required' => false,
-                    'attr' => ['class' => 'form-control'],
                 ])
                 ->add('email', EmailType::class, [
                     'label' => 'Adresse e-mail',
                     'required' => true,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'exemple@email.com'
-                    ],
                 ]);
         }
     }
@@ -314,7 +262,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'mode' => 'create', // valeur par défaut
+            'mode' => null, // valeur par défaut
         ]);
     }
 }
