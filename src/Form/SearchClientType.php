@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SearchClientType extends AbstractType
@@ -25,7 +26,7 @@ class SearchClientType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control',],
             ])
-            ->add('email', TextType::class, [
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => false,
                 'attr' => ['class' => 'form-control',],
