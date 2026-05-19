@@ -9,7 +9,7 @@ utilisateur{% endblock %} {% block body %}
                         class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5"
                     >
                     <h1 class="text-center text-gold m-5">Ajouter un utilisateur</h1>
-                        {{ include("user/_form.html.twig") }}
+                        {{ include("user/_form.html.twig", {button_label: "Enregistrer"}) }}
                     </div>
                 </div>
             </div>
