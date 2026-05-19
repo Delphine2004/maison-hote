@@ -15,6 +15,7 @@ use App\Form\SearchBookingType;
 
 use App\Repository\BookingRepository;
 
+use DateTimeImmutable;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -330,13 +331,35 @@ final class BookingController extends AbstractController
         Booking $booking,
         EntityManagerInterface $entityManager
     ): Response {
-        $form = $this->createForm(BookingType::class, $booking);
+        $form = $this->createForm(BookingType::class, $booking, ['mode' => 'updateBookingPeriod']);
         $form->handleRequest($request);
+        $today = new DateTimeImmutable('today');
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', 'Réservation modifiée avec succés.');
-            return $this->redirectToRoute('app_booking_index', [], Response::HTTP_SEE_OTHER);
+            // Récupération des éléments
+            $startingDate = $booking->getStartingDate();
+            $endingDate = $booking->getEndingDate();
+            $room = $booking->getRoom();
+            $pricePerDay = $room->getRate();
+
+            // Vérification que
+            if ($startingDate < $today) {
+                $form->addError(
+                    new FormError('Impossible de modifier la date d\'arrivée avant aujourd\'hui.')
+                );
+            } else {
+
+                // Calcule
+                $days = $startingDate->diff($endingDate)->days;
+                $totalPrice = $days * $pricePerDay;
+
+                // Modification du prix total
+                $booking->setTotalAmount($totalPrice);
+
+                $entityManager->flush();
+                $this->addFlash('success', 'Réservation modifiée avec succés.');
+                return $this->redirectToRoute('app_booking_show', ['id' => $booking->getId()],  Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('booking/edit.html.twig', [
