@@ -341,7 +341,7 @@ final class BookingController extends AbstractController
 
         return $this->render('booking/edit.html.twig', [
             'booking' => $booking,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

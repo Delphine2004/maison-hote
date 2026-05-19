@@ -43,7 +43,7 @@ final class ServiceController extends AbstractController
 
         return $this->render('service/new.html.twig', [
             'service' => $service,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -61,7 +61,7 @@ final class ServiceController extends AbstractController
 
         return $this->render('service/edit.html.twig', [
             'service' => $service,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
