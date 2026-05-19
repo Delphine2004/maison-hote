@@ -1,25 +1,38 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
-<div class="row g-3 justify-content-around mb-3">
+<div class="row g-3 justify-content-around my-3">
 	<div class="col-12 col-md-6 mb-3">
 		{{ form_label(form.name) }}
-		{{ form_widget(form.name) }}
+		{{ form_widget(form.name, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
 		{{ form_errors(form.name) }}
 	</div>
 
 	<div class="col-12 col-md-6 mb-3">
 		{{ form_label(form.price) }}
-		{{ form_widget(form.price) }}
+		{{ form_widget(form.price, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
 		{{ form_errors(form.price) }}
 	</div>
 
 	<div class="col-12 mb-3">
 		{{ form_label(form.description) }}
-		{{ form_widget(form.description) }}
+		{{ form_widget(form.description, {
+        attr: {
+            class: 'form-control',
+            rows: 5
+        }
+    }) }}
 		{{ form_errors(form.description) }}
 	</div>
 </div>
 
-<div class="row g-3 justify-content-around mb-3">
+<div class="row g-3 justify-content-around my-3">
 	<div class="col-12 col-md-4 mb-3">
 		<button class="btn w-100">{{ button_label|default('Enregistrer') }}</button>
 	</div>

@@ -1,20 +1,32 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
-<div class="row align-items-end justify-content-around">
+<div class="row align-items-end justify-content-around my-3">
 	<div class="col-12 col-md-4 mb-3">
 		{{ form_label(form.startingDate) }}
-		{{ form_widget(form.startingDate) }}
+		{{ form_widget(form.startingDate, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
 		{{ form_errors(form.startingDate) }}
 	</div>
 
 	<div class="col-12 col-md-4 mb-3">
 		{{ form_label(form.endingDate) }}
-		{{ form_widget(form.endingDate) }}
+		{{ form_widget(form.endingDate, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
 		{{ form_errors(form.endingDate) }}
 	</div>
 
 	<div class="col-12 col-md-4 mb-3">
 		{{ form_label(form.room) }}
-		{{ form_widget(form.room) }}
+		{{ form_widget(form.room, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
 		{{ form_errors(form.room) }}
 	</div>
 

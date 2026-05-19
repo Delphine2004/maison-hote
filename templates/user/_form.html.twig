@@ -1,5 +1,5 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
-<div class="row g-3 justify-content-around mb-3">
+<div class="row g-3 justify-content-around my-3">
 
 	{% if form.firstName is defined %}
 		<div class="col-12 col-md-6 mb-3">
@@ -62,7 +62,7 @@
 		</div>
 	{% endif %}
 </div>
-<div class="row g-3 justify-content-around mb-3">
+<div class="row g-3 justify-content-around my-3">
 	{% if form.address is defined %}
 		<div class="col-12 mb-3">
 			{{ form_label(form.address) }}
@@ -101,8 +101,8 @@
 </div>
 
 {% if form.password is defined %}
-	<div class="row g-3 justify-content-around mb-3">
-		<div class="col-12 col-md-6 mb-3">
+	<div class="row g-3 justify-content-around my-3">
+		<div class="col-12 mb-3">
 			{{ form_label(form.password.first) }}
 			{{ form_widget(form.password.first, {
         attr: {
@@ -111,7 +111,7 @@
     }) }}
 			{{ form_errors(form.password.first) }}
 		</div>
-    		<div class="col-12 col-md-6 mb-3">
+    		<div class="col-12 mb-3">
 			{{ form_label(form.password.second) }}
 			{{ form_widget(form.password.second, {
         attr: {
@@ -123,7 +123,7 @@
 	</div>
 {% endif %}
 
-<div class="row g-3 justify-content-around mb-3">
+<div class="row g-3 justify-content-around my-3">
 	<div class="col-12 col-md-4 mb-3">
 		<button class="btn w-100">{{ button_label|default('Enregistrer') }}</button>
 	</div>

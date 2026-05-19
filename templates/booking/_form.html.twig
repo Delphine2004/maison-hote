@@ -1,13 +1,25 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
-<div class="mb-4 form-check text-gold">
-	{{ form_widget(form.bookingConsent, {'attr': {'class': 'form-check-input'}}) }}
-	<label class="form-check-label">
-		J'accepte le traitement de mes données conformément à la
-		<a class="fw-bold" href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
-	</label>
-	{{ form_errors(form.bookingConsent) }}
+<div class="row g-3 justify-content-around my-3">
+	<div class="col-12 col-md-10 mb-3">
+		<div class="form-check text-gold">
+			{{ form_widget(form.bookingConsent, {'attr': {'class': 'form-check-input'}}) }}
+			<label class="form-check-label">
+				J'accepte le traitement de mes données conformément à la
+				<a class="fw-bold" href="{{ path('app_privaty_policy') }}">politique de confidentialité</a>.
+			</label>
+			{{ form_errors(form.bookingConsent) }}
+		</div>
+	</div>
 </div>
-<div class="text-center m-2">
-	<button class="btn">{{ button_label|default('Réserver') }}</button>
+
+<div class="row g-3 justify-content-around my-3">
+	<div class="col-12 col-md-4 mb-3">
+		<button class="btn w-100">{{ button_label|default('Réserver') }}</button>
+	</div>
+
+	<div class="col-12 text-gold mb-3">
+		{{ form_errors(form) }}
+	</div>
 </div>
+
 {{ form_end(form) }}
