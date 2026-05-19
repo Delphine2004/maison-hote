@@ -1,19 +1,8 @@
 {{ form_start(form, {'attr': {'novalidate':  true}}) }}
 <div class="row g-3 justify-content-around mb-3">
-	{% if form.id is defined %}
-		<div class="col-12 col-md-4 mb-3">
-			{{ form_label(form.id) }}
-			{{ form_widget(form.id, {
-        attr: {
-            class: 'form-control'
-        }
-    }) }}
-			{{ form_errors(form.id) }}
-		</div>
-	{% endif %}
 
 	{% if form.firstName is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.firstName) }}
 			{{ form_widget(form.firstName, {
         attr: {
@@ -25,7 +14,7 @@
 	{% endif %}
 
 	{% if form.lastName is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.lastName) }}
 			{{ form_widget(form.lastName, {
         attr: {
@@ -37,7 +26,7 @@
 	{% endif %}
 
 	{% if form.login is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.login) }}
 			{{ form_widget(form.login, {
         attr: {
@@ -49,7 +38,7 @@
 	{% endif %}
 
 	{% if form.email is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.email) }}
 			{{ form_widget(form.email, {
         attr: {
@@ -62,7 +51,7 @@
 	{% endif %}
 
 	{% if form.phone is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.phone) }}
 			{{ form_widget(form.phone, {
         attr: {
@@ -72,9 +61,10 @@
 			{{ form_errors(form.phone) }}
 		</div>
 	{% endif %}
-
+</div>
+<div class="row g-3 justify-content-around mb-3">
 	{% if form.address is defined %}
-		<div class="col-12 col-md-6 mb-3">
+		<div class="col-12 mb-3">
 			{{ form_label(form.address) }}
 			{{ form_widget(form.address, {
         attr: {
@@ -86,7 +76,7 @@
 	{% endif %}
 
 	{% if form.zipCode is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.zipCode) }}
 			{{ form_widget(form.zipCode, {
         attr: {
@@ -98,7 +88,7 @@
 	{% endif %}
 
 	{% if form.city is defined %}
-		<div class="col-12 col-md-4 mb-3">
+		<div class="col-12 col-md-6 mb-3">
 			{{ form_label(form.city) }}
 			{{ form_widget(form.city, {
         attr: {
@@ -108,20 +98,32 @@
 			{{ form_errors(form.city) }}
 		</div>
 	{% endif %}
+</div>
 
-	{% if form.password is defined %}
+{% if form.password is defined %}
+	<div class="row g-3 justify-content-around mb-3">
 		<div class="col-12 col-md-6 mb-3">
-			{{ form_label(form.password) }}
-			{{ form_widget(form.password, {
+			{{ form_label(form.password.first) }}
+			{{ form_widget(form.password.first, {
         attr: {
             class: 'form-control'
         }
     }) }}
-			{{ form_errors(form.password) }}
+			{{ form_errors(form.password.first) }}
 		</div>
-	{% endif %}
+    		<div class="col-12 col-md-6 mb-3">
+			{{ form_label(form.password.second) }}
+			{{ form_widget(form.password.second, {
+        attr: {
+            class: 'form-control'
+        }
+    }) }}
+			{{ form_errors(form.password.second) }}
+		</div>
+	</div>
+{% endif %}
 
-
+<div class="row g-3 justify-content-around mb-3">
 	<div class="col-12 col-md-4 mb-3">
 		<button class="btn w-100">{{ button_label|default('Enregistrer') }}</button>
 	</div>
