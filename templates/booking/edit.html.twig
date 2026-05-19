@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Paramétrage - Modification réservation
+{% block title %}Modification réservation
 {% endblock %}
 {% block body %}
 	<main class="py-5">
@@ -10,7 +10,7 @@
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card bg-blue border-gold shadow-sm d-flex justify-content-evenly p-4 my-5">
 							<h1 class="text-center text-gold m-5">Modifier la réservation</h1>
-							{{include("booking/_form.html.twig", {button_label: "Modifier"})}}
+							{{include("booking/_edit.html.twig")}}
 						</div>
 					</div>
 					<div class="col-12 col-md-10 col-lg-8">
