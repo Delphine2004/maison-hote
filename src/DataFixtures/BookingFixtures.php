@@ -130,7 +130,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             [
                 'startingDate' => $today->modify('+2 days'),
                 'endingDate'   => $today->modify('+5 days'),
-                'totalAmount'  => 3000.00, // en euros
+                'totalAmount'  => 300.00, // en euros
                 'status'       => BookingStatus::CONFIRMED,
                 'user'         => $this->getReference('client_6', User::class),
                 'room'         => $this->getReference('room_5', Room::class),
