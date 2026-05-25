@@ -33,27 +33,8 @@ h2,
 h3 {
     font-family: fonts.$font-primary;
     font-weight: bold;
-}
-
-.bg-blue {
-    background-color: colors.$darkblue;
-}
-
-.border-gold {
-    border: colors.$border-gold;
-    border-radius: colors.$border-radius;
-}
-
-.text-gold {
-    color: colors.$gold;
-}
-
-.text-beige {
-    color: colors.$beige;
-}
-
-.text-brown {
-    color: colors.$brown;
+    text-align: center;
+    margin: 2rem;
 }
 
 .custom-size {

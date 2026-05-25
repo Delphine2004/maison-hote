@@ -3,4 +3,21 @@
 .card {
     border: colors.$border-gold;
     border-radius: colors.$border-radius;
+
+    .card-header,
+    .card-footer {
+        background-color: colors.$darkblue;
+    }
+
+    .card-header {
+        color: colors.$gold;
+    }
+
+    .card-footer {
+        color: colors.$beige;
+    }
+}
+
+.card-form {
+    background-color: colors.$darkblue;
 }
