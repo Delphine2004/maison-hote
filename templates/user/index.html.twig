@@ -16,7 +16,7 @@
 
 						<div class="card shadow-sm my-5">
 							<div class="card-header py-3">
-								<h1 class="text-center m-3">Clients</h1>
+								<h1>Clients</h1>
 							</div>
 
 							<div class="card-body p-5">
@@ -51,8 +51,8 @@
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="card bg-blue shadow-sm p-3 my-5">
-							<h3 class="text-center my-3">Rechercher</h3>
+						<div class="card card-form shadow-sm p-3 my-5">
+							<h3>Rechercher</h3>
 							{{ include("user/_search_client.html.twig") }}
 						</div>
 					</div>
@@ -62,7 +62,7 @@
 					<div class="col-12 col-md-10 col-lg-8">
 
 						{% for user in users %}
-							<div class="card shadow-sm d-flex flex-column flex-md-row align-items-center p-1 m-1">
+							<div class="card shadow-sm flex-column flex-md-row align-items-center p-1 m-1">
 								<div class="d-flex flex-column flex-md-row justify-content-between align-items-center flex-grow-1 m-3">
 									<p class="my-3">{{ user.id }}</p>
 									<p class="my-3">{{ user.lastName }}

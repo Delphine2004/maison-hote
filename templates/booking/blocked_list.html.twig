@@ -19,7 +19,7 @@
 
 						<div class="card shadow-sm my-5">
 							<div class="card-header py-3">
-								<h1 class="text-center m-5">Chambre(s) hors service</h1>
+								<h1>Chambre(s) hors service</h1>
 							</div>
 
 							<div class="card-body p-0">
@@ -43,7 +43,7 @@
 
 									<div class="col-12 ">
 										{% for outOfOrder in outOfOrders %}
-											<div class="card d-flex flex-row flex-wrap align-items-center shadow-sm m-3">
+											<div class="card flex-row flex-wrap align-items-center shadow-sm m-3">
 												<div class="card-body d-flex flex-row flex-wrap justify-content-between align-items-center p-3">
 													<p class="m-0">{{ outOfOrder.room.name }}</p>
 													<p class="m-0">du {{ outOfOrder.startingDate ? outOfOrder.startingDate|date('d/m/Y') : '' }} au {{ outOfOrder.endingDate ? outOfOrder.endingDate|date('d/m/Y') : ''}}</p>

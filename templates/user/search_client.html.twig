@@ -12,26 +12,26 @@
 						class="col-12 col-md-10 col-lg-8">
 
 						<!-- Récapitulatif -->
-						<div class="card bg-blue shadow-sm d-flex justify-content-evenly p-4 my-5">
+						<div class="card card-form shadow-sm justify-content-evenly p-4 my-5">
 							<div class="d-flex flex-column p-3">
-								<h1 class="text-center my-4">Récapitulatif</h1>
-								<div class="d-flex flex-row justify-content-between py-2 text-beige">
+								<h1>Récapitulatif</h1>
+								<div class="d-flex flex-row justify-content-between py-2">
 									<p>Date d'arrivée :</p>
 									<p>{{ period.startingDate ? period.startingDate|date('d/m/Y') : ''}}</p>
 								</div>
-								<div class="d-flex flex-row justify-content-between py-2 text-beige">
+								<div class="d-flex flex-row justify-content-between py-2">
 									<p>Date de départ :</p>
 									<p>{{ period.endingDate ? period.endingDate|date('d/m/Y') : '' }}</p>
 								</div>
-								<div class="d-flex flex-row justify-content-between py-2 text-beige">
+								<div class="d-flex flex-row justify-content-between py-2">
 									<p>Chambre :</p>
 									<p>{{ room.name }}</p>
 								</div>
-								<div class="d-flex flex-row justify-content-between py-2 text-beige">
+								<div class="d-flex flex-row justify-content-between py-2">
 									<p>Prix par nuit :</p>
 									<p>{{ room.rate }}</p>
 								</div>
-								<div class="d-flex flex-row justify-content-between py-2 text-beige">
+								<div class="d-flex flex-row justify-content-between py-2">
 									<p>Total séjour :</p>
 									<p>à faire</p>
 								</div>
@@ -39,9 +39,9 @@
 						</div>
 
 						<!-- Client -->
-						<div class="card bg-blue shadow-sm d-flex justify-content-evenly p-4 my-5">
+						<div class="card card-form shadow-sm justify-content-evenly p-4 my-5">
 							<div class="d-flex flex-column align-content-center p-3">
-								<h2 class="text-center my-3">Client</h2>
+								<h2>Client</h2>
 								<div class="text-center m-4">
 									<a class="btn" target="_blank" href="{{ path('app_client_new')}}">Ajouter un client</a>
 								</div>

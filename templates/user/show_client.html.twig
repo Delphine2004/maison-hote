@@ -13,7 +13,7 @@ block body %}
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card shadow-sm my-5">
 							<div class="card-header py-3">
-								<h1 class="text-center m-3">Compte</h1>
+								<h1>Compte</h1>
 							</div>
 
 							<div class="card-body">
@@ -69,7 +69,7 @@ block body %}
 									{% for label, messages in app.flashes %}
 										<div class="col-12 col-md-10">
 											{% for message in messages %}
-												<p class="fw-bold text-center text-beige  m-3 alert alert-{{ label }}">
+												<p class="fw-bold text-center m-3 alert alert-{{ label }}">
 													{{ message }}
 												</p>
 											{% endfor %}
@@ -94,7 +94,7 @@ block body %}
 					<div class="col-12 col-md-10 col-lg-8 m-4">
 						<div class="card shadow-sm">
 							<div class="card-header py-3">
-								<h2 class="text-center m-2">Réservation à venir</h2>
+								<h2>Réservation à venir</h2>
 							</div>
 							<div class="card-body p-0">
 								{% for booking in bookings %}
