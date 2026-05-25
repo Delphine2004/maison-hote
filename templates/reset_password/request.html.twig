@@ -15,14 +15,17 @@
 							<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 						{% endfor %}
 
-						<div class="bg-blue text-gold border-gold card shadow-sm p-4 my-4">
+						<div class="card bg-blue shadow-sm p-4 my-4">
 							<h1 class="text-center m-3">Réinitialisation du mot de passe</h1>
 							<div class="text-center m-3">
 								<p>Entrez votre adresse email pour recevoir un lien de réinitialisation.</p>
 							</div>
+							{{ form_start(requestForm) }}
 							<div class="m-3">
-								{{ form_start(requestForm) }}
-								{{ form_row(requestForm.email) }}
+								{{ form_label(requestForm.email) }}
+								{{ form_widget(requestForm.email, {
+                  attr: {class: 'form-control' } }) }}
+								{{ form_errors(requestForm.email) }}
 							</div>
 							<div class="text-center m-3">
 								<button class="btn">Recevoir l'email</button>
