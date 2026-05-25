@@ -10,8 +10,8 @@
 				<div class="row justify-content-center">
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="bg-blue border-gold card text-gold shadow-sm p-4 my-4">
-							<h1 class="text-center text-gold m-3">Inscription</h1>
+						<div class="card bg-blue shadow-sm p-4 my-4">
+							<h1 class="text-center m-3">Inscription</h1>
 
 							{{ form_start(registrationForm) }}
 							<div class="row g-3 justify-content-around my-3">
@@ -76,7 +76,7 @@
 							</div>
 							<div class="row g-3 justify-content-around my-3">
 								<div class="col-12 mb-3">
-									<div class="mb-4 form-check text-gold">
+									<div class="mb-4 form-check  ">
 										{{ form_widget(registrationForm.rgpdConsent, {'attr': {'class': 'form-check-input'}}) }}
 										<label class="form-check-label">
 											J'accepte le traitement de mes données conformément à la
@@ -91,7 +91,7 @@
 									<button type="submit" class="btn w-100">S'inscrire</button>
 								</div>
 
-								<div class="col-12 text-gold mb-3">
+								<div class="col-12   mb-3">
 									{{ form_errors(registrationForm) }}
 								</div>
 								{{ form_end(registrationForm) }}

@@ -19,8 +19,8 @@
 					{% endfor %}
 					<div class="col-12 col-md-10 col-lg-8">
 
-						<div class="bg-blue border-gold card shadow-sm p-4 my-4">
-							<h1 class="text-center text-gold m-3">Connexion</h1>
+						<div class="card bg-blue shadow-sm p-4 my-4">
+							<h1 class="text-center   m-3">Connexion</h1>
 							<form method="post">
 								{% if error %}
 									<div class="alert alert-danger">
@@ -28,11 +28,11 @@
 									</div>
 								{% endif %}
 
-								<div class="mb-4 text-gold">
+								<div class="mb-4">
 									<label for="username">Email</label>
 									<input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus/>
 								</div>
-								<div class="mb-4 text-gold">
+								<div class="mb-4">
 									<label for="password">Mot de passe</label>
 									<input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required/>
 									<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}"/>

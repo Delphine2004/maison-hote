@@ -32,15 +32,15 @@
 		<button class="btn w-100" type="submit">Rechercher</button>
 	</div>
 
-	<div class="col-12 text-gold mb-3">
+	<div class="col-12 mb-3">
 		{{ form_errors(form.id) }}
 		{{ form_errors(form.lastName) }}
 		{{ form_errors(form.email) }}
 		{{ form_errors(form) }}
 	</div>
 
-	<div class="col-12 col-md-4 mb-3">
-		<div class="text-center text-gold">
+	<div class="col-12 col-md-4">
+		<div class="text-center mb-3">
 			<a href="{{ path('app_search_client') }}">Réinitialiser</a>
 		</div>
 	</div>

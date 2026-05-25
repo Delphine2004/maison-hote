@@ -10,7 +10,7 @@ body %}
 
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card shadow-sm my-5">
-							<div class="card-header bg-blue text-gold py-3">
+							<div class="card-header py-3">
 								<h1 class="text-center m-3">
 									Chambre :
 									{{ room.name }}
@@ -61,9 +61,9 @@ body %}
 								</div>
 							</div>
 
-							<div class="card-footer bg-blue py-5">
+							<div class="card-footer py-5">
 								<div
-									class="row justify-content-evenly g-3">
+									class="row justify-content-evenly">
 									<!-- Bouton modifier informations -->
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{path('app_room_edit', { id: room.id })}}">

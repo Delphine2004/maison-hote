@@ -12,8 +12,8 @@ block body %}
 					<!-- Informations compte -->
 					<div class="col-12 col-md-10 col-lg-8">
 						<div class="card shadow-sm my-5">
-							<div class="card-header bg-blue text-gold py-3">
-								<h1 class="text-center text-gold m-3">Compte</h1>
+							<div class="card-header py-3">
+								<h1 class="text-center m-3">Compte</h1>
 							</div>
 
 							<div class="card-body">
@@ -64,7 +64,7 @@ block body %}
 								</div>
 							</div>
 
-							<div class="card-footer bg-blue py-5">
+							<div class="card-footer py-5">
 								<div class="row justify-content-evenly g-3">
 									{% for label, messages in app.flashes %}
 										<div class="col-12 col-md-10">
@@ -93,7 +93,7 @@ block body %}
 					<!-- Informations réservations -->
 					<div class="col-12 col-md-10 col-lg-8 m-4">
 						<div class="card shadow-sm">
-							<div class="card-header bg-blue text-gold py-3">
+							<div class="card-header py-3">
 								<h2 class="text-center m-2">Réservation à venir</h2>
 							</div>
 							<div class="card-body p-0">
@@ -134,8 +134,8 @@ block body %}
 								{% endfor %}
 							</div>
 
-							<div class="card-footer bg-blue py-5">
-								<div class="row justify-content-evenly g-3">
+							<div class="card-footer py-5">
+								<div class="row justify-content-evenly">
 									<div class="col-12 col-md-4">
 										<a class="btn w-100" href="{{ path('app_client_booking', { id: user.id }) }}">Historique</a>
 									</div>
