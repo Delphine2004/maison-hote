@@ -170,6 +170,9 @@ label {
   border: 2px solid #ba912c;
   border-radius: 0.4rem;
 }
+.card h1 {
+  color: #8b4513;
+}
 .card .card-header,
 .card .card-footer {
   background-color: #1e3a5f;
@@ -183,6 +186,7 @@ label {
 
 .card-form {
   background-color: #1e3a5f;
+  color: #ba912c;
 }
 
 #hero h1 {
