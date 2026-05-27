@@ -4,6 +4,10 @@
     border: colors.$border-gold;
     border-radius: colors.$border-radius;
 
+    h1 {
+        color: colors.$brown;
+    }
+
     .card-header,
     .card-footer {
         background-color: colors.$darkblue;
@@ -20,4 +24,5 @@
 
 .card-form {
     background-color: colors.$darkblue;
+    color: colors.$gold;
 }
