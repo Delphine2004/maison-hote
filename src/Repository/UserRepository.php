@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\DTO\SearchClient;
-use App\Enum\UserRole;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
