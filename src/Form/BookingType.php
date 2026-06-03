@@ -38,21 +38,21 @@ class BookingType extends AbstractType
                 ->add('room', EntityType::class, [
                     'class' => Room::class,
                     'choice_label' => 'name', // propriété affichée
-                    'placeholder' => 'Choisir une chambre',
+                    'placeholder' => 'Choisir',
                     'label' => 'Chambre',
-                    'required' => false,
+                    'required' => true,
                 ])
                 ->add('startingDate', DateType::class, [
                     'widget' => 'single_text',
                     'input' => 'datetime_immutable',
                     'label' => 'Date d\'arrivée',
-                    'required' => false,
+                    'required' => true,
                 ])
                 ->add('endingDate', DateType::class, [
                     'widget' => 'single_text',
                     'input' => 'datetime_immutable',
                     'label' => 'Date de départ',
-                    'required' => false,
+                    'required' => true,
                 ]);
         }
 
