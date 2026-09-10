@@ -48,8 +48,7 @@ class ResetPasswordController extends AbstractController
 
             return $this->processSendingPasswordResetEmail(
                 $email,
-                $mailer,
-                $translator
+                $mailer
             );
         }
 
