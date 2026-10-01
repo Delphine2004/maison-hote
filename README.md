@@ -20,12 +20,13 @@
 #### Langage & Framework
 
 - PHP 8
-- Symfony 8
+- Symfony 7.4
 
 #### Gestion des données
 
 - Doctrine ORM
 - Doctrine Migrations
+- Doctrine Fixtures
 
 #### Sécurité
 
