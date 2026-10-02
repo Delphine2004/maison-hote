@@ -39,3 +39,9 @@ services:
       - "8025:8025"
       - "1025:1025"
 ###< symfony/mailer ###
+
+###> doctrine/mongodb-odm-bundle ###
+  mongodb:
+    ports:
+      - "27017"
+###< doctrine/mongodb-odm-bundle ###
