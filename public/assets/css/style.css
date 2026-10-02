@@ -30,7 +30,7 @@ footer {
 }
 
 a {
-  color: #ba912c;
+  color: #f5f5dc;
   text-decoration: none;
 }
 
@@ -83,18 +83,18 @@ h3 {
 footer {
   min-height: 310px;
   background-color: #1e3a5f;
-  color: #ba912c;
+  color: #f5f5dc;
 }
 footer i {
   font-size: 2rem;
 }
 footer a,
 footer i {
-  color: #ba912c;
+  color: #f5f5dc;
 }
 footer a:hover,
 footer i:hover {
-  color: #f5f5dc;
+  color: #ba912c;
 }
 footer ul {
   margin: 0;
@@ -117,7 +117,7 @@ footer ul {
 }
 
 label {
-  color: #ba912c;
+  color: #f5f5dc;
 }
 
 .pictures-list {
@@ -171,7 +171,7 @@ label {
   border-radius: 0.4rem;
 }
 .card h1 {
-  color: #8b4513;
+  color: #ba912c;
 }
 .card .card-header,
 .card .card-footer {
@@ -186,7 +186,7 @@ label {
 
 .card-form {
   background-color: #1e3a5f;
-  color: #ba912c;
+  color: #f5f5dc;
 }
 
 #hero h1 {

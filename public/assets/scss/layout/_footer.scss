@@ -4,7 +4,7 @@
 footer {
     min-height: variables.$footer-height-mobile;
     background-color: colors.$darkblue;
-    color: colors.$gold;
+    color: colors.$beige;
 
     i {
         font-size: 2rem;
@@ -12,12 +12,12 @@ footer {
 
     a,
     i {
-        color: colors.$gold;
+        color: colors.$beige;
     }
 
     a:hover,
     i:hover {
-        color: colors.$beige;
+        color: colors.$gold;
     }
 
     ul {
