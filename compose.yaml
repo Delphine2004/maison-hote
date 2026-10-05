@@ -10,12 +10,7 @@ services:
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=${MYSQL_VERSION}&charset=${MYSQL_CHARSET}
-      
-      MONGO_USER: ${MONGO_USER}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_DB: ${MONGO_DB}
-      MONGO_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:27017/${MONGO_DB}
-      
+            
       SYMFONY_VERSION: ${SYMFONY_VERSION:-}
       STABILITY: ${STABILITY:-stable}
     volumes:
@@ -51,16 +46,8 @@ services:
     volumes:
       - database_data:/var/lib/mysql:rw
 
-  mongo:
-    image: mongo:6.0
-    command: ["mongod", "--auth"]
-    restart: unless-stopped
-    volumes:
-      - mongo_data:/data/db
-      - ./docker/mongo-init:/docker-entrypoint-initdb.d/
 
 volumes:
   caddy_data:
   caddy_config:
   database_data:
-  mongo_data:

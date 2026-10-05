@@ -177,7 +177,7 @@ Après exécution des fixtures, les comptes suivants sont disponibles :
 ## 8. Améliorations futures
 
 - Amélioration de l’expérience utilisateur avec Symfony UX (interactions dynamiques sans rechargement de page)
-- Mise en place d’un système d’avis clients via MongoDB pour gérer des données non structurées
+- Mise en place d’un système d’avis clients
 - Tableau de bord statistiques
 
 
