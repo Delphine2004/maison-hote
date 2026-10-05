@@ -1,0 +1,12 @@
+<form
+    method="post"
+    action="{{ path('app_review_approuve', { id: review.id }) }}"
+    onsubmit="return confirm('Confirmez vous l'action'?');"
+>
+    <input
+        type="hidden"
+        name="_token"
+        value="{{ csrf_token('approuve' ~ review.id) }}"
+    />
+    <button class="btn w-100">Approuver</button>
+</form>
