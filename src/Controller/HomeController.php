@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\PictureRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\RoomRepository;
+use App\Repository\ReviewRepository;
 
 use App\Form\SearchRoomType;
 
@@ -17,9 +18,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
-    {
-        return $this->render('home/index.html.twig');
+    public function index(
+        ReviewRepository $reviewRepository
+    ): Response {
+        $comments = $reviewRepository->findAll();
+        return $this->render('home/index.html.twig', ['comments' => $comments]);
     }
 
     #[Route('/gallery', name: 'app_gallery')]
