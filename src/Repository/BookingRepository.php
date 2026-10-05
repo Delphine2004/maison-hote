@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Booking;
 use App\Entity\User;
 use App\Entity\Room;
-use App\DTO\SearchBooking;
+use App\DTO\SearchBookingDTO;
 use App\Enum\BookingStatus;
 
 use DateTimeImmutable;
@@ -24,7 +24,7 @@ class BookingRepository extends ServiceEntityRepository
     }
 
     public function findBookingsByFilters(
-        ?SearchBooking $criteria,
+        ?SearchBookingDTO $criteria,
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {

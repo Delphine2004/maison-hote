@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\SearchBooking;
+use App\DTO\SearchBookingDTO;
 use App\Enum\BookingStatus;
 
 use Symfony\Component\Form\AbstractType;
@@ -56,7 +56,7 @@ class SearchBookingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SearchBooking::class,
+            'data_class' => SearchBookingDTO::class,
             'method' => 'GET',
         ]);
     }

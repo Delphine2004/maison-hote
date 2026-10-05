@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\SearchClient;
+use App\DTO\SearchClientDTO;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +34,7 @@ class SearchClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SearchClient::class,
+            'data_class' => SearchClientDTO::class,
             'method' => 'GET',
         ]);
     }

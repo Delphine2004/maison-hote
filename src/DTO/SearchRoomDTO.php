@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use DateTimeImmutable;
 
-class SearchRoom
+class SearchRoomDTO
 {
     public ?DateTimeImmutable $startingDate = null;
     public ?DateTimeImmutable $endingDate = null;

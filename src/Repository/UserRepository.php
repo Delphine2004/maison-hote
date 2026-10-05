@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\DTO\SearchClient;
+use App\DTO\SearchClientDTO;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +19,7 @@ class UserRepository extends ServiceEntityRepository
     }
 
     public function findClientByFilters(
-        ?SearchClient $criteria,
+        ?SearchClientDTO $criteria,
         int $limit = 10,
         string $orderBy = 'DESC'
     ): array {

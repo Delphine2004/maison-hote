@@ -6,7 +6,7 @@ use App\Enum\BookingStatus;
 use DateTimeImmutable;
 
 
-class SearchBooking
+class SearchBookingDTO
 {
 
     public ?int $id = null;

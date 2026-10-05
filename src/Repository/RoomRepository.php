@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Room;
-use App\DTO\SearchRoom;
+use App\DTO\SearchRoomDTO;
 use App\Enum\BookingStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,7 +26,7 @@ class RoomRepository extends ServiceEntityRepository
     }
 
     public function findRoomsByPeriod(
-        ?SearchRoom $criteria,
+        ?SearchRoomDTO $criteria,
     ): array {
 
         $bookingStatus = BookingStatus::CONFIRMED;

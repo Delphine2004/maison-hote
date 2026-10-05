@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class SearchClient
+class SearchClientDTO
 {
 
     public ?int $id = null;
