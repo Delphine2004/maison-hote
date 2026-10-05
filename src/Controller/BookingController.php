@@ -387,9 +387,7 @@ final class BookingController extends AbstractController
         // Vérification que l'utilisateur est connecté
         if (!$userConnected) {
             $this->addFlash('sucess', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_booking_show', [
-                'id' => $booking->getId()
-            ]);
+            return $this->redirectToRoute('app_login');
         }
 
         // Vérification que l'utilisateur connécté est bien celui qui detient la réservation ou est autorisé
