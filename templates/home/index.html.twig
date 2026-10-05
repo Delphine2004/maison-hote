@@ -3,91 +3,131 @@
 {%
 endblock %}
 {% block body %}
-	<main class="py-5">
-		<section id="hero" class="container-fluid py-5">
-			<div class="container">
-				<div class="row justify-content-center align-items-center my-3">
-					<!-- Image -->
-					<div class="col-12 col-md-7 d-flex justify-content-center">
-						<img class="rounded-2" src="{{ asset('assets/img/main.jpg') }}" alt="Photo maison d'hôte les parenthèses dorées"/>
-					</div>
-					<!-- Titre, slogan et bouton -->
-					<div class="col-12 col-md-5">
-						<div class="d-flex flex-column">
-							<h1>Les parenthèses dorées</h1>
-							<p class="text-center">
-								Suspendez le temps, vivez l'instant
-							</p>
-						</div>
-						<div class="text-center mt-3">
-							<a class="btn" href="{{ path('app_search_room') }}">Réserver</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="home" class="container-fluid my-5">
-			<div class="container">
-				<div class="row justify-content-center align-items-center py-5">
-        <!-- Titre -->
-					<div class="col-12 col-md-10">
-						<h2>Qui sommes nous?</h2>
-					</div>
-					<!-- Présentation -->
-					<div class="col-12 col-md-10">
-						<p class="text-center">
-							Nichée au cœur d'un village de charme, notre maison d'hôtes vous accueille dans un cadre authentique où le temps semble s'arrêter. Cette bâtisse en pierre du XVIIIe siècle, entièrement restaurée avec soin, allie le charme de l'ancien au confort moderne. Nos cinq chambres, décorées avec goût et personnalisées, offrent une vue imprenable sur les vignobles environnants ou le jardin arboré. Chaque matin, savourez un petit-déjeuner fait maison préparé avec des produits locaux et de saison, servi dans notre salle voûtée ou sur la terrasse ombragée selon vos envies. Profitez de notre piscine chauffée, de notre bibliothèque garnie, ou partez à la découverte des trésors de la région : marchés provençaux, sentiers de randonnée et villages perchés. Véronique et Michel, vos hôtes passionnés, seront ravis de partager avec vous leurs bonnes adresses et de vous faire découvrir les secrets de notre belle région. Ici, chaque séjour devient une expérience unique, un moment de détente et de convivialité.
-						</p>
-					</div>
-					<!-- Logo -->
-					<div class="col-12 col-md-10 d-flex justify-content-center">
-						<img class="logo img-fluid rounded" src="{{ asset('assets/img/logo/logo.webp') }}" alt="logo maison d'hôte les parenthèses dorées"/>
-					</div>
-				</div>
-			</div>
-
-			<div class="container">
-				<div class="row justify-content-center align-items-center py-5">
-          <!-- Titre -->
-					<div class="col-12 col-md-10">
-						<h3>Nos engagements</h3>
-					</div>
-          <!-- Paragraphe -->
-					<div class="col-12 col-md-6 order-2 order-md-1 ">
-						<p class="text-center">
-							Notre maison d'hôtes incarne l'excellence et le raffinement à chaque instant de votre séjour. Nichée dans une demeure d'exception du XIXe siècle, chaque suite a été pensée comme un écrin de confort absolu, alliant mobilier d'époque restauré, literie premium et linge de maison en lin précieux. Les salles de bains en marbre, équipées de produits de soins haut de gamme, invitent à la détente. Notre service personnalisé et discret répond à vos moindres désirs, tandis que notre table d'hôtes gastronomique sublime les produits du terroir avec créativité et passion. Le parc privé de deux hectares offre une piscine à débordement chauffée, un spa avec sauna et hammam, ainsi qu'un salon de jardin intimiste. Ici, le luxe se vit dans les détails : petit-déjeuner servi jusqu'à midi, conciergerie disponible, et une atmosphère où élégance rime avec authenticité.
-						</p>
-					</div>
+  <main class="py-5">
+    <section id="hero" class="container-fluid py-5">
+      <div class="container">
+        <div class="row justify-content-center align-items-center my-3">
           <!-- Image -->
-					<div class="col-12 col-md-4 order-1 order-md-2 img-home">
-						<img class="rounded-2" src="{{ asset('assets/img/garden.jpg') }}" alt="Photo jardin de la maison d'hôte les parenthèses dorées"/>
-					</div>
+          <div class="col-12 col-md-7 d-flex justify-content-center">
+            <img class="rounded-2" src="{{ asset('assets/img/main.jpg') }}" alt="Photo maison d'hôte les parenthèses dorées"/>
+          </div>
+          <!-- Titre, slogan et bouton -->
+          <div class="col-12 col-md-5">
+            <div class="d-flex flex-column">
+              <h1>Les parenthèses dorées</h1>
+              <p class="text-center">
+                Suspendez le temps, vivez l'instant
+              </p>
+            </div>
+            <div class="text-center mt-3">
+              <a class="btn" href="{{ path('app_search_room') }}">Réserver</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="home" class="container-fluid my-5">
+      <div class="container">
+        <div class="row justify-content-center align-items-center py-5">
+          <!-- Titre -->
+          <div class="col-12 col-md-10">
+            <h2>Qui sommes nous?</h2>
+          </div>
+          <!-- Présentation -->
+          <div class="col-12 col-md-10">
+            <p class="text-center">
+              Nichée au cœur d'un village de charme, notre maison d'hôtes vous accueille dans un cadre authentique où le temps semble s'arrêter. Cette bâtisse en pierre du XVIIIe siècle, entièrement restaurée avec soin, allie le charme de l'ancien au confort moderne. Nos cinq chambres, décorées avec goût et personnalisées, offrent une vue imprenable sur les vignobles environnants ou le jardin arboré. Chaque matin, savourez un petit-déjeuner fait maison préparé avec des produits locaux et de saison, servi dans notre salle voûtée ou sur la terrasse ombragée selon vos envies. Profitez de notre piscine chauffée, de notre bibliothèque garnie, ou partez à la découverte des trésors de la région : marchés provençaux, sentiers de randonnée et villages perchés. Véronique et Michel, vos hôtes passionnés, seront ravis de partager avec vous leurs bonnes adresses et de vous faire découvrir les secrets de notre belle région. Ici, chaque séjour devient une expérience unique, un moment de détente et de convivialité.
+            </p>
+          </div>
+          <!-- Logo -->
+          <div class="col-12 col-md-10 d-flex justify-content-center">
+            <img class="logo img-fluid rounded" src="{{ asset('assets/img/logo/logo.webp') }}" alt="logo maison d'hôte les parenthèses dorées"/>
+          </div>
+        </div>
+			
+        <div class="row justify-content-center align-items-center py-5">
+          <!-- Titre -->
+          <div class="col-12 col-md-10">
+            <h3>Nos engagements</h3>
+          </div>
+          <!-- Paragraphe -->
+          <div class="col-12 col-md-6 order-2 order-md-1 ">
+            <p class="text-center">
+              Notre maison d'hôtes incarne l'excellence et le raffinement à chaque instant de votre séjour. Nichée dans une demeure d'exception du XIXe siècle, chaque suite a été pensée comme un écrin de confort absolu, alliant mobilier d'époque restauré, literie premium et linge de maison en lin précieux. Les salles de bains en marbre, équipées de produits de soins haut de gamme, invitent à la détente. Notre service personnalisé et discret répond à vos moindres désirs, tandis que notre table d'hôtes gastronomique sublime les produits du terroir avec créativité et passion. Le parc privé de deux hectares offre une piscine à débordement chauffée, un spa avec sauna et hammam, ainsi qu'un salon de jardin intimiste. Ici, le luxe se vit dans les détails : petit-déjeuner servi jusqu'à midi, conciergerie disponible, et une atmosphère où élégance rime avec authenticité.
+            </p>
+          </div>
+          <!-- Image -->
+          <div class="col-12 col-md-4 order-1 order-md-2 img-home">
+            <img class="rounded-2" src="{{ asset('assets/img/garden.jpg') }}" alt="Photo jardin de la maison d'hôte les parenthèses dorées"/>
+          </div>
           <!-- Bouton -->
           <div class="col-12 col-md-10 d-flex justify-content-center order-3 mt-4">
             <a href="{{ path('app_services') }}" class="btn">Nos services</a></div>
-				</div>
+        </div>
 
-				<div class="row justify-content-center align-items-center py-5">
-        <!-- Titre -->
-					<div class="col-12 col-md-10">
-						<h3>Le patrimoine</h3>
-					</div>
+        <div class="row justify-content-center align-items-center py-5">
+          <!-- Titre -->
+          <div class="col-12 col-md-10">
+            <h3>Le patrimoine</h3>
+          </div>
           <!-- Image -->
-					<div class="col-12 col-md-4 order-1 order-md-1 img-home">
-						<img class="rounded-2" src="{{ asset('assets/img/other.jpg') }}" alt="Photo service de la maison d'hôte les parenthèses dorées"/>
-					</div>
+          <div class="col-12 col-md-4 order-1 order-md-1 img-home">
+            <img class="rounded-2" src="{{ asset('assets/img/other.jpg') }}" alt="Photo service de la maison d'hôte les parenthèses dorées"/>
+          </div>
           <!-- Paragraphe -->
-					<div class="col-12 col-md-6 order-2 order-md-2 ">
-						<p class="text-center">
-							Idéalement située au cœur d'une région riche en patrimoine, notre maison d'hôtes constitue le point de départ idéal pour explorer des trésors insoupçonnés. À quelques minutes, découvrez des villages médiévaux classés, des châteaux remarquables et des vignobles réputés proposant dégustations et visites de caves. Les amateurs de nature apprécieront les nombreux sentiers de randonnée et pistes cyclables qui sillonnent la campagne environnante. Les marchés provençaux hebdomadaires, hauts en couleurs et en saveurs, vous plongent dans l'authenticité locale. Pour les passionnés de culture, musées, galeries d'art et festivals animent la région tout au long de l'année. Golf, équitation, sports nautiques ou simplement flânerie dans les ruelles pavées : chacun trouve son bonheur. Nous serons ravis de vous conseiller et d'organiser vos excursions pour un séjour sur mesure.
-						</p>
-					</div>
+          <div class="col-12 col-md-6 order-2 order-md-2 ">
+            <p class="text-center">
+              Idéalement située au cœur d'une région riche en patrimoine, notre maison d'hôtes constitue le point de départ idéal pour explorer des trésors insoupçonnés. À quelques minutes, découvrez des villages médiévaux classés, des châteaux remarquables et des vignobles réputés proposant dégustations et visites de caves. Les amateurs de nature apprécieront les nombreux sentiers de randonnée et pistes cyclables qui sillonnent la campagne environnante. Les marchés provençaux hebdomadaires, hauts en couleurs et en saveurs, vous plongent dans l'authenticité locale. Pour les passionnés de culture, musées, galeries d'art et festivals animent la région tout au long de l'année. Golf, équitation, sports nautiques ou simplement flânerie dans les ruelles pavées : chacun trouve son bonheur. Nous serons ravis de vous conseiller et d'organiser vos excursions pour un séjour sur mesure.
+            </p>
+          </div>
           <!-- Bouton -->
           <div class="col-12 col-md-10 d-flex justify-content-center order-3 mt-4">
             <a href="" class="btn">Nous contacter</a></div>
-				</div>
-			</div>
-		</section>
-	</main>
+        </div>
+
+        <div class="row justify-content-center align-items-center py-5">
+          <!-- Titre -->
+          <div class="col-12 col-md-10">
+            <h3>Livre d'or</h3>
+          </div>
+          <!-- Carrousel des commentaires -->
+          <div class="col-12 col-md-10">
+            <div id="carousel-reviews" class="carousel slide carousel-fade card">
+              <div class="carousel-inner">
+                {% for comment in comments %}
+                  <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="card mx-auto">
+                      <!-- A FAIRE -->
+                      <h4>Nom de la personne</h4>
+                      <h5>Date de séjour</h5>
+                      <h5>Chambre</h5>
+                      <p>Note sur 5</p>
+                      <p>Commentaire</p>
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="carousel-item active">
+                    <p class="text-center">
+                      Aucun commentaire pour le moment.
+                    </p>
+                  </div>
+                {% endfor %}
+
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-reviews" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-reviews" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
 {% endblock %}
