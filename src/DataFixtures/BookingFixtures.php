@@ -18,8 +18,6 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         $today = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
 
         $bookingData = [
-            // Faire des réservations passées, en cours, en départ, en arrivée et à venir
-            // Modifier les dates, les prix et les réferences users (de 1 à 6)
 
             // Les arrivées
             [
