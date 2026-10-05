@@ -42,7 +42,7 @@ class Review
     private ?User $user = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, enumType: ReviewStatus::class)]
-    private ?string $status = null;
+    private ?ReviewStatus $status = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -122,12 +122,12 @@ class Review
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?ReviewStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(ReviewStatus $status): static
     {
         $this->status = $status;
 
