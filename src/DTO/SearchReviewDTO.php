@@ -2,6 +2,7 @@
 
 namespace App\DTO;
 
+use App\Entity\Room;
 use App\Enum\ReviewStatus;
 use DateTimeImmutable;
 
@@ -10,7 +11,7 @@ class SearchReviewDTO
 
     public ?int $id = null;
     public ?int $rate = null;
-    public ?int $roomId = null;
+    public ?Room $room = null;
     public ?int $userId = null;
     public ?ReviewStatus $status = null;
     public ?DateTimeImmutable $createdAt = null;
@@ -26,10 +27,11 @@ class SearchReviewDTO
         return $this->rate;
     }
 
-    public function getRoomId(): ?int
+    public function getRoom(): ?Room
     {
-        return $this->roomId;
+        return $this->room;
     }
+
 
     public function getUserId(): ?int
     {
