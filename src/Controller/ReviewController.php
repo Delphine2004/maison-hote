@@ -76,15 +76,8 @@ final class ReviewController extends AbstractController
         }
 
         $userConnected = $this->getUser();
-
-        // Vérification que l'utilisateur est connecté
-        if (!$userConnected) {
-            $this->addFlash('sucess', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Vérification que l'utilisateur connécté est bien celui qui detient la réservation ou est autorisé
-        if ($review->getUser() !== $userConnected && !$this->isGranted('ROLE_EMPLOYE')) {
+        // Vérification que l'utilisateur connécté est bien autorisé
+        if (!$userConnected && !$this->isGranted('ROLE_EMPLOYE')) {
             $this->addFlash('sucess', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
@@ -105,7 +98,7 @@ final class ReviewController extends AbstractController
         return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/rejecte', name: 'app_review_rejecte', methods: ['GET', 'POST'])]
+    #[Route('/{id}/reject', name: 'app_review_reject', methods: ['GET', 'POST'])]
     public function rejecte(
         Request $request,
         Review $review,
@@ -119,14 +112,8 @@ final class ReviewController extends AbstractController
 
         $userConnected = $this->getUser();
 
-        // Vérification que l'utilisateur est connecté
-        if (!$userConnected) {
-            $this->addFlash('sucess', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Vérification que l'utilisateur connécté est bien celui qui detient la réservation ou est autorisé
-        if ($review->getUser() !== $userConnected && !$this->isGranted('ROLE_EMPLOYE')) {
+        // Vérification que l'utilisateur connécté est bien autorisé
+        if (!$userConnected && !$this->isGranted('ROLE_EMPLOYE')) {
             $this->addFlash('sucess', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
