@@ -52,9 +52,9 @@ class ReviewRepository extends ServiceEntityRepository
         }
 
         // Room Id
-        if ($criteria->getRoomId()) {
+        if ($criteria->getRoom()) {
             $qb->andWhere('re.id = :id')
-                ->setParameter('id', $criteria->getRoomId());
+                ->setParameter('id', $criteria->getRoom());
         }
 
         // User Id
@@ -69,12 +69,12 @@ class ReviewRepository extends ServiceEntityRepository
             $start = (clone $date)->setTime(0, 0, 0);
             $end   = (clone $date)->setTime(23, 59, 59);
 
-            $qb->andWhere('b.createdAt BETWEEN :createdAtStart AND :createdAtEnd')
+            $qb->andWhere('re.createdAt BETWEEN :createdAtStart AND :createdAtEnd')
                 ->setParameter('createdAtStart', $start)
                 ->setParameter('createdAtEnd', $end);
         }
 
-        return $qb->orderBy('b.id',  $orderBy)
+        return $qb->orderBy('re.id',  $orderBy)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
