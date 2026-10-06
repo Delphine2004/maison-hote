@@ -29,17 +29,8 @@ class Review
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $comment = null;
 
-    #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'reviews')]
-    private ?Room $room = null;
-
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviews')]
-    #[ORM\JoinColumn(
-        name: 'user_id',
-        referencedColumnName: 'id',
-        nullable: true,
-        onDelete: 'SET NULL'
-    )]
-    private ?User $user = null;
+    #[ORM\OneToOne(inversedBy: 'review', cascade: ['persist', 'remove'])]
+    private ?Booking $booking = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, enumType: ReviewStatus::class)]
     private ?ReviewStatus $status = null;
@@ -49,6 +40,7 @@ class Review
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
 
 
     public function __construct() {}
@@ -98,26 +90,14 @@ class Review
         return $this;
     }
 
-    public function getRoom(): ?Room
+    public function getBooking(): ?Booking
     {
-        return $this->room;
+        return $this->booking;
     }
 
-    public function setRoom(?Room $room): static
+    public function setBooking(?Booking $booking): static
     {
-        $this->room = $room;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
+        $this->booking = $booking;
 
         return $this;
     }

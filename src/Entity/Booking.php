@@ -59,6 +59,9 @@ class Booking
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bookingsUpdatedBy')]
     private ?User $updatedBy = null;
 
+    #[ORM\OneToOne(mappedBy: 'booking', cascade: ['persist', 'remove'])]
+    private ?Review $review = null;
+
 
     public function __construct() {}
 
@@ -230,6 +233,28 @@ class Booking
     public function setUpdatedBy(?User $updatedBy): static
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    public function getReview(): ?Review
+    {
+        return $this->review;
+    }
+
+    public function setReview(?Review $review): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($review === null && $this->review !== null) {
+            $this->review->setBooking(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($review !== null && $review->getBooking() !== $this) {
+            $review->setBooking($this);
+        }
+
+        $this->review = $review;
 
         return $this;
     }
