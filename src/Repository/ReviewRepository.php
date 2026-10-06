@@ -36,8 +36,7 @@ class ReviewRepository extends ServiceEntityRepository
         string $orderBy = 'DESC'
     ): array {
         $qb = $this->createQueryBuilder('re')
-            ->leftJoin('re.user', 'u')->addSelect('u')
-            ->leftJoin('re.room', 'ro')->addSelect('ro');
+            ->leftJoin('re.booking', 'b')->addSelect('b');
 
         // Review Id
         if ($criteria->getReviewId()) {
@@ -47,20 +46,20 @@ class ReviewRepository extends ServiceEntityRepository
 
         // Rate
         if ($criteria->getRate()) {
-            $qb->andWhere('re.id = :id')
-                ->setParameter('id', $criteria->getRate());
+            $qb->andWhere('re.rate = :rate')
+                ->setParameter('rate', $criteria->getRate());
         }
 
-        // Room Id
+        // Status
+        if ($criteria->getStatus()) {
+            $qb->andWhere('re.status = :status')
+                ->setParameter('status', $criteria->getStatus()->value);
+        }
+
+        // Room
         if ($criteria->getRoom()) {
-            $qb->andWhere('re.id = :id')
-                ->setParameter('id', $criteria->getRoom());
-        }
-
-        // User Id
-        if ($criteria->getUserId()) {
-            $qb->andWhere('re.id = :id')
-                ->setParameter('id', $criteria->getUserId());
+            $qb->andWhere('b.room = :room')
+                ->setParameter('room', $criteria->getRoom());
         }
 
         if ($criteria->getCreatedAt()) {
