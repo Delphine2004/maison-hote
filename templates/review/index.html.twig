@@ -1,8 +1,74 @@
-{% extends 'base.html.twig' %} {% block title %}Les Parenthèses Dorées -
-Commentaires{% endblock %} {% block body %}
-<main class="py-5">
+{% extends 'base.html.twig' %} {% block title %}Commentaires{% endblock %} {% block body %}
+  <main class="py-5">
     <section class="container-fluid">
-        <div class="container"><h1>Commentaires</h1></div>
+      <div class="container">
+
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-8">
+
+            <div class="card shadow-sm my-5">
+              <div class="card-header py-3">
+                <h1>Commentaires</h1></div>
+              <div class="card-body p-5">
+                <div class="row justify-content-center g-3">
+                  <div class="col-12 col-md-3">
+                    <a class="btn w-100" href="{{ path('app_search_review') }}">Rechercher</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+          
+      </div>
     </section>
-</main>
+
+    <!-- Liste des commentaires à examiner -->
+    <section class="container-fluid">
+      <div
+        class="container"
+      >
+        <!-- Liste -->
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-8">
+
+            <div class="card shadow-sm my-5">
+              <div class="card-header py-3">
+                <h2>Commentaire(s) à vérfier</h2>
+              </div>
+
+              <div class="card-body p-0">
+                {% for review in newReviews %}
+                  <div class="card flex-md-row justify-content-center align-items-center shadow-sm m-3">
+                    <div class="row justify-content-center align-items-center w-100 g-3">
+
+                      <div class="col-12 col-md-9">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 p-3">
+                            <p class="my-3">{{ review.id }}</p>
+                            <p class="my-3">{{ review.rate }}/5</p>
+                            <p class="my-3">{{ review.room.name }}</p>
+                            <p class="my-3">{{ review.createdAt ? review.createdAt|date('d/m/Y H:i:s') : '' }}</p>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-2 text-center my-3">
+                        <a class="btn w-100" target="_blank" href="{{ path('app_review_show', { id: review.id }) }}">Voir</a>
+                      </div>
+
+                    </div>
+                  </div>
+                {% else %}
+                  <p class="text-center m-2">
+                    Aucun commentaire à examiner pour le moment
+                  </p>
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 {% endblock %}
