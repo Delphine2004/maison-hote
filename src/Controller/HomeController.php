@@ -21,8 +21,8 @@ final class HomeController extends AbstractController
     public function index(
         ReviewRepository $reviewRepository
     ): Response {
-        $comments = $reviewRepository->findAll();
-        return $this->render('home/index.html.twig', ['comments' => $comments]);
+        $reviews = $reviewRepository->findAll();
+        return $this->render('home/index.html.twig', ['reviews' => $reviews]);
     }
 
     #[Route('/gallery', name: 'app_gallery')]
