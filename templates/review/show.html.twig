@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commentaire
+{% endblock %}
+{%
+block body %}
+
+  <main class="py-5">
+    <section class="container-fluid">
+      <div class="container">
+        <div class="row justify-content-center">
+
+          <div class="col-12 col-md-10 col-lg-8">
+            <div class="card shadow-sm my-5">
+              <div class="card-header py-3">
+                <h1>Commentaire</h1>
+              </div>
+
+              <div class="card-body">
+                <!-- Quand -->
+                <div class="py-2 mb-3 border-bottom">
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Référence réservation :</strong>
+                    <span>{{ review.booking.id }}</span>
+                  </div>
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Chambre :</strong>
+                    <span>{{ review.booking.room.name }}</span>
+                  </div>
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Séjour :</strong>
+                    <span>
+                      {{ review.booking.startingDate ? review.booking.startingDate|date('d/m/Y') : '' }}
+                      -
+                      {{ review.booking.endingDate ? review.booking.endingDate|date('d/m/Y') : '' }}</span>
+                  </div>
+                </div>
+
+                <!-- Qui -->
+                <div class="py-2 mb-3 border-bottom">
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Prénom :</strong>
+                    <span>{{ review.booking.user.firstName }}</span>
+                  </div>
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Nom :</strong>
+                    <span>{{ review.booking.user.lastName }}</span>
+                  </div>
+                  {% if is_granted('ROLE_EMPLOYE') %}
+                    <div class="d-flex justify-content-md-end py-2">
+                      <a class="btn" target="_blank" href="{{ path('app_client_show', { id: review.booking.user.id }) }}">Voir client</a>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <!-- Quoi -->
+                <div class="py-2 mb-3 border-bottom">
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Note :</strong>
+                    <span>{{ review.rate }}/5</span>
+                  </div>
+                  <div class="d-flex py-2">
+                    <p>{{ review.comment }}</p>
+                  </div>
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Statut :</strong>
+                    <span>{{ review.status.value }}</span>
+                  </div>
+                  <div class="d-flex flex-column flex-md-row justify-content-md-between py-2">
+                    <strong>Date de création :</strong>
+                    <span>{{ review.createdAt ? review.createdAt|date('d/m/Y H:i:s') : '' }}</span>
+                  </div>
+                </div>
+              </div>
+
+              {% if review.status.value not in ['Confirme', 'Rejete'] %}
+                <div class="card-footer py-5">
+                  <div
+                    class="row justify-content-evenly"
+                  >
+                    <!-- Bouton modifier informations -->
+                    <div class="col-12 col-md-4">
+                      <div class="flex-fill">
+                        {{ include("review/_approuve_form.html.twig") }}
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="flex-fill">
+                        {{ include("review/_reject_form.html.twig") }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}
