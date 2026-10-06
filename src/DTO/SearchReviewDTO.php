@@ -12,7 +12,6 @@ class SearchReviewDTO
     public ?int $id = null;
     public ?int $rate = null;
     public ?Room $room = null;
-    public ?int $userId = null;
     public ?ReviewStatus $status = null;
     public ?DateTimeImmutable $createdAt = null;
 
@@ -32,11 +31,6 @@ class SearchReviewDTO
         return $this->room;
     }
 
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
 
     public function getStatus(): ?ReviewStatus
     {
