@@ -81,7 +81,47 @@ class GuestFixtures extends Fixture
                 'address' => '30 Wellington Square',
                 'city' => 'LONDON',
                 'zipCode' => '13000'
-            ]
+            ],
+            [
+                'number' => '7',
+                'lastName' => 'HUNT',
+                'firstName' => 'Ethan',
+                'email' => 'ethan.hunt@imf.gov',
+                'phone' => '0623456789',
+                'address' => '12 Rue de la Mission',
+                'city' => 'PARIS',
+                'zipCode' => '75008'
+            ],
+            [
+                'number' => '8',
+                'lastName' => 'CROFT',
+                'firstName' => 'Lara',
+                'email' => 'lara.croft@croftmanor.co.uk',
+                'phone' => '0634567890',
+                'address' => '5 Croft Manor Lane',
+                'city' => 'SURREY',
+                'zipCode' => '13100'
+            ],
+            [
+                'number' => '9',
+                'lastName' => 'WICK',
+                'firstName' => 'John',
+                'email' => 'john.wick@continental.com',
+                'phone' => '0678901234',
+                'address' => '14 Boulevard du Continental',
+                'city' => 'NICE',
+                'zipCode' => '06000'
+            ],
+            [
+                'number' => '10',
+                'lastName' => 'SPARROW',
+                'firstName' => 'Jack',
+                'email' => 'jack.sparrow@blackpearl.sea',
+                'phone' => '0690123456',
+                'address' => '3 Quai des Corsaires',
+                'city' => 'SAINT-MALO',
+                'zipCode' => '35400'
+            ],
         ];
 
         foreach ($clientData as $data) {
