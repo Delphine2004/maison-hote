@@ -24,7 +24,7 @@ final class ReviewController extends AbstractController
     #[Route('', name: 'app_review_index')]
     public function index(ReviewRepository $reviewRepository): Response
     {
-        $newReviews = $reviewRepository->findReviewsToApprouve();
+        $newReviews = $reviewRepository->findReviewsToApprove();
         return $this->render('review/index.html.twig', [
             'newReviews' => $newReviews,
         ]);
@@ -63,15 +63,15 @@ final class ReviewController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/approuve', name: 'app_review_approuve', methods: ['GET', 'POST'])]
-    public function approuve(
+    #[Route('/{id}/approve', name: 'app_review_approve', methods: ['GET', 'POST'])]
+    public function approve(
         Request $request,
         Review $review,
         EntityManagerInterface $entityManager
     ): Response {
 
         // Vérification que la requête est valide
-        if (!$this->isCsrfTokenValid('approuve' . $review->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('approve' . $review->getId(), $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 
@@ -106,7 +106,7 @@ final class ReviewController extends AbstractController
     ): Response {
 
         // Vérification que la requête est valide
-        if (!$this->isCsrfTokenValid('approuve' . $review->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('reject' . $review->getId(), $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 

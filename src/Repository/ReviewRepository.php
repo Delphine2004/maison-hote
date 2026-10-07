@@ -20,7 +20,7 @@ class ReviewRepository extends ServiceEntityRepository
         parent::__construct($registry, Review::class);
     }
 
-    public function findReviewsToApprouve(): array
+    public function findReviewsToApprove(): array
     {
         return $this->createQueryBuilder('re')
             ->where('re.status = :status')
