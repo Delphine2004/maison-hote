@@ -93,6 +93,7 @@ endblock %}
           </div>
           <!-- Carrousel des commentaires -->
           <div class="col-12 col-md-10">
+            <h5>Note moyenne : {{average|number_format(2, ',', ' ')}} /5 sur {{totalReviews}} commentaires</h5>
             <div id="carousel-reviews" class="carousel slide carousel-fade card">
               <div class="carousel-inner">
                 {% for review in reviews %}

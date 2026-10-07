@@ -23,8 +23,17 @@ class ReviewRepository extends ServiceEntityRepository
     public function findReviewsToApprouve(): array
     {
         return $this->createQueryBuilder('re')
-            ->andWhere('re.status = :status')
+            ->where('re.status = :status')
             ->setParameter('status', ReviewStatus::PENDING->value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findApprovedReviews(): array
+    {
+        return $this->createQueryBuilder('re')
+            ->where('re.status = :status')
+            ->setParameter('status', ReviewStatus::CONFIRMED->value)
             ->getQuery()
             ->getResult();
     }
@@ -77,5 +86,26 @@ class ReviewRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+
+    public function getTotalApprovedReviews(): int
+    {
+        return (int) $this->createQueryBuilder('re')
+            ->select('COUNT(re.id)')
+            ->where('re.status = :status')
+            ->setParameter('status', ReviewStatus::CONFIRMED->value)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getAverageRating(): float
+    {
+        return (float) $this->createQueryBuilder('re')
+            ->select('AVG(re.rate)')
+            ->where('re.status = :status')
+            ->setParameter('status', ReviewStatus::CONFIRMED->value)
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
     }
 }
