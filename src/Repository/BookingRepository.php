@@ -134,8 +134,10 @@ class BookingRepository extends ServiceEntityRepository
             ->leftJoin('b.room', 'r')->addSelect('r')
             ->andWhere('b.user = :userId')
             ->andWhere('b.endingDate >= :start')
+            ->andWhere('b.status = :status')
             ->setParameter('userId', $userId)
             ->setParameter('start', $start)
+            ->setParameter('status', BookingStatus::CONFIRMED->value)
             ->orderBy('b.startingDate', 'ASC')
             ->getQuery()
             ->getResult();
