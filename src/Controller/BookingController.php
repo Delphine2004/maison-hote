@@ -12,19 +12,17 @@ use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Form\SearchBookingType;
 
+use App\Service\EmailService;
 
 use App\Repository\BookingRepository;
 
 use DateTimeImmutable;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -151,8 +149,8 @@ final class BookingController extends AbstractController
         int $roomId,
         int $userId,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
-        SessionInterface $session
+        SessionInterface $session,
+        EmailService $emailService
     ): Response {
 
         $period = $session->get('period');
@@ -192,19 +190,9 @@ final class BookingController extends AbstractController
         // nettoyage session
         $session->remove('period');
 
-        // Envoi de l'email de confirmation
-        $email = (new TemplatedEmail())
-            ->from(new Address('dfumex2004@gmail.com', 'Les parenthèses dorées'))
-            ->to((string) $user->getEmail())
-            ->subject('Confirmation de réservation')
-            ->htmlTemplate('booking/email_confirmation.html.twig')
-            ->context([
-                'user' => $user,
-                'booking' => $booking
-            ]);
-
+        // Envoi de l'email de confirmation // à faire
         try {
-            $mailer->send($email);
+            $emailService->sendBookingConfirmation($user, $booking);
         } catch (\Exception $e) {
         }
         $this->addFlash('success', 'Réservation confirmée.');
@@ -219,8 +207,8 @@ final class BookingController extends AbstractController
         int $roomId,
         Request $request,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer,
-        SessionInterface $session
+        SessionInterface $session,
+        EmailService $emailService
     ): Response {
 
         // Récupération utilisateur connecté
@@ -268,9 +256,7 @@ final class BookingController extends AbstractController
             $booking->setStatus(BookingStatus::CONFIRMED);
             $booking->setStartingDate($period->getStartingDate());
             $booking->setEndingDate($period->getEndingDate());
-
             $booking->calculateTotalAmount();
-
 
             $entityManager->persist($booking);
             $entityManager->flush();
@@ -281,18 +267,8 @@ final class BookingController extends AbstractController
             $user = $booking->getUser();
 
             // Envoi de l'email de confirmation
-            $email = (new TemplatedEmail())
-                ->from(new Address('dfumex2004@gmail.com', 'Les parenthèses dorées'))
-                ->to((string) $user->getEmail())
-                ->subject('Confirmation de réservation')
-                ->htmlTemplate('booking/email_confirmation.html.twig')
-                ->context([
-                    'user' => $user,
-                    'booking' => $booking
-                ]);
-
             try {
-                $mailer->send($email);
+                $emailService->sendBookingConfirmation($user, $booking);
             } catch (\Exception $e) {
             }
             $this->addFlash('success', 'Réservation confirmée.');
@@ -373,8 +349,8 @@ final class BookingController extends AbstractController
     public function cancel(
         Request $request,
         Booking $booking,
-        MailerInterface $mailer,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        EmailService $emailService
     ): Response {
 
         // Vérification que la requête est valide
@@ -412,19 +388,9 @@ final class BookingController extends AbstractController
 
         $user = $booking->getUser();
 
-        // Envoi de l'email de confirmation
-        $email = (new TemplatedEmail())
-            ->from(new Address('dfumex2004@gmail.com', 'Les parenthèses dorées'))
-            ->to((string) $user->getEmail())
-            ->subject('Annulation de réservation')
-            ->htmlTemplate('booking/email_cancellation.html.twig')
-            ->context([
-                'user' => $user,
-                'booking' => $booking
-            ]);
-
+        // Envoi de l'email de confirmation d'annulation
         try {
-            $mailer->send($email);
+            $emailService->sendBookingCancellation($user, $booking);
         } catch (\Exception $e) {
         }
         $this->addFlash('success', 'Réservation annulée.');
