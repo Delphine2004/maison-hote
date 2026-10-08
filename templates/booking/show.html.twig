@@ -82,7 +82,7 @@ block body %}
 										</div>
 									{% endfor %}
 
-									{% if booking.status.value not in ['Annulee', 'Finalisee', 'Hors Service'] %}
+									{% if booking.status.value not in ['Annulee', 'Finalisee', 'Hors Service'] and is_granted('ROLE_EMPLOYE') %}
 										<div class="col-12 col-md-4">
 											<a class="btn w-100" href="{{path('app_booking_edit', { id: booking.id })}}">
 												Modifier les dates
