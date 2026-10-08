@@ -244,6 +244,11 @@ final class BookingController extends AbstractController
 
         // Création de l'objet réservation
         $booking = new Booking();
+        $booking->setRoom($room);
+        $booking->setUser($user);
+        $booking->setStatus(BookingStatus::CONFIRMED);
+        $booking->setStartingDate($period->getStartingDate());
+        $booking->setEndingDate($period->getEndingDate());
 
         // Traitement réservation
         $form = $this->createForm(BookingType::class, $booking, ['mode' => 'createBooking']);
@@ -251,11 +256,6 @@ final class BookingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $booking->setRoom($room);
-            $booking->setUser($user);
-            $booking->setStatus(BookingStatus::CONFIRMED);
-            $booking->setStartingDate($period->getStartingDate());
-            $booking->setEndingDate($period->getEndingDate());
             $booking->calculateTotalAmount();
 
             $entityManager->persist($booking);
@@ -324,7 +324,6 @@ final class BookingController extends AbstractController
                     new FormError('Impossible de modifier la date d\'arrivée avant aujourd\'hui.')
                 );
             } else {
-
                 // Calcule
                 $days = $startingDate->diff($endingDate)->days;
                 $totalPrice = $days * $pricePerDay;
