@@ -152,11 +152,14 @@ final class ClientController extends AbstractController
         BookingRepository $bookingRepository
     ): Response {
 
-        $bookings = $bookingRepository->findUpcomingBookingsByClient($user->getId());
+        $upcomingBookings = $bookingRepository->findUpcomingBookingsByClient($user->getId());
+        $bookingWithoutReviews = $bookingRepository->findBookingWithoutReviews();
+
 
         return $this->render('user/show_client.html.twig', [
             'user' => $user,
-            'bookings' => $bookings
+            'bookingWithoutReviews' => $bookingWithoutReviews,
+            'upcomingBookings' => $upcomingBookings
         ]);
     }
 
