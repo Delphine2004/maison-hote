@@ -153,7 +153,7 @@ final class ClientController extends AbstractController
     ): Response {
 
         $upcomingBookings = $bookingRepository->findUpcomingBookingsByClient($user->getId());
-        $bookingWithoutReviews = $bookingRepository->findBookingWithoutReviews();
+        $bookingWithoutReviews = $bookingRepository->findBookingWithoutReviewsByClient($user->getId());
 
 
         return $this->render('user/show_client.html.twig', [
