@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout commentaire
+{% endblock %}
+
+{% block body %}
+	<main class="py-5">
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<div class="card card-form shadow-sm justify-content-evenly p-4 my-5">
+							<h1>Evaluer votre séjour</h1>
+							{{ include('review/_form.html.twig') }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+{% endblock %}
