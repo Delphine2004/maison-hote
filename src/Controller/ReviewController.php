@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Review;
+use App\Entity\Booking;
+
 use App\Enum\UserRole;
 use App\Enum\ReviewStatus;
 use App\Form\SearchReviewType;
+use App\Form\ReviewType;
 use App\Repository\ReviewRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,11 +20,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/review')]
-#[IsGranted(UserRole::EMPLOYE->value)]
+
 final class ReviewController extends AbstractController
 {
 
     #[Route('', name: 'app_review_index')]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function index(ReviewRepository $reviewRepository): Response
     {
         $newReviews = $reviewRepository->findReviewsToApprove();
@@ -31,6 +35,7 @@ final class ReviewController extends AbstractController
     }
 
     #[Route('/search', name: 'app_search_review', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function search(
         Request $request,
         ReviewRepository $reviewRepository
@@ -54,7 +59,42 @@ final class ReviewController extends AbstractController
         ]);
     }
 
+    #[Route('/new/{bookingId}', name: 'app_review_new', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::CLIENT->value)]
+    public function new(
+        Request $request,
+        int $bookingId,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        // Récupération
+        $booking = $entityManager->getRepository(Booking::class)->find($bookingId);
+
+        $review = new Review();
+        $form = $this->createForm(ReviewType::class, $review);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $review->setBooking($booking);
+            $review->setStatus(ReviewStatus::PENDING);
+
+            $entityManager->persist($review);
+            $entityManager->flush();
+            $this->addFlash('success', 'Commentaire ajouté avec succés.');
+            return $this->redirectToRoute('app_client_show', ['id' => ($booking->getPassenger())->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('review/new.html.twig', [
+            'review' => $review,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
     #[Route('/{id}', name: 'app_review_show', methods: ['GET'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function show(
         Review $review
     ): Response {
@@ -64,6 +104,7 @@ final class ReviewController extends AbstractController
     }
 
     #[Route('/{id}/approve', name: 'app_review_approve', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function approve(
         Request $request,
         Review $review,
@@ -99,6 +140,7 @@ final class ReviewController extends AbstractController
     }
 
     #[Route('/{id}/reject', name: 'app_review_reject', methods: ['GET', 'POST'])]
+    #[IsGranted(UserRole::EMPLOYE->value)]
     public function rejecte(
         Request $request,
         Review $review,
