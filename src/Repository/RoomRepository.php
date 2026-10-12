@@ -27,6 +27,8 @@ class RoomRepository extends ServiceEntityRepository
 
     public function findRoomsByPeriod(
         ?SearchRoomDTO $criteria,
+        int $limit = 10,
+        string $orderBy = 'DESC'
     ): array {
 
         $bookingStatus = BookingStatus::CONFIRMED;
@@ -61,7 +63,8 @@ class RoomRepository extends ServiceEntityRepository
             ->setParameter('dateStart', $start)
             ->setParameter('dateEnd', $end)
             ->setParameter('statusBooking', $bookingStatus->value)
-
+            ->orderBy('b.id', $orderBy)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

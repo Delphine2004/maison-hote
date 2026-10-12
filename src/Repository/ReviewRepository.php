@@ -20,24 +20,31 @@ class ReviewRepository extends ServiceEntityRepository
         parent::__construct($registry, Review::class);
     }
 
-    public function findReviewsToApprove(): array
-    {
+    public function findReviewsToApprove(
+        int $limit = 10,
+        string $orderBy = 'DESC'
+    ): array {
         return $this->createQueryBuilder('re')
             ->where('re.status = :status')
             ->setParameter('status', ReviewStatus::PENDING->value)
+            ->orderBy('re.id', $orderBy)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
-    public function findApprovedReviews(): array
-    {
+    public function findApprovedReviews(
+        int $limit = 10,
+        string $orderBy = 'DESC'
+    ): array {
         return $this->createQueryBuilder('re')
             ->where('re.status = :status')
             ->setParameter('status', ReviewStatus::CONFIRMED->value)
+            ->orderBy('re.id', $orderBy)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
-
 
     public function findReviewByFilters(
         ?searchReviewDTO $criteria,
