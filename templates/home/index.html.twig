@@ -93,18 +93,18 @@ endblock %}
           </div>
           <!-- Carrousel des commentaires -->
           <div class="col-12 col-md-10">
-            <h5>Note moyenne : {{average|number_format(2, ',', ' ')}} /5 sur {{totalReviews}} commentaires</h5>
+            <p class="text-center">Note moyenne : {{ average|number_format(2, ',', ' ') }} /5 sur {{ totalReviews }} commentaires</p>
             <div id="carousel-reviews" class="carousel slide carousel-fade card">
               <div class="carousel-inner">
                 {% for review in reviews %}
-                  <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <div class="card mx-auto">
-                      <!-- A FAIRE -->
-                      <h4>Nom de la personne</h4>
-                      <h5>{{ review.booking.startingDate ? review.booking.startingDate|date('d/m/Y') : '' }}
+                  <div class="carousel-item {% if loop.first %}active{% endif %} p-2">
+                    <div class="d-flex flex-row justify-content-center gap-4 m-2">
+                      <h4>{{ review.booking.startingDate ? review.booking.startingDate|date('d/m/Y') : '' }}
                         -
-                        {{ review.booking.endingDate ? review.booking.endingDate|date('d/m/Y') : '' }}</h5>
-                      <h5>{{ review.booking.room.name }}</h5>
+                        {{ review.booking.endingDate ? review.booking.endingDate|date('d/m/Y') : '' }}</h4>
+                      <h4>{{ review.booking.room.name }}</h4>
+                    </div>
+                    <div class="d-flex flex-column align-items-center m-2">
                       <p>{{ review.rate }}/5</p>
                       <p>{{ review.comment }}</p>
                     </div>
