@@ -190,11 +190,9 @@ final class BookingController extends AbstractController
         // nettoyage session
         $session->remove('period');
 
-        // Envoi de l'email de confirmation // à faire
-        try {
-            $emailService->sendBookingConfirmation($user, $booking);
-        } catch (\Exception $e) {
-        }
+        // Envoi de l'email de confirmation
+        $emailService->sendBookingConfirmation($user, $booking);
+
         $this->addFlash('success', 'Réservation confirmée.');
         return $this->redirectToRoute('app_booking_show', [
             'id' => $booking->getId()
@@ -267,10 +265,8 @@ final class BookingController extends AbstractController
             $user = $booking->getUser();
 
             // Envoi de l'email de confirmation
-            try {
-                $emailService->sendBookingConfirmation($user, $booking);
-            } catch (\Exception $e) {
-            }
+            $emailService->sendBookingConfirmation($user, $booking);
+
             $this->addFlash('success', 'Réservation confirmée.');
             return $this->redirectToRoute('app_booking_show', [
                 'id' => $booking->getId()
@@ -388,10 +384,9 @@ final class BookingController extends AbstractController
         $user = $booking->getUser();
 
         // Envoi de l'email de confirmation d'annulation
-        try {
-            $emailService->sendBookingCancellation($user, $booking);
-        } catch (\Exception $e) {
-        }
+
+        $emailService->sendBookingCancellation($user, $booking);
+
         $this->addFlash('success', 'Réservation annulée.');
         return $this->redirectToRoute('app_booking_show', ['id' => $booking->getId()]);
     }
