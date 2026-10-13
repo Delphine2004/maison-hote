@@ -92,6 +92,11 @@ final class ClientController extends AbstractController
         }
 
 
+        $interval = $period->getStartingDate()->diff($period->getEndingDate());
+        $numberOfNights = $interval->days;
+        $total = $numberOfNights * $room->getRate();
+
+
         $form = $this->createForm(SearchClientType::class);
         $form->handleRequest($request);
 
@@ -111,7 +116,8 @@ final class ClientController extends AbstractController
             'form' => $form->createView(),
             'period' => $period,
             'room' => $room,
-            'users' => $users
+            'users' => $users,
+            'total' => $total
         ]);
     }
 
