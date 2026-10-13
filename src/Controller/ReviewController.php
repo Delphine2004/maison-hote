@@ -64,11 +64,24 @@ final class ReviewController extends AbstractController
     public function new(
         Request $request,
         int $bookingId,
+        ReviewRepository $reviewRepository,
         EntityManagerInterface $entityManager
     ): Response {
 
-        // Récupération
+        // Récupérer et vérifier si la réservation existe
         $booking = $entityManager->getRepository(Booking::class)->find($bookingId);
+
+        if (!$booking) {
+            throw $this->createNotFoundException('Réservation introuvable.');
+        }
+
+        // Vérifier si un avis existe DÉJÀ AVANT de traiter le formulaire
+        $existingReview = $reviewRepository->findOneBy(['booking' => $booking]);
+
+        if ($existingReview) {
+            $this->addFlash('error', 'Cette réservation a déjà été commentée.');
+            return $this->redirectToRoute('app_client_show', ['id' => ($booking->getPassenger())->getId()], Response::HTTP_SEE_OTHER);
+        }
 
         $review = new Review();
         $form = $this->createForm(ReviewType::class, $review);
@@ -76,12 +89,12 @@ final class ReviewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $review->setBooking($booking);
             $review->setStatus(ReviewStatus::PENDING);
 
             $entityManager->persist($review);
             $entityManager->flush();
+
             $this->addFlash('success', 'Commentaire ajouté avec succés.');
             return $this->redirectToRoute('app_client_show', ['id' => ($booking->getPassenger())->getId()], Response::HTTP_SEE_OTHER);
         }
