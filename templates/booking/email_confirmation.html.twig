@@ -7,9 +7,9 @@ Nous vous confirmons la réservation suivante:
 <br>
 Référence : {{ booking.id }}
 <br>
-Arrivée : {{ booking.startingDate }}
+Arrivée : {{ booking.startingDate ? booking.startingDate|date('d/m/Y') : '' }}
 <br>
-Départ : {{ booking.endingDate }}
+Départ : {{ booking.endingDate ? booking.endingDate|date('d/m/Y') : ''}}
 <br>
 Chambre : {{ booking.room.name }}
 </p>
