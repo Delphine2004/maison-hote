@@ -19,12 +19,6 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         $reviewData = [
 
             [
-                'rate'    => 5,
-                'comment' => 'Excellent séjour, la chambre était propre et très confortable. Je reviendrai avec plaisir.',
-                'status'  => ReviewStatus::CONFIRMED,
-                'booking' => $this->getReference('booking_1', Booking::class),
-            ],
-            [
                 'rate'    => 4,
                 'comment' => 'Très bon séjour. La chambre était agréable et le personnel très accueillant.',
                 'status'  => ReviewStatus::CONFIRMED,
