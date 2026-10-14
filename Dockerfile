@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gnupg \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Installer Node.js 18 (LTS)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+# Installer Node.js (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
 	apt-get install -y nodejs && \
 	rm -rf /var/lib/apt/lists/*
 
