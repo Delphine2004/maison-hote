@@ -19,7 +19,7 @@
 
 #### Langage & Framework
 
-- PHP 8
+- PHP 8.4
 - Symfony 7.4
 
 #### Gestion des données
@@ -46,7 +46,7 @@
 
 ### **Base de données**
 
-- **MySQL** : gestion des entités principales (utilisateurs, chambres, réservations, services).
+- **MySQL** : gestion des entités principales (utilisateurs, chambres, réservations, services et commentaires).
 
 ---
 
@@ -81,11 +81,13 @@
 - Réserver une chambre
 - Gérer ses réservations
 - Gérer ses informations
+- Commenter son séjour
 
 ### Employé
 
 - Gérer les clients
 - Gérer les réservations
+- Gérer les commentaires
 
 
 ### Administrateur
@@ -177,7 +179,6 @@ Après exécution des fixtures, les comptes suivants sont disponibles :
 ## 8. Améliorations futures
 
 - Amélioration de l’expérience utilisateur avec Symfony UX (interactions dynamiques sans rechargement de page)
-- Mise en place d’un système d’avis clients
 - Tableau de bord statistiques
 
 
