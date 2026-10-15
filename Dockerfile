@@ -1,17 +1,15 @@
 #syntax=docker/dockerfile:1
 
 # Versions
-FROM dunglas/frankenphp:1-php8.4 AS frankenphp_upstream
+FROM dunglas/frankenphp:1.12.0-php8.5 AS frankenphp_upstream
 
 # Base FrankenPHP image
 FROM frankenphp_upstream AS frankenphp_base
 
 WORKDIR /app
-
 VOLUME /app/var/
 
-# persistent / runtime deps
-# hadolint ignore=DL3008
+# Persistent / runtime deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	file \
 	git \
@@ -20,12 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gnupg \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Installer Node.js (LTS)
-RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
-	apt-get install -y nodejs && \
-	rm -rf /var/lib/apt/lists/*
-
-# Installer PHP
+# Installer les extensions PHP et Composer en une seule étape
 RUN set -eux; \
 	install-php-extensions \
 	@composer \
