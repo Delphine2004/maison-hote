@@ -264,24 +264,4 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
-    public function sumTotalAmountByCreationPeriod(
-        DateTimeImmutable $start,
-        DateTimeImmutable $end,
-        BookingStatus $status
-    ): float {
-        $startFormatted =  $start->setTime(0, 0, 0);
-        $endFormatted = $end->setTime(23, 59, 59);
-
-        return (float) $this->createQueryBuilder('b')
-            ->select('SUM(b.totalAmount)')
-            ->andWhere('b.createdAt BETWEEN :start AND :end')
-            ->andWhere('b.status = :status')
-            ->setParameter('start', $startFormatted)
-            ->setParameter('end', $endFormatted)
-            ->setParameter('status', $status->value)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
 }
