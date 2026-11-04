@@ -64,7 +64,7 @@ class BookingRepository extends ServiceEntityRepository
             $date = $criteria->getStartingDate();
 
             $start = (clone $date)->setTime(0, 0, 0);
-            $end   = (clone $date)->setTime(23, 59, 59);
+            $end = (clone $date)->setTime(23, 59, 59);
 
             $qb->andWhere('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
                 ->setParameter('startDateStart', $start)
@@ -75,7 +75,7 @@ class BookingRepository extends ServiceEntityRepository
             $date = $criteria->getEndingDate();
 
             $start = (clone $date)->setTime(0, 0, 0);
-            $end   = (clone $date)->setTime(23, 59, 59);
+            $end = (clone $date)->setTime(23, 59, 59);
 
             $qb->andWhere('b.endingDate BETWEEN :endDateStart AND :endDateEnd')
                 ->setParameter('endDateStart', $start)
@@ -86,14 +86,14 @@ class BookingRepository extends ServiceEntityRepository
             $date = $criteria->getCreatedAt();
 
             $start = (clone $date)->setTime(0, 0, 0);
-            $end   = (clone $date)->setTime(23, 59, 59);
+            $end = (clone $date)->setTime(23, 59, 59);
 
             $qb->andWhere('b.createdAt BETWEEN :createdAtStart AND :createdAtEnd')
                 ->setParameter('createdAtStart', $start)
                 ->setParameter('createdAtEnd', $end);
         }
 
-        return $qb->orderBy('b.id',  $orderBy)
+        return $qb->orderBy('b.id', $orderBy)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -205,13 +205,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Permet de récupérer la liste des résevation du jour
-     *
-     * @param integer $limit
-     * @param string $orderBy
-     * @return array
-     */
+    // à supprimer pour utiliser findBookingByFilter
     public function findTodayBookings(
         int $limit = 10,
         string $orderBy = 'DESC'
@@ -229,12 +223,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Permet de récupérer la liste de client présent
-     *
-     * @param string $orderBy
-     * @return array
-     */
+    // à supprimer pour utiliser findBookingByFilter
     public function findInHouse(
         string $orderBy = 'DESC'
     ): array {
@@ -248,13 +237,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Permet de récupérer la liste des départs du jours
-     *
-     * @param DateTimeImmutable $day
-     * @param string $orderBy
-     * @return array
-     */
+    // à supprimer pour utiliser findBookingByFilter
     public function findCheckOutsForDay(
         DateTimeImmutable $day,
         string $orderBy = 'DESC'
@@ -275,13 +258,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Permet de récupérer la liste des arrivée du jour
-     *
-     * @param DateTimeImmutable $day
-     * @param string $orderBy
-     * @return array
-     */
+    // à supprimer pour utiliser findBookingByFilter
     public function findCheckInsForDay(
         DateTimeImmutable $day,
         string $orderBy = 'DESC'
@@ -302,12 +279,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Permet de récupérer la liste des chambres hors service
-     *
-     * @param string $orderBy
-     * @return array
-     */
+    // à supprimer pour utiliser findBookingByFilter
     public function findOutOfOrder(
         string $orderBy = 'DESC'
     ): array {
@@ -341,5 +313,35 @@ class BookingRepository extends ServiceEntityRepository
             ->orderBy('b.id', $orderBy)
             ->getQuery()
             ->getResult();
+    }
+
+    // Ajouter : 
+
+    // Nombre de chambre avec réservation par période
+    // ca total par période (réservation confirmée et finalisée)
+    // Nombre de nuit par période
+    // nombre de réservation par période
+
+
+
+
+    // à modifier pour toutes dates 
+    public function sumTotalAmountByCreationPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end,
+        BookingStatus $status
+    ): float {
+        $startFormatted =  $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (float) $this->createQueryBuilder('b')
+            ->select('SUM(b.totalAmount)')
+            ->where('b.createdAt BETWEEN :start AND :end')
+            ->andWhere('b.status = :status')
+            ->setParameter('start', $startFormatted)
+            ->setParameter('end', $endFormatted)
+            ->setParameter('status', $status->value)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
