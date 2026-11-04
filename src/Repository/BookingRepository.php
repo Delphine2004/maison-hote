@@ -23,6 +23,14 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
+    /**
+     * Permet de trouver une ou plusieurs réservation en fonction d'un ou plusieurs critéres
+     *
+     * @param SearchBookingDTO|null $criteria
+     * @param integer $limit
+     * @param string $orderBy
+     * @return array
+     */
     public function findBookingsByFilters(
         ?SearchBookingDTO $criteria,
         int $limit = 10,
@@ -91,6 +99,12 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de vérifier si le client a une réservation en cours
+     *
+     * @param User $user
+     * @return boolean
+     */
     public function hasCurrentReservation(User $user): bool
     {
         $now = new DateTimeImmutable();
@@ -107,6 +121,14 @@ class BookingRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Permet de vérifier si la chambre n'est pas déjà réservée sur une période donnée
+     *
+     * @param Room $room
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return array
+     */
     public function findOverlappingBookings(
         Room $room,
         DateTimeImmutable $start,
@@ -123,6 +145,14 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer toutes les résevations confirmées à venir d'un client
+     *
+     * @param integer $userId
+     * @param integer $limit
+     * @param string $orderBy
+     * @return array
+     */
     public function findUpcomingBookingsByClient(
         int $userId,
         int $limit = 10,
@@ -146,6 +176,14 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer toutes les réservations dans le passé d'un client
+     *
+     * @param integer $userId
+     * @param integer $limit
+     * @param string $orderBy
+     * @return array
+     */
     public function findPastBookingsByClient(
         int $userId,
         int $limit = 10,
@@ -167,6 +205,13 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer la liste des résevation du jour
+     *
+     * @param integer $limit
+     * @param string $orderBy
+     * @return array
+     */
     public function findTodayBookings(
         int $limit = 10,
         string $orderBy = 'DESC'
@@ -176,7 +221,7 @@ class BookingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->leftJoin('b.user', 'u')->addSelect('u')
             ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.startingDate >= :today')
+            ->where('b.createdAt >= :today')
             ->setParameter('today', $today)
             ->orderBy('b.id', $orderBy)
             ->setMaxResults($limit)
@@ -184,6 +229,12 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer la liste de client présent
+     *
+     * @param string $orderBy
+     * @return array
+     */
     public function findInHouse(
         string $orderBy = 'DESC'
     ): array {
@@ -197,6 +248,13 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer la liste des départs du jours
+     *
+     * @param DateTimeImmutable $day
+     * @param string $orderBy
+     * @return array
+     */
     public function findCheckOutsForDay(
         DateTimeImmutable $day,
         string $orderBy = 'DESC'
@@ -217,6 +275,13 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer la liste des arrivée du jour
+     *
+     * @param DateTimeImmutable $day
+     * @param string $orderBy
+     * @return array
+     */
     public function findCheckInsForDay(
         DateTimeImmutable $day,
         string $orderBy = 'DESC'
@@ -237,6 +302,12 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer la liste des chambres hors service
+     *
+     * @param string $orderBy
+     * @return array
+     */
     public function findOutOfOrder(
         string $orderBy = 'DESC'
     ): array {
@@ -249,6 +320,13 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet de récupérer les réservations finalisées sans commentaire client
+     *
+     * @param integer $userId
+     * @param string $orderBy
+     * @return array
+     */
     public function findBookingWithoutReviewsByClient(
         int $userId,
         string $orderBy = 'DESC'
