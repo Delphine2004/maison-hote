@@ -11,6 +11,7 @@ use App\DTO\SearchBookingDTO;
 use App\Form\BookingType;
 use App\Form\SearchBookingType;
 use App\Service\EmailService;
+use App\Service\StatisticService;
 use App\Repository\BookingRepository;
 
 use DateTimeImmutable;
@@ -284,9 +285,17 @@ final class BookingController extends AbstractController
 
     #[Route('/statistics', name: 'app_booking_statistics')]
     #[IsGranted(UserRole::EMPLOYE->value)]
-    public function renderStats(): Response
-    {
-        return $this->render('booking/statistics.html.twig');
+    public function renderStats(
+        StatisticService $statisticService
+    ): Response {
+
+        $today = new DateTimeImmutable('today');
+
+        $occupencyRate = $statisticService->getOR($today, $today);
+
+        return $this->render('booking/statistics.html.twig', [
+            'occupencyRate' => $occupencyRate
+        ]);
     }
 
     #[Route('/{id}', name: 'app_booking_show', methods: ['GET'])]

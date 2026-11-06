@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Repository\BookingRepository;
 use App\Repository\RoomRepository;
 
+use DateTimeImmutable;
 use Exception;
 
 
@@ -17,47 +18,34 @@ final class StatisticService
     ) {}
 
 
-    // TO = (total chambres occupées / total chambre dispo) x 100 - A TESTER
-    /* public function getTOFByPeriod(
+    // TO = (total chambres occupées / total chambre dispo(bloquée ou non???)) x 100 - A TESTER
+    public function getOR(
         DateTimeImmutable $startDate,
         DateTimeImmutable $endDate
     ): float {
 
         // Obtenir le nombre total de chambre
-        $totalRooms = (int) $this->getEntityManager()
-            ->createQuery('SELECT COUNT(r.id) FROM App\Entity\Room r')
-            ->getSingleScalarResult();
+        $totalRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
 
         // Calculer la période - nombre de nuit selectionné
-        $start = (clone $startDate)->setTime(0, 0, 0);
-        $end = (clone $endDate)->setTime(23, 59, 59);
-
-        $interval = $start->diff($end);
+        $interval = $startDate->diff($endDate);
         $numberOfDays = $interval->days ?: 1;
         $totalAvailableRoomNights = $totalRooms * $numberOfDays;
 
-        // Compter le nombre de chambres occupées (nuits réservées) sur la période
-        $qb = $this->createQueryBuilder('b')
-            ->select('SUM(DATE_DIFF(b.endingDate, B.startingDate))')
-            ->where('b.startingDate < :end')
-            ->andWhere('b.endingDate > :start')
-            ->andWhere('b.status != :status')
-            ->setParameter('start', $start)
-            ->setParameter('end', $end)
-            ->setParameter('status', BookingStatus::CANCELLED->value);
-
-        $occupiedRoomNights = (int) $qb->getQuery()->getSingleScalarResult();
+        // Récupérer le nombre de chambre occupée
+        $occupiedRoomNights = $this->bookingRepository->sumRoomWithBookingByPeriod($startDate, $endDate);
 
         // Calcul du pourcentage
         $occupancyRate = ($occupiedRoomNights / $totalAvailableRoomNights) * 100;
+
         return round($occupancyRate, 2);
-    }*/
+    }
 
     // Le Prix Moyen (ou ARR / ADR) = CA / total chambres occupées
 
 
 
-    // Le RevPAR (Revenue Per Available Room) = ca / total chambre dispo
+    // Le RevPAR (Revenue Per Available Room) = ca / total chambre dispo (bloquée ou non???)
 
 
     // La Durée Moyenne de Séjour (DMS) = nb de nuitées / nb total de réservation
