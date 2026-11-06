@@ -205,93 +205,6 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // à supprimer pour utiliser findBookingByFilter
-    public function findTodayBookings(
-        int $limit = 10,
-        string $orderBy = 'DESC'
-    ): array {
-        $today = new DateTimeImmutable('today');
-
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.user', 'u')->addSelect('u')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.createdAt >= :today')
-            ->setParameter('today', $today)
-            ->orderBy('b.id', $orderBy)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
-    }
-
-    // à supprimer pour utiliser findBookingByFilter
-    public function findInHouse(
-        string $orderBy = 'DESC'
-    ): array {
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.user', 'u')->addSelect('u')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.status = :status')
-            ->setParameter('status', BookingStatus::IN->value)
-            ->orderBy('b.id', $orderBy)
-            ->getQuery()
-            ->getResult();
-    }
-
-    // à supprimer pour utiliser findBookingByFilter
-    public function findCheckOutsForDay(
-        DateTimeImmutable $day,
-        string $orderBy = 'DESC'
-    ): array {
-        $start = $day->setTime(0, 0, 0);
-        $end   = $day->setTime(23, 59, 59);
-
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.user', 'u')->addSelect('u')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.status = :status')
-            ->andWhere('b.endingDate BETWEEN :start AND :end')
-            ->setParameter('status', BookingStatus::IN->value)
-            ->setParameter('start', $start)
-            ->setParameter('end', $end)
-            ->orderBy('b.id', $orderBy)
-            ->getQuery()
-            ->getResult();
-    }
-
-    // à supprimer pour utiliser findBookingByFilter
-    public function findCheckInsForDay(
-        DateTimeImmutable $day,
-        string $orderBy = 'DESC'
-    ): array {
-        $start = $day->setTime(0, 0, 0);
-        $end   = $day->setTime(23, 59, 59);
-
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.user', 'u')->addSelect('u')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.status = :status')
-            ->andWhere('b.startingDate BETWEEN :start AND :end')
-            ->setParameter('status', BookingStatus::CONFIRMED->value)
-            ->setParameter('start', $start)
-            ->setParameter('end', $end)
-            ->orderBy('b.id', $orderBy)
-            ->getQuery()
-            ->getResult();
-    }
-
-    // à supprimer pour utiliser findBookingByFilter
-    public function findOutOfOrder(
-        string $orderBy = 'DESC'
-    ): array {
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.room', 'r')->addSelect('r')
-            ->where('b.status = :status')
-            ->setParameter('status', BookingStatus::OUTOFORDER->value)
-            ->orderBy('b.id', $orderBy)
-            ->getQuery()
-            ->getResult();
-    }
-
     /**
      * Permet de récupérer les réservations finalisées sans commentaire client
      *
@@ -315,12 +228,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Ajouter : 
 
-    // Nombre de chambre avec réservation par période
-    // ca total par période (réservation confirmée et finalisée)
-    // Nombre de nuit par période
-    // nombre de réservation par période
 
 
 

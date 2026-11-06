@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Enum\UserRole;
+use App\Enum\BookingStatus;
+use App\DTO\SearchBookingDTO;
 use App\Form\UserType;
 use App\Repository\BookingRepository;
 
@@ -26,16 +28,20 @@ final class UserController extends AbstractController
         BookingRepository $bookingRepository
     ): Response {
 
-        // Récupération des séjours en cours
-        $booking =  $bookingRepository->findInHouse();
-
         $today = new DateTimeImmutable('today');
 
+        $dtoInHouse = new SearchBookingDTO(status: BookingStatus::IN);
+        $dtoCheckOut = new SearchBookingDTO(status: BookingStatus::CONFIRMED, endingDate: $today);
+        $dtoCheckIn = new SearchBookingDTO(status: BookingStatus::CONFIRMED, startingDate: $today);
+
+        // Récupération des séjours en cours
+        $booking = $bookingRepository->findBookingsByFilters($dtoInHouse);
+
         // Récupération des départs
-        $checkOut = $bookingRepository->findCheckOutsForDay($today);
+        $checkOut = $bookingRepository->findBookingsByFilters($dtoCheckOut);
 
         // Récupération des arrivées
-        $checkIn = $bookingRepository->findCheckInsForDay($today);
+        $checkIn = $bookingRepository->findBookingsByFilters($dtoCheckIn);
 
         return $this->render('booking/dashboard.html.twig', [
             'bookings' => $booking,

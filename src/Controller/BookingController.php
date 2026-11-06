@@ -5,15 +5,12 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Room;
 use App\Entity\User;
-
 use App\Enum\UserRole;
 use App\Enum\BookingStatus;
-
+use App\DTO\SearchBookingDTO;
 use App\Form\BookingType;
 use App\Form\SearchBookingType;
-
 use App\Service\EmailService;
-
 use App\Repository\BookingRepository;
 
 use DateTimeImmutable;
@@ -37,8 +34,11 @@ final class BookingController extends AbstractController
     public function index(
         BookingRepository $bookingRepository
     ): Response {
+        $createdAt = new DateTimeImmutable('today');
+        $dto = new SearchBookingDTO(createdAt: $createdAt);
+
         return $this->render('booking/index.html.twig', [
-            'todayBookings' => $bookingRepository->findTodayBookings()
+            'todayBookings' => $bookingRepository->findBookingsByFilters($dto)
         ]);
     }
 
@@ -47,8 +47,11 @@ final class BookingController extends AbstractController
     public function renderBlockedList(
         BookingRepository $bookingRepository
     ): Response {
+        $status = BookingStatus::OUTOFORDER;
+        $dto = new SearchBookingDTO(status: $status);
+
         return $this->render('booking/blocked_list.html.twig', [
-            'outOfOrders' => $bookingRepository->findOutOfOrder()
+            'outOfOrders' => $bookingRepository->findBookingsByFilters($dto)
         ]);
     }
 
