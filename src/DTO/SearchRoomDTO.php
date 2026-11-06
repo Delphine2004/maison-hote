@@ -8,8 +8,10 @@ use DateTimeImmutable;
 
 class SearchRoomDTO
 {
-    public ?DateTimeImmutable $startingDate = null;
-    public ?DateTimeImmutable $endingDate = null;
+    public function __construct(
+        public ?DateTimeImmutable $startingDate = null,
+        public ?DateTimeImmutable $endingDate = null,
+    ) {}
 
     public function getStartingDate(): ?DateTimeImmutable
     {

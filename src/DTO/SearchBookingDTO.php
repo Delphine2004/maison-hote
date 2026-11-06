@@ -8,13 +8,15 @@ use DateTimeImmutable;
 
 class SearchBookingDTO
 {
+    public function __construct(
+        public ?int $id = null,
+        public ?string $lastName = null,
+        public ?BookingStatus $status = null,
+        public ?DateTimeImmutable $startingDate = null,
+        public ?DateTimeImmutable $endingDate = null,
+        public ?DateTimeImmutable $createdAt = null,
+    ) {}
 
-    public ?int $id = null;
-    public ?string $lastName = null;
-    public ?BookingStatus $status = null;
-    public ?DateTimeImmutable $startingDate = null;
-    public ?DateTimeImmutable $endingDate = null;
-    public ?DateTimeImmutable $createdAt = null;
 
     public function getBookingId(): ?int
     {

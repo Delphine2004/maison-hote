@@ -8,13 +8,13 @@ use DateTimeImmutable;
 
 class SearchReviewDTO
 {
-
-    public ?int $id = null;
-    public ?int $rate = null;
-    public ?Room $room = null;
-    public ?ReviewStatus $status = null;
-    public ?DateTimeImmutable $createdAt = null;
-
+    public function __construct(
+        public ?int $id = null,
+        public ?int $rate = null,
+        public ?Room $room = null,
+        public ?ReviewStatus $status = null,
+        public ?DateTimeImmutable $createdAt = null,
+    ) {}
 
     public function getReviewId(): ?int
     {
