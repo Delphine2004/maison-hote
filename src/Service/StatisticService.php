@@ -18,7 +18,7 @@ final class StatisticService
     ) {}
 
 
-    // TO = (total chambres occupées / total chambre dispo(bloquée ou non???)) x 100 - A TESTER
+    // TO = (total chambres occupées / total chambre dispo) x 100 - A TESTER
     public function getOR(
         DateTimeImmutable $startDate,
         DateTimeImmutable $endDate
@@ -49,15 +49,28 @@ final class StatisticService
         // obtenir le CA
         $ca = $this->bookingRepository->sumSalesRevenueByPeriod($startDate, $endDate);
 
-        // Obtenir le nombre total de chambre
-        $totalRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
+        // Obtenir le nombre total de chambre occupées
+        $totalOccupiedRooms = $this->bookingRepository->sumRoomWithBookingByPeriod($startDate, $endDate);
 
         //calcul
-        return round($ca / $totalRooms);
+        return round($ca / $totalOccupiedRooms);
     }
 
 
-    // Le RevPAR (Revenue Per Available Room) = ca / total chambre dispo (bloquée ou non???)
+    // Le RevPAR (Revenue Per Available Room) = ca / total chambre dispo
+    public function getREVPAR(
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate
+    ): float {
+        // obtenir le CA
+        $ca = $this->bookingRepository->sumSalesRevenueByPeriod($startDate, $endDate);
+
+        // Obtenir le nombre total de chambre
+        $totalAvailableRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
+
+        //calcul
+        return round($ca / $totalAvailableRooms);
+    }
 
 
     // La Durée Moyenne de Séjour (DMS) = nb de nuitées / nb total de réservation
