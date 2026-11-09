@@ -42,7 +42,19 @@ final class StatisticService
     }
 
     // Le Prix Moyen (ou ARR / ADR) = CA / total chambres occupées
+    public function getARR(
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate
+    ): float {
+        // obtenir le CA
+        $ca = $this->bookingRepository->sumSalesRevenueByPeriod($startDate, $endDate);
 
+        // Obtenir le nombre total de chambre
+        $totalRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
+
+        //calcul
+        return round($ca / $totalRooms);
+    }
 
 
     // Le RevPAR (Revenue Per Available Room) = ca / total chambre dispo (bloquée ou non???)
