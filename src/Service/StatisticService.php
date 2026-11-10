@@ -25,7 +25,7 @@ final class StatisticService
     ): float {
 
         // Obtenir le nombre total de chambre
-        $totalRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
+        $totalRooms = $this->roomRepository->countAvailableRoomsByPeriod($startDate, $endDate);
 
         // Calculer la période - nombre de nuit selectionné
         $interval = $startDate->diff($endDate);
@@ -33,7 +33,7 @@ final class StatisticService
         $totalAvailableRoomNights = $totalRooms * $numberOfDays;
 
         // Récupérer le nombre de chambre occupée
-        $occupiedRoomNights = $this->bookingRepository->sumRoomWithBookingByPeriod($startDate, $endDate);
+        $occupiedRoomNights = $this->bookingRepository->countRoomWithBookingByPeriod($startDate, $endDate);
 
         // Calcul du pourcentage
         $occupancyRate = ($occupiedRoomNights / $totalAvailableRoomNights) * 100;
@@ -50,7 +50,7 @@ final class StatisticService
         $ca = $this->bookingRepository->sumSalesRevenueByPeriod($startDate, $endDate);
 
         // Obtenir le nombre total de chambre occupées
-        $totalOccupiedRooms = $this->bookingRepository->sumRoomWithBookingByPeriod($startDate, $endDate);
+        $totalOccupiedRooms = $this->bookingRepository->countRoomWithBookingByPeriod($startDate, $endDate);
 
         //calcul
         return round($ca / $totalOccupiedRooms);
@@ -66,7 +66,7 @@ final class StatisticService
         $ca = $this->bookingRepository->sumSalesRevenueByPeriod($startDate, $endDate);
 
         // Obtenir le nombre total de chambre
-        $totalAvailableRooms = $this->bookingRepository->sumAvailableRoomsByPeriod($startDate, $endDate);
+        $totalAvailableRooms = $this->roomRepository->countAvailableRoomsByPeriod($startDate, $endDate);
 
         //calcul
         return round($ca / $totalAvailableRooms);
@@ -74,6 +74,17 @@ final class StatisticService
 
 
     // La Durée Moyenne de Séjour (DMS) = nb de nuitées / nb total de réservation
+    public function getAverageStay(
+        DateTimeImmutable $startDate,
+        DateTimeImmutable $endDate
+    ): int {
+        // obtenir le nombre de nuitée réservée
+        $totalBookedNights = $this->bookingRepository->sumNumberOfNightByPeriod($startDate, $endDate);
 
+        // obtenir le nombre total de réservation
+        $totalBookings = $this->bookingRepository->sumNumberOfBookingByPeriod($startDate, $endDate);
 
+        // calcul
+        return round($totalBookedNights / $totalBookings);
+    }
 }
