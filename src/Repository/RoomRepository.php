@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Room;
 use App\DTO\SearchRoomDTO;
 use App\Enum\BookingStatus;
+
+use DateTimeImmutable;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -67,5 +70,37 @@ class RoomRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Permet d'obtenir le nombre de chambre dispo par période
+     *
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return integer
+     */
+    public function countAvailableRoomsByPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): int {
+        $startFormatted = $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (int) $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            // On fait une jointure conditionnelle avec les réservations "OUTOFORDER" qui chevauchent la période
+            ->leftJoin(
+                'r.bookings',
+                'b',
+                'WITH',
+                'b.startingDate <= :endDate AND b.endingDate >= :startDate AND b.status = :status'
+            )
+            // On ne garde que les chambres qui N'ONT PAS trouvé de réservation HS correspondante
+            ->where('b.id IS NULL')
+            ->setParameter('startDate', $startFormatted)
+            ->setParameter('endDate', $endFormatted)
+            ->setParameter('status', BookingStatus::OUTOFORDER->value)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
