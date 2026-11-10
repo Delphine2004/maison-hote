@@ -229,6 +229,111 @@ class BookingRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * Permet d'obtenir le nombre de chambre avec réservation par période 
+     *
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return integer
+     */
+    public function countRoomWithBookingByPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): int {
+
+        $startFormatted = $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (int) $this->createQueryBuilder('b')
+            ->select('COUNT(b.room)')
+            ->leftJoin('b.room', 'r')
+
+            ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
+            ->andWhere('b.status IN (:statuses)')
+            ->setParameter('startDateStart', $startFormatted)
+            ->setParameter('startDateEnd', $endFormatted)
+            ->setParameter('statuses', [BookingStatus::CONFIRMED->value, BookingStatus::IN->value, BookingStatus::FINALIZED->value])
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
+
+    // - A TESTER
+    /**
+     * Permet d'obtenir le CA par période
+     *
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return float
+     */
+    public function sumSalesRevenueByPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): float {
+        $startFormatted = $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (float) $this->createQueryBuilder('b')
+            ->select('SUM(b.totalAmountCents)')
+            ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
+            ->andWhere('b.status IN (:statuses)')
+            ->setParameter('startDateStart', $startFormatted)
+            ->setParameter('startDateEnd', $endFormatted)
+            ->setParameter('statuses', [BookingStatus::CONFIRMED->value, BookingStatus::IN->value, BookingStatus::FINALIZED->value])
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
+
+    // A TESTER
+    /**
+     * Permet d'obtenir le nombre de nuit par période
+     *
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return integer
+     */
+    public function sumNumberOfNightByPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): int {
+        $startFormatted =  $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (int) $this->createQueryBuilder('b')
+            ->select('SUM(DATE_DIFF(:startDateEnd, :startDateStart)) AS nights')
+            ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
+            ->andWhere('b.status != :status')
+            ->setParameter('startDateStart', $startFormatted)
+            ->setParameter('startDateEnd', $endFormatted)
+            ->setParameter('status', BookingStatus::OUTOFORDER->value)
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
+
+    // A TESTER
+    /**
+     * Permet d'obtenir le nombre de réservation par période
+     *
+     * @param DateTimeImmutable $start
+     * @param DateTimeImmutable $end
+     * @return integer
+     */
+    public function sumNumberOfBookingByPeriod(
+        DateTimeImmutable $start,
+        DateTimeImmutable $end
+    ): int {
+        $startFormatted =  $start->setTime(0, 0, 0);
+        $endFormatted = $end->setTime(23, 59, 59);
+
+        return (int) $this->createQueryBuilder('b')
+            ->select('SUM(b.room)')
+            ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
+            ->andWhere('b.status IN (:statuses)')
+            ->setParameter('startDateStart', $startFormatted)
+            ->setParameter('startDateEnd', $endFormatted)
+            ->setParameter('statuses', [BookingStatus::CONFIRMED->value, BookingStatus::IN->value, BookingStatus::FINALIZED->value])
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
 
 
 
@@ -253,3 +358,6 @@ class BookingRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 }
+
+
+$today = new DateTimeImmutable('today');
