@@ -10,9 +10,7 @@ class SearchStatisticDTO
     public function __construct(
         public ?DateTimeImmutable $startingDate = null,
         public ?DateTimeImmutable $endingDate = null,
-    ) {
-        throw new \Exception('Not implemented');
-    }
+    ) {}
 
     public function getStartingDate(): ?DateTimeImmutable
     {
