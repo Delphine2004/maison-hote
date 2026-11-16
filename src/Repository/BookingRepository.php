@@ -257,7 +257,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getSingleScalarResult() ?? 0;
     }
 
-    // - A TESTER
+
     /**
      * Permet d'obtenir le CA par période
      *
@@ -283,7 +283,7 @@ class BookingRepository extends ServiceEntityRepository
             ->getSingleScalarResult() ?? 0;
     }
 
-    // A TESTER
+
     /**
      * Permet d'obtenir le nombre de nuit par période
      *
@@ -295,21 +295,25 @@ class BookingRepository extends ServiceEntityRepository
         DateTimeImmutable $start,
         DateTimeImmutable $end
     ): int {
-        $startFormatted =  $start->setTime(0, 0, 0);
+        $startFormatted = $start->setTime(0, 0, 0);
         $endFormatted = $end->setTime(23, 59, 59);
 
         return (int) $this->createQueryBuilder('b')
-            ->select('SUM(DATE_DIFF(:startDateEnd, :startDateStart)) AS nights')
+            ->select('SUM(DATE_DIFF(b.endingDate, b.startingDate)) AS nights')
             ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
-            ->andWhere('b.status != :status')
+            ->andWhere('b.status IN (:statuses)')
             ->setParameter('startDateStart', $startFormatted)
             ->setParameter('startDateEnd', $endFormatted)
-            ->setParameter('status', BookingStatus::OUTOFORDER->value)
+            ->setParameter('statuses', [
+                BookingStatus::CONFIRMED->value,
+                BookingStatus::IN->value,
+                BookingStatus::FINALIZED->value
+            ])
             ->getQuery()
             ->getSingleScalarResult() ?? 0;
     }
 
-    // A TESTER
+
     /**
      * Permet d'obtenir le nombre de réservation par période
      *
@@ -321,16 +325,20 @@ class BookingRepository extends ServiceEntityRepository
         DateTimeImmutable $start,
         DateTimeImmutable $end
     ): int {
-        $startFormatted =  $start->setTime(0, 0, 0);
+        $startFormatted = $start->setTime(0, 0, 0);
         $endFormatted = $end->setTime(23, 59, 59);
 
         return (int) $this->createQueryBuilder('b')
-            ->select('SUM(b.room)')
+            ->select('COUNT(b.id)') // CORRECTION : On compte le nombre de réservations (ou COUNT(b.id))
             ->where('b.startingDate BETWEEN :startDateStart AND :startDateEnd')
             ->andWhere('b.status IN (:statuses)')
             ->setParameter('startDateStart', $startFormatted)
             ->setParameter('startDateEnd', $endFormatted)
-            ->setParameter('statuses', [BookingStatus::CONFIRMED->value, BookingStatus::IN->value, BookingStatus::FINALIZED->value])
+            ->setParameter('statuses', [
+                BookingStatus::CONFIRMED->value,
+                BookingStatus::IN->value,
+                BookingStatus::FINALIZED->value
+            ])
             ->getQuery()
             ->getSingleScalarResult() ?? 0;
     }
