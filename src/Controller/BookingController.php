@@ -10,6 +10,7 @@ use App\Enum\BookingStatus;
 use App\DTO\SearchBookingDTO;
 use App\Form\BookingType;
 use App\Form\SearchBookingType;
+use App\Form\StatisticType;
 use App\Service\EmailService;
 use App\Service\StatisticService;
 use App\Repository\BookingRepository;
@@ -286,15 +287,43 @@ final class BookingController extends AbstractController
     #[Route('/statistics', name: 'app_booking_statistics')]
     #[IsGranted(UserRole::EMPLOYE->value)]
     public function renderStats(
+        Request $request,
         StatisticService $statisticService
     ): Response {
 
-        $today = new DateTimeImmutable('today');
+        $form = $this->createForm(StatisticType::class);
+        $form->handleRequest($request);
 
-        $occupencyRate = $statisticService->getOR($today, $today);
+        // Borne de date par défaut
+        $today = new DateTimeImmutable('today');
+        $startDate = $today->setTime(0, 0, 0);
+        $endDate = $today->setTime(23, 59, 59);
+
+        // Soumission
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if ($data->getStartingDate()) {
+                $startDate = $data->getStartingDate()->setTime(0, 0, 0);
+            }
+
+            if ($data->getEndingDate()) {
+                $endDate = $data->getEndingDate()->setTime(23, 59, 59);
+            }
+        }
+
+        // Appel des répositories
+        $occupencyRate = $statisticService->getOR($startDate, $endDate);
+        $arr = $statisticService->getARR($startDate, $endDate);
+        $revPar = $statisticService->getREVPAR($startDate, $endDate);
+        $averageStay = $statisticService->getAverageStay($startDate, $endDate);
 
         return $this->render('booking/statistics.html.twig', [
-            'occupencyRate' => $occupencyRate
+            'form' => $form->createView(),
+            'occupencyRate' => $occupencyRate,
+            'arr' => $arr,
+            'revPar' => $revPar,
+            'averageStay' => $averageStay
         ]);
     }
 
