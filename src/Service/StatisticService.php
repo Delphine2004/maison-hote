@@ -6,7 +6,6 @@ use App\Repository\BookingRepository;
 use App\Repository\RoomRepository;
 
 use DateTimeImmutable;
-use Exception;
 
 
 final class StatisticService
@@ -35,10 +34,15 @@ final class StatisticService
         // Récupérer le nombre de chambre occupée
         $occupiedRoomNights = $this->bookingRepository->countRoomWithBookingByPeriod($startDate, $endDate);
 
+        // éviter la division par zéro
+        if ($totalAvailableRoomNights === 0) {
+            return 0;
+        }
+
         // Calcul du pourcentage
         $occupancyRate = ($occupiedRoomNights / $totalAvailableRoomNights) * 100;
 
-        return round($occupancyRate, 2);
+        return (float)round($occupancyRate, 2);
     }
 
     // Le Prix Moyen (ou ARR / ADR) = CA / total chambres occupées
@@ -52,8 +56,13 @@ final class StatisticService
         // Obtenir le nombre total de chambre occupées
         $totalOccupiedRooms = $this->bookingRepository->countRoomWithBookingByPeriod($startDate, $endDate);
 
+        // éviter la division par zéro
+        if ($totalOccupiedRooms === 0) {
+            return 0;
+        }
+
         //calcul
-        return round($ca / $totalOccupiedRooms);
+        return (float)round($ca / $totalOccupiedRooms);
     }
 
 
@@ -68,8 +77,13 @@ final class StatisticService
         // Obtenir le nombre total de chambre
         $totalAvailableRooms = $this->roomRepository->countAvailableRoomsByPeriod($startDate, $endDate);
 
+        // éviter la division par zéro
+        if ($totalAvailableRooms === 0) {
+            return 0;
+        }
+
         //calcul
-        return round($ca / $totalAvailableRooms);
+        return (float) round($ca / $totalAvailableRooms);
     }
 
 
@@ -84,7 +98,12 @@ final class StatisticService
         // obtenir le nombre total de réservation
         $totalBookings = $this->bookingRepository->sumNumberOfBookingByPeriod($startDate, $endDate);
 
+        // éviter la division par zéro
+        if ($totalBookings === 0) {
+            return 0;
+        }
+
         // calcul
-        return round($totalBookedNights / $totalBookings);
+        return (int) round($totalBookedNights / $totalBookings);
     }
 }
