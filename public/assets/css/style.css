@@ -129,12 +129,12 @@ label {
 }
 
 #carousel-gallery .carousel-inner {
-  height: 240px;
+  height: 280px;
   overflow: hidden;
 }
 @media (min-width: 768px) {
   #carousel-gallery .carousel-inner {
-    height: 700px;
+    height: 390px;
   }
 }
 #carousel-gallery .carousel-inner .carousel-item {
