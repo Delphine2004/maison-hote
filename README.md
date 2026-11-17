@@ -96,6 +96,7 @@
 - Gérer les photos de la galerie
 - Gérer les services
 - Gérer les chambres
+- Consulter les statistiques
 
 ---
 
@@ -179,7 +180,6 @@ Après exécution des fixtures, les comptes suivants sont disponibles :
 ## 8. Améliorations futures
 
 - Amélioration de l’expérience utilisateur avec Symfony UX (interactions dynamiques sans rechargement de page)
-- Tableau de bord statistiques
 
 
 ## 9. Auteur
