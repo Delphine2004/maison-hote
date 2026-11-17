@@ -31,7 +31,7 @@ final class UserController extends AbstractController
         $today = new DateTimeImmutable('today');
 
         $dtoInHouse = new SearchBookingDTO(status: BookingStatus::IN);
-        $dtoCheckOut = new SearchBookingDTO(status: BookingStatus::CONFIRMED, endingDate: $today);
+        $dtoCheckOut = new SearchBookingDTO(status: BookingStatus::IN, endingDate: $today);
         $dtoCheckIn = new SearchBookingDTO(status: BookingStatus::CONFIRMED, startingDate: $today);
 
         // Récupération des séjours en cours
