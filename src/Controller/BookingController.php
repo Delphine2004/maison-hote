@@ -323,7 +323,10 @@ final class BookingController extends AbstractController
             'occupencyRate' => $occupencyRate,
             'arr' => $arr,
             'revPar' => $revPar,
-            'averageStay' => $averageStay
+            'averageStay' => $averageStay,
+            'start' => $startDate,
+            'end' => $endDate
+
         ]);
     }
 
